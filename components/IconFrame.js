@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,          // Gölge opaklığı
     shadowRadius: 45,             // Gölge büyüklüğü
     elevation: 10,               // Android gölgelendirme
+    marginBottom:50,
   },
   icon: {
-    marginVertical: 568,
     width: 100,                   // İkonun genişliği
     height: 100,                  // İkonun yüksekliği
     borderRadius: 40,            // İkonun yuvarlak olması

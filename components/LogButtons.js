@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     color:'grey',
     
     
-  }
+  },
 });
 
 export default ButtonComponent;

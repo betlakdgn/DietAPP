@@ -19,7 +19,7 @@ const App = () => {
         <ButtonComponent title="Sign Up" onPress={() => alert('Sign Up pressed!')} />
 
        
-        <ButtonComponent title="" onPress={() => alert('Null button pressed!')} />
+        <ButtonComponent  onPress={() => alert('Null button pressed!')} />
       </View>
     </SafeAreaView>
   );
