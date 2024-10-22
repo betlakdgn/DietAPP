@@ -15,7 +15,7 @@ const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText 
 
 const styles = StyleSheet.create({
   input: {
-    width: '80%',
+    width: 250,
     height: 50,
     backgroundColor: '#fff',
     borderRadius: 8,
