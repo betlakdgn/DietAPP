@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import AddButton from '../components/addbutton';
-import DeleteButton from '../components/deletebutton';
 import Input from '../components/Input'; // Önceden oluşturduğun Input component
 import Title from '../components/Title';
 import Checkbox from '../components/CheckBox';
 import BackButton from '../components/BackButton';
+import DangerButton from '../components/DangerButton';
 
 
 const Allergies= ({navigation}) => {
@@ -45,7 +45,7 @@ const Allergies= ({navigation}) => {
           onChangeText={setNewAllergy} 
         />
         <AddButton title="Alerji Ekle" onPress={handleAddAllergy} />
-        <DeleteButton title="Hepsini Sil" onPress={handleDeleteAll} />
+        <DangerButton title="Hepsini Sil" onPress={handleDeleteAll} />
         
       </View>
       
@@ -82,8 +82,9 @@ const styles = StyleSheet.create({
     
   },
   checkboxWrapper: {
-    width:'50%',
+    width:'48%',
     marginBottom:15,
+    
   
   },
   inputContainer: {

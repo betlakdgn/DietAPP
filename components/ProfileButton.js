@@ -1,12 +1,14 @@
 import React from 'react';
 import { View } from 'react-native';
-import ButtonComponent from './LogButtons'; // Daha önce oluşturduğunuz buton bileşeni
+import { useNavigation } from '@react-navigation/native';
+import ButtonComponent from './ButtonComponent'; // Daha önce oluşturduğunuz buton bileşeni
 
-const ProfileButtons = ({ onProfilePress, onAllergiesPress, navigation }) => {
+const ProfileButtons = ({ onProfilePress, onAllergiesPress, targetScreen }) => {
+  const navigation = useNavigation();
   return (
     <View>
-      <ButtonComponent title="Profilim" targetScreen={""} />
-      <ButtonComponent title="Alerjilerim" targetScreen={"Allergies"} />
+      <ButtonComponent title="Profilim"  />
+      <ButtonComponent title="Alerjilerim"  onPress={()=> navigation.navigate(targetScreen="Allergies")}/>
     </View>
   );
 };

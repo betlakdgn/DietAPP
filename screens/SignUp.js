@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 import IconFrame from '../components/IconFrame';
-import ButtonComponent from '../components/LogButtons';
+import ButtonComponent from '../components/ButtonComponent';
 import FormComponent from '../components/Form';
+import BackButton from '../components/BackButton';
 
-const SignUp = () => {
+const SignUp = (navigation) => {
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -27,8 +29,10 @@ const SignUp = () => {
   };
 
   return (
+    
     <View style={styles.container}>
-      <IconFrame imageSource={require('./assets/myIcon.png')} />
+      <BackButton targetScreen="MainLoginPage" />
+      <IconFrame imageSource={require('../assets/myIcon.png')} />
       <FormComponent formData={formData} handleChange={handleChange} />
       <ButtonComponent title="Kaydol" onPress={handleSignUp} />
     </View>

@@ -1,21 +1,27 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet } from 'react-native';
-import ButtonComponent from '../components/LogButtons'; // Buton bileşenini import et
+import { useNavigation } from '@react-navigation/native';
+import ButtonComponent from '../components/ButtonComponent'; // Buton bileşenini import et
 import IconFrame from '../components/IconFrame';
 
-const MainLoginPage = () => {
+
+const MainLoginPage = (targetScreen) => {
+  const navigation = useNavigation(); 
+  
+ 
   return (
     <SafeAreaView style={styles.container}>
+      
       <View style={styles.iconFrameContainer}>
         <IconFrame imageSource={require('../assets/myIcon.png')} />
       </View>
       
       <View style={styles.buttonContainer}>
         
-        <ButtonComponent title="Login" onPress={() => alert('Login pressed!')} />
+        <ButtonComponent title="Login"  onPress={()=> navigation.navigate(targetScreen="Login")} />
 
         
-        <ButtonComponent title="Sign Up" onPress={() => alert('Sign Up pressed!')} />
+        <ButtonComponent title="Sign Up"   onPress={()=> navigation.navigate(targetScreen="SignUp")}/>
 
        
         <ButtonComponent  onPress={() => alert('Null button pressed!')} />
@@ -29,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center', // Dikeyde ortalama
     alignItems: 'center',      // Yatayda ortalama
-    backgroundColor: '#fbcfe8', // Arka plan rengi
+    
     
   },
   iconFrameContainer: {
