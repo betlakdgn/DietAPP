@@ -9,9 +9,9 @@ const BottomButtons = (targetScreen) => {
     <View style={styles.container}>
       <TouchableOpacity 
       style={[styles.button,styles.leftButton]}
-      onPress={() => navigation.navigate(targetScreen="Login")}
+      onPress={() => navigation.navigate("Login")}
       >
-        <FontAwesome name="camera" size={30} color="white" />
+        <FontAwesome name="user" size={35} color="white" />
       </TouchableOpacity>
 
       <TouchableOpacity 
@@ -25,16 +25,7 @@ const BottomButtons = (targetScreen) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position:'absolute',
-    bottom:0,
-    width:'100%',
-    paddingVertical:10,
-    height:100,
-    backgroundColor:'#000',
-
-
-  },
+  
   button: {
     backgroundColor: '#4CAF50', // Butonların rengi
     padding: 15,
@@ -43,6 +34,9 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     position:'absolute',
+    marginTop:700,
+    
+    
   },
   leftButton: {
     left: 0,
