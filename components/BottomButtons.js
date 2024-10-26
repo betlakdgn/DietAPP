@@ -1,15 +1,23 @@
 import React from "react";
+import { useNavigation } from '@react-navigation/native';
 import { View,TouchableOpacity,StyleSheet } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 
-const BottomButtons = () => {
+const BottomButtons = (targetScreen) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={[styles.button,styles.leftButton]}>
+      <TouchableOpacity 
+      style={[styles.button,styles.leftButton]}
+      onPress={() => navigation.navigate(targetScreen="Login")}
+      >
         <FontAwesome name="camera" size={30} color="white" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.button, styles.rightButton]}>
+      <TouchableOpacity 
+      style={[styles.button, styles.rightButton]}
+      onPress={() => navigation.navigate(targetScreen)}
+      >
         <FontAwesome name="image" size={30} color="white" />
       </TouchableOpacity>
     </View>
@@ -17,6 +25,16 @@ const BottomButtons = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position:'absolute',
+    bottom:0,
+    width:'100%',
+    paddingVertical:10,
+    height:100,
+    backgroundColor:'#000',
+
+
+  },
   button: {
     backgroundColor: '#4CAF50', // Butonların rengi
     padding: 15,
