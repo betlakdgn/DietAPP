@@ -15,11 +15,11 @@ const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText 
 
 const styles = StyleSheet.create({
   input: {
-    width: 250,
+    width: 200,
     height: 50,
     backgroundColor: '#fff',
     borderRadius: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     marginVertical: 10,
     borderColor: '#ccc',
     borderWidth: 1,
