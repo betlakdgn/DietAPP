@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
-import IconFrame from './components/IconFrame';
-import ButtonComponent from './components/LogButtons';
-import FormComponent from './components/Form';
+import IconFrame from '../components/IconFrame';
+import ButtonComponent from '../components/LogButtons';
+import FormComponent from '../components/Form';
 
-const App = () => {
+const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default SignUp;

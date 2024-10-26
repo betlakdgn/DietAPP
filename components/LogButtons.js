@@ -1,16 +1,17 @@
 
+import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const ButtonComponent = ({ title, onPress }) => {
+const ButtonComponent = ({ title, onPress ,targetScreen }) => {
     const [isPressed, setIsPressed] = useState(false); // Basılı mı kontrolü
-  
+    const navigation =useNavigation();
     return (
       <TouchableOpacity
         style={styles.button}
         onPressIn={() => setIsPressed(true)}  // Butona basıldığında tetiklenir
         onPressOut={() => setIsPressed(false)} // Butondan el çekildiğinde tetiklenir
-        onPress={onPress}
+        onPress={() => navigation.navigate(targetScreen)}
       >
         <Text style={[styles.buttonText, isPressed && styles.pressedText]}>
           {title}

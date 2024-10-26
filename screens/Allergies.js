@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import AddButton from './components/addbutton';
-import DeleteButton from './components/deletebutton';
-import Input from './components/Input'; // Önceden oluşturduğun Input component
-import Title from './components/Title';
-import Checkbox from './components/CheckBox';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import AddButton from '../components/addbutton';
+import DeleteButton from '../components/deletebutton';
+import Input from '../components/Input'; // Önceden oluşturduğun Input component
+import Title from '../components/Title';
+import Checkbox from '../components/CheckBox';
+import BackButton from '../components/BackButton';
 
-const App = () => {
+
+const Allergies= ({navigation}) => {
   const [allergies, setAllergies] = useState(['Alerji 1', 'Alerji 2']); // Başlangıç alerjileri
   const [newAllergy, setNewAllergy] = useState('');
   const [checkedAllergies, setCheckedAllergies] = useState(Array(allergies.length).fill(false));
@@ -31,8 +33,10 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      
+     
+      <BackButton targetScreen="Profile" />
       <Title text={"Alerjilerim"}/>
+     
 
       <View style={styles.inputContainer}>
         <Input 
@@ -47,12 +51,14 @@ const App = () => {
       
       <View style={styles.allergyContainer}  >
         {allergies.map((allergy, index) => (
+         <View key={index} style={styles.checkboxWrapper}>
           <Checkbox 
-            key={index}
+            
             isChecked={checkedAllergies[index]}
             onToggle={() => toggleCheckbox(index)}
             label={allergy} // Checkbox yanında gösterilecek metin
           />
+         </View>
         ))}
       </View>
       
@@ -70,13 +76,15 @@ const styles = StyleSheet.create({
   },
   allergyContainer: {
     flexDirection: 'row',
-    alignItems:'flex-start',
-    marginBottom:20,
-    alignContent:'space-between',
     flexWrap:'wrap',
-    padding:15,
     justifyContent:'space-between',
+    padding:15,
     
+  },
+  checkboxWrapper: {
+    width:'50%',
+    marginBottom:15,
+  
   },
   inputContainer: {
     flexDirection: 'row',
@@ -87,6 +95,8 @@ const styles = StyleSheet.create({
     width:'100%',
     
   },
+  
+
 });
 
-export default App;
+export default Allergies;

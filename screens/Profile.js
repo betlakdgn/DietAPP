@@ -1,11 +1,10 @@
-// App.js
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import ProfileFrame from './components/ProfilePhotoFrame'; // Profil fotoğraf çerçevesi bileşeni
-import ProfileButtons from './components/ProfileButton'; // Profil butonları bileşeni
-import CameraIcon from './components/CameraIcon';
+import ProfileFrame from '../components/ProfilePhotoFrame'; // Profil fotoğraf çerçevesi bileşeni
+import ProfileButtons from '../components/ProfileButton'; // Profil butonları bileşeni
+import CameraIcon from '../components/CameraIcon';
 
-const App = () => {
+const Profile = () => {
   return (
     <View style={styles.container}>
       {/* Sol üst köşede profil fotoğraf çerçevesi */}
@@ -51,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Profile;

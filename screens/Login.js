@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import IconFrame from './components/IconFrame'; // Doğru yolu kontrol edin
-import ButtonComponent from './components/LogButtons'; // Doğru yolu kontrol edin
-import TextInputComponent from './components/Input'; // TextInput bileşenini dahil ettik
-import ForgotPassword from './components/ForgotPassword';
-const App = () => {
+import IconFrame from '../components/IconFrame'; // Doğru yolu kontrol edin
+import ButtonComponent from '../components/LogButtons'; // Doğru yolu kontrol edin
+import TextInputComponent from '../components/Input'; // TextInput bileşenini dahil ettik
+import ForgotPassword from '../components/ForgotPassword';
+const Login = ({}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const handleForgotPassword = () => {
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Login;

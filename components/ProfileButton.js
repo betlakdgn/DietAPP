@@ -2,11 +2,11 @@ import React from 'react';
 import { View } from 'react-native';
 import ButtonComponent from './LogButtons'; // Daha önce oluşturduğunuz buton bileşeni
 
-const ProfileButtons = ({ onProfilePress, onAllergiesPress }) => {
+const ProfileButtons = ({ onProfilePress, onAllergiesPress, navigation }) => {
   return (
     <View>
-      <ButtonComponent title="Profilim" onPress={onProfilePress} />
-      <ButtonComponent title="Alerjilerim" onPress={onAllergiesPress} />
+      <ButtonComponent title="Profilim" targetScreen={""} />
+      <ButtonComponent title="Alerjilerim" targetScreen={"Allergies"} />
     </View>
   );
 };

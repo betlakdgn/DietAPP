@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { SafeAreaView, View, StyleSheet } from 'react-native';
 import ButtonComponent from '../components/LogButtons'; // Buton bileşenini import et
 import IconFrame from '../components/IconFrame';
 
-const App = () => {
+const MainLoginPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.iconFrameContainer}>
@@ -44,4 +43,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default App;
+export default MainLoginPage;
