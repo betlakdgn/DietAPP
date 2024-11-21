@@ -1,4 +1,3 @@
-// components/FormComponent.js
 import React from 'react';
 import { View } from 'react-native';
 import TextInputComponent from './Input';
@@ -9,6 +8,7 @@ const FormComponent = ({ formData, handleChange }) => {
       {['firstName', 'lastName', 'username', 'password', 'confirmPassword'].map((field, index) => (
         <TextInputComponent
           key={index}
+          keyboardType="default"
           placeholder={field === 'firstName' ? "Ad" : 
                       field === 'lastName' ? "Soyad" : 
                       field === 'username' ? "Kullanıcı Adı" : 

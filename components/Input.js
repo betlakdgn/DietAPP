@@ -7,6 +7,7 @@ const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText 
       style={styles.input}
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
+      keyboardType='default'
       value={value}
       onChangeText={onChangeText}
     />

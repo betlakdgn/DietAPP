@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+/*import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Camera  from 'expo-camera';
 
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CameraScreen;
+export default CameraScreen;*/

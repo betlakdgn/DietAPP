@@ -25,7 +25,7 @@ const BottomButtons = (targetScreen) => {
 };
 
 const styles = StyleSheet.create({
-  
+
   button: {
     backgroundColor: '#4CAF50', // Butonların rengi
     padding: 15,

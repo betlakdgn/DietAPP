@@ -6,7 +6,7 @@ import CameraScreen from './CameraScreen';
 const MainScreen = () => {
   return (
     <View style={styles.container}>
-      <CameraScreen /> 
+      
       <BottomButtons />
     </View>
   );

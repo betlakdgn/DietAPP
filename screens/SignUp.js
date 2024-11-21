@@ -4,9 +4,9 @@ import IconFrame from '../components/IconFrame';
 import ButtonComponent from '../components/ButtonComponent';
 import FormComponent from '../components/Form';
 import BackButton from '../components/BackButton';
+import { signUp } from '../firebase'; // Firebase işlemleri
 
-const SignUp = (navigation) => {
-  
+const SignUp = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -19,17 +19,33 @@ const SignUp = (navigation) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSignUp = () => {
-    const { password, confirmPassword } = formData;
+  const handleSignUp = async () => {
+    const { username, password, confirmPassword } = formData;
+
+    // Alanların doldurulup doldurulmadığını kontrol et
+    if (!username || !password || !confirmPassword) {
+      Alert.alert("Hata", "Lütfen tüm alanları doldurun.");
+      return;
+    }
+
+    // Şifrelerin eşleşip eşleşmediğini kontrol et
     if (password !== confirmPassword) {
       Alert.alert("Hata", "Şifreler eşleşmiyor. Lütfen kontrol edin.");
       return;
     }
-    Alert.alert("Kayıt Ol", "Kayıt işlemi başarıyla tamamlandı.");
+
+    try {
+      // Firebase ile kayıt işlemi
+      const user = await signUp(username, password);
+      Alert.alert("Başarılı", `Hoş geldiniz, ${user.email}!`);
+      // Başarı durumunda giriş sayfasına yönlendirebilirsiniz
+    } catch (error) {
+      console.error("Kayıt hatası:", error);
+      Alert.alert("Hata", error.message);
+    }
   };
 
   return (
-    
     <View style={styles.container}>
       <BackButton targetScreen="MainLoginPage" />
       <IconFrame imageSource={require('../assets/myIcon.png')} />
