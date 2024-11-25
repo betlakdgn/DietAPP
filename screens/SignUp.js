@@ -6,11 +6,11 @@ import FormComponent from '../components/Form';
 import BackButton from '../components/BackButton';
 import { signUp } from '../firebase'; // Firebase işlemleri
 
-const SignUp = () => {
+const SignUp = ({navigation}) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    username: '',
+    email: '',
     password: '',
     confirmPassword: ''
   });
@@ -20,10 +20,10 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
-    const { username, password, confirmPassword } = formData;
+    const { firstName, lastName, email, password, confirmPassword } = formData;
 
     
-    if (!username || !password || !confirmPassword) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
       Alert.alert("Hata", "Lütfen tüm alanları doldurun.");
       return;
     }
@@ -36,9 +36,9 @@ const SignUp = () => {
 
     try {
       // Firebase ile kayıt işlemi
-      const user = await signUp(username, password);
+      const user = await signUp(email, password);
       Alert.alert("Başarılı", `Hoş geldiniz, ${user.email}!`);
-      // Başarı durumunda giriş sayfasına yönlendirebilirsiniz
+      navigation.navigate('Profile');
     } catch (error) {
       console.error("Kayıt hatası:", error);
       Alert.alert("Hata", error.message);

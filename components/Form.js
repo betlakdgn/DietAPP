@@ -5,13 +5,12 @@ import TextInputComponent from './Input';
 const FormComponent = ({ formData, handleChange }) => {
   return (
     <View>
-      {['firstName', 'lastName', 'email', 'username', 'password', 'confirmPassword'].map((field, index) => (
+      {['firstName', 'lastName', 'email', 'password', 'confirmPassword'].map((field, index) => (
         <TextInputComponent
           key={index}
           placeholder={field === 'firstName' ? "Ad" : 
                       field === 'lastName' ? "Soyad" : 
-                      field === 'email' ? "E-posta" : 
-                      field === 'username' ? "Kullanıcı Adı" : 
+                      field === 'email' ? "E-posta" :  
                       field === 'password' ? "Şifre" : 
                       "Şifreyi Yeniden Giriniz"}
           secureTextEntry={field === 'password' || field === 'confirmPassword'}

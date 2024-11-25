@@ -6,11 +6,14 @@ import ProfileButtons from '../components/ProfileButton'; // Profil butonları b
 import CameraIcon from '../components/CameraIcon';
 import DangerButton from '../components/DangerButton';
 
-const Profile = ({}) => {
+const Profile = (targetScreen) => {
   const navigation = useNavigation(); 
+  const handleSignOut = () => {
+    navigation.navigate('MainLoginPage'); // 'MainLoginPage' ekranına yönlendir
+  };
   return (
     <View style={styles.container}>
-      {/* Sol üst köşede profil fotoğraf çerçevesi */}
+      
       <View style={styles.profileContainer}>
         <ProfileFrame /> 
         <View style={styles.cameraIconContainer}>
@@ -19,11 +22,11 @@ const Profile = ({}) => {
 
       </View>
 
-      {/* Profil butonları yatay sırada */}
+      
       <View style={styles.buttonsContainer}>
         <ProfileButtons/>
         <View style={styles.signout} >
-         <DangerButton title={"çıkış"} onPress={()=> navigation.navigate(MainLoginPage)} />
+         <DangerButton title={"Çıkış"} onPress={handleSignOut} />
         </View>
       </View>
     </View>

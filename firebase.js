@@ -17,9 +17,9 @@ if (!firebase.apps.length) {
   firebase.app(); // Eğer zaten başlatılmışsa, yeniden başlatma
 }
 
-export const signUp = async (username, password) => {
+export const signUp = async (email, password) => {
     try {
-      const userCredential = await firebase.auth().createUserWithEmailAndPassword(username, password);
+      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
       return userCredential.user; // Kullanıcıyı döndürüyoruz
     } catch (error) {
       throw new Error(error.message); // Hata mesajını atıyoruz
