@@ -39,7 +39,7 @@ const Login = () => {
       <ForgotPassword onPress={handleForgotPassword} />
 
       {/* Giriş Butonu */}
-      <ButtonComponent title="Giriş Yap" onPress={() => navigation.navigate(targetScreen="Profile")} />
+      <ButtonComponent title="Giriş Yap" onPress={() => navigation.navigate(Profile)} />
     </View>
   );
 };

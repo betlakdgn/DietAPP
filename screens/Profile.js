@@ -6,7 +6,7 @@ import ProfileButtons from '../components/ProfileButton'; // Profil butonları b
 import CameraIcon from '../components/CameraIcon';
 import DangerButton from '../components/DangerButton';
 
-const Profile = ({targetScreen}) => {
+const Profile = ({}) => {
   const navigation = useNavigation(); 
   return (
     <View style={styles.container}>
@@ -23,7 +23,7 @@ const Profile = ({targetScreen}) => {
       <View style={styles.buttonsContainer}>
         <ProfileButtons/>
         <View style={styles.signout} >
-         <DangerButton title={"çıkış"} onPress={()=> navigation.navigate(targetScreen="MainLoginPage")} />
+         <DangerButton title={"çıkış"} onPress={()=> navigation.navigate(MainLoginPage)} />
         </View>
       </View>
     </View>

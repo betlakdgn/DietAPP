@@ -22,13 +22,13 @@ const SignUp = () => {
   const handleSignUp = async () => {
     const { username, password, confirmPassword } = formData;
 
-    // Alanların doldurulup doldurulmadığını kontrol et
+    
     if (!username || !password || !confirmPassword) {
       Alert.alert("Hata", "Lütfen tüm alanları doldurun.");
       return;
     }
 
-    // Şifrelerin eşleşip eşleşmediğini kontrol et
+    
     if (password !== confirmPassword) {
       Alert.alert("Hata", "Şifreler eşleşmiyor. Lütfen kontrol edin.");
       return;

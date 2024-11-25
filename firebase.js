@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/auth'; // Firebase Authentication servisini ekle
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCV6ivZG65zWVCcCYzGY-mMIh7uWsCR-rA",
