@@ -9,7 +9,11 @@ import DangerButton from '../components/DangerButton';
 const Profile = (targetScreen) => {
   const navigation = useNavigation(); 
   const handleSignOut = () => {
-    navigation.navigate('MainLoginPage'); // 'MainLoginPage' ekranına yönlendir
+    
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'MainLoginPage' }],
+    });
   };
   return (
     <View style={styles.container}>

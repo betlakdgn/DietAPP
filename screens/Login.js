@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import IconFrame from '../components/IconFrame'; // Doğru yolu kontrol edin
 import ButtonComponent from '../components/ButtonComponent'; // Doğru yolu kontrol edin
 import TextInputComponent from '../components/Input'; // TextInput bileşenini dahil ettik
 import ForgotPassword from '../components/ForgotPassword';
 import BackButton from '../components/BackButton';
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -21,8 +23,16 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       // Firebase ile giriş yapma
-      await firebase.auth().signInWithEmailAndPassword(username, password);
-      navigation.navigate('Profile'); // Başarılı giriş sonrası Profile ekranına yönlendirme
+      const userCredential = await firebase
+        .auth()
+        .signInWithEmailAndPassword(username, password);
+
+      // Giriş başarılı, kullanıcı bilgilerini kaydet
+      const user = userCredential.user;
+      await AsyncStorage.setItem('userToken', user.uid);
+
+      // Profile ekranına yönlendir
+      navigation.navigate('Profile');
     } catch (error) {
       // Hata durumunda errorMessage state'ini güncelle
       if (error.code === 'auth/invalid-email') {
@@ -39,7 +49,9 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
+      {/* Geri butonu */}
       <BackButton targetScreen="MainLoginPage" />
+
       {/* Üstte ortalanmış ikon */}
       <IconFrame imageSource={require('../assets/myIcon.png')} />
 
@@ -62,6 +74,7 @@ const Login = () => {
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       )}
 
+      {/* Şifremi Unuttum */}
       <ForgotPassword onPress={handleForgotPassword} />
 
       {/* Giriş Butonu */}
@@ -77,15 +90,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 24,
-    margin: 20,
-  },
   errorMessage: {
     color: 'red',
     marginBottom: 10,
     fontSize: 14,
-  }
+  },
 });
 
 export default Login;

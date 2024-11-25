@@ -7,7 +7,7 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       
-      <BottomButtons />
+      <BottomButtons targetScreen="Profile" />
     </View>
   );
 };
