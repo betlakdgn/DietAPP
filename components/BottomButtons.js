@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from '@react-navigation/native';
-import { View, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import React from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from '@expo/vector-icons';
+import { auth } from '../firebase';
+import { useNavigation } from '@react-navigation/native';
 
 const BottomButtons = () => {
   const navigation = useNavigation();
 
   const handleLeftButtonPress = async () => {
     try {
-      const userToken = await AsyncStorage.getItem('userToken'); // Giriş durumunu kontrol et
-      if (userToken) {
+      const user = auth.currentUser; // Firebase'deki mevcut kullanıcıyı kontrol et
+      if (user) {
+        await AsyncStorage.setItem('userToken', user.uid); // Kullanıcı token'ı kaydet
         navigation.navigate('Profile'); // Giriş yapılmışsa Profile ekranına yönlendir
       } else {
         navigation.navigate('MainLoginPage'); // Giriş yapılmamışsa MainLoginPage'e yönlendir
@@ -40,6 +42,16 @@ const BottomButtons = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'absolute', // Alt butonları kameranın önünde sabitliyoruz
+    left: 0,
+    right: 0,
+    bottom: 80, // Alt kısmı 30px yapıyoruz
+    flexDirection: 'row', // Butonları yatayda hizalıyoruz
+    justifyContent: 'space-between', // Butonları ekranın sol ve sağ tarafına yerleştiriyoruz
+    paddingHorizontal: 20, // Butonlar arasındaki boşluk için padding
+    zIndex: 10, // Butonların kamera ekranının önünde görünmesini sağlıyoruz
+  },
   button: {
     backgroundColor: '#4CAF50',
     padding: 15,
@@ -47,19 +59,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 70,
     height: 70,
-    position: 'absolute',
-    marginTop: 700,
+    borderRadius: 35, // Butonları yuvarlak yapıyoruz
   },
-  leftButton: {
-    left: 0,
-    borderTopRightRadius: 25,
-    borderBottomRightRadius: 25,
-  },
-  rightButton: {
-    right: 0,
-    borderTopLeftRadius: 25,
-    borderBottomLeftRadius: 25,
-  }
 });
 
 export default BottomButtons;

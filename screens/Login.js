@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Alert, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IconFrame from '../components/IconFrame'; // Doğru yolu kontrol edin
@@ -7,62 +7,68 @@ import ButtonComponent from '../components/ButtonComponent'; // Doğru yolu kont
 import TextInputComponent from '../components/Input'; // TextInput bileşenini dahil ettik
 import ForgotPassword from '../components/ForgotPassword';
 import BackButton from '../components/BackButton';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import {auth} from '../firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { validateEmail, validatePassword} from '../utils/validation';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleForgotPassword = () => {
-    Alert.alert("Şifremi Unuttum", "Şifre sıfırlama linki e-posta adresinize gönderildi.");
-  };
-
-  const handleLogin = async () => {
+  const handleForgotPassword = async () => {
+    if (!email) {
+      Alert.alert("Hata", "Lütfen e-posta adresinizi girin.");
+      return;
+    }
+  
     try {
-      // Firebase ile giriş yapma
-      const userCredential = await firebase
-        .auth()
-        .signInWithEmailAndPassword(username, password);
-
-      // Giriş başarılı, kullanıcı bilgilerini kaydet
-      const user = userCredential.user;
-      await AsyncStorage.setItem('userToken', user.uid);
-
-      // Profile ekranına yönlendir
-      navigation.navigate('Profile');
+      await sendPasswordResetEmail(auth,(email));
+      Alert.alert("Başarılı", "Şifre sıfırlama e-postası gönderildi.");
     } catch (error) {
-      // Hata durumunda errorMessage state'ini güncelle
-      if (error.code === 'auth/invalid-email') {
-        setErrorMessage('Geçersiz e-posta adresi!');
-      } else if (error.code === 'auth/wrong-password') {
-        setErrorMessage('Yanlış şifre!');
-      } else if (error.code === 'auth/user-not-found') {
-        setErrorMessage('Kullanıcı bulunamadı!');
-      } else {
-        setErrorMessage('Giriş yaparken bir hata oluştu.');
-      }
+      Alert.alert("Hata", error.message);
     }
   };
 
+  const handleLogin = async () => {
+    if (!validateEmail(email)) {
+      Alert.alert("Hata", "Geçerli bir e-posta adresi girin.");
+      return;
+    }
+  
+    if (!validatePassword(password)) {
+      Alert.alert("Hata", "Şifre en az 6 karakter uzunluğunda olmalıdır.");
+      return;
+    }
+    setErrorMessage('');
+  
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await AsyncStorage.setItem('userToken', user.uid);
+      navigation.navigate('Profile');
+    } catch (error) {
+      Alert.alert("Hata", "Giriş sırasında bir hata oluştu.");
+    }
+  };
   return (
     <View style={styles.container}>
-      {/* Geri butonu */}
+      
       <BackButton targetScreen="MainLoginPage" />
 
-      {/* Üstte ortalanmış ikon */}
+      
       <IconFrame imageSource={require('../assets/myIcon.png')} />
 
-      {/* Kullanıcı Adı Giriş Alanı */}
+      
       <TextInputComponent
-        placeholder="Kullanıcı Adı"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="E-posta"
+        value={email}
+        onChangeText={setEmail}
       />
 
-      {/* Şifre Giriş Alanı */}
+      
       <TextInputComponent
         placeholder="Şifre"
         secureTextEntry={true}

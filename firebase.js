@@ -1,27 +1,28 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { initializeApp } from "firebase/app";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database"; 
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
+// Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyCV6ivZG65zWVCcCYzGY-mMIh7uWsCR-rA",
-    authDomain: "dietapph.firebaseapp.com",
-    projectId: "dietapph",
-    storageBucket: "dietapph.firebasestorage.app",
-    messagingSenderId: "262936847240",
-    appId: "1:262936847240:web:179bad01ec6088d4e4103d",
-    measurementId: "G-M88LLPF4HP"
-  };
+  apiKey: "AIzaSyCV6ivZG65zWVCcCYzGY-mMIh7uWsCR-rA",
+  authDomain: "dietapph.firebaseapp.com",
+  databaseURL: "https://dietapph-default-rtdb.firebaseio.com",
+  projectId: "dietapph",
+  storageBucket: "dietapph.appspot.com",
+  messagingSenderId: "262936847240",
+  appId: "1:262936847240:web:179bad01ec6088d4e4103d",
+  measurementId: "G-M88LLPF4HP",
+};
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // Eğer zaten başlatılmışsa, yeniden başlatma
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-export const signUp = async (email, password) => {
-    try {
-      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      return userCredential.user; // Kullanıcıyı döndürüyoruz
-    } catch (error) {
-      throw new Error(error.message); // Hata mesajını atıyoruz
-    }
-  };
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+});
+
+export { auth };
+export const db = getFirestore(app); // Firestore
+export const storage = getDatabase(app);

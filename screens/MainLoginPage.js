@@ -5,7 +5,7 @@ import ButtonComponent from '../components/ButtonComponent'; // Buton bileşenin
 import IconFrame from '../components/IconFrame';
 
 
-const MainLoginPage = (targetScreen) => {
+const MainLoginPage = () => {
   const navigation = useNavigation(); 
   
  
@@ -18,10 +18,10 @@ const MainLoginPage = (targetScreen) => {
       
       <View style={styles.buttonContainer}>
         
-        <ButtonComponent title="Login"  onPress={()=> navigation.navigate(targetScreen="Login")} />
+        <ButtonComponent title="Login"  onPress={()=> navigation.navigate("Login")} />
 
         
-        <ButtonComponent title="Sign Up"   onPress={()=> navigation.navigate(targetScreen="SignUp")}/>
+        <ButtonComponent title="Sign Up"   onPress={()=> navigation.navigate("SignUp")}/>
 
        
         <ButtonComponent  onPress={() => alert('Null button pressed!')} />

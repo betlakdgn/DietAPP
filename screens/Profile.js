@@ -1,20 +1,30 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import ProfileFrame from '../components/ProfilePhotoFrame'; // Profil fotoğraf çerçevesi bileşeni
 import ProfileButtons from '../components/ProfileButton'; // Profil butonları bileşeni
 import CameraIcon from '../components/CameraIcon';
 import DangerButton from '../components/DangerButton';
+import { signOut } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import Navigation from '../navigation/Navigation';
+import {auth} from '../firebase';
 
-const Profile = (targetScreen) => {
+const Profile = () => {
   const navigation = useNavigation(); 
-  const handleSignOut = () => {
-    
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'MainLoginPage' }],
-    });
+  const handleSignOut = async() => {
+    try{
+      await signOut(auth);  
+        console.log('Kullanıcı çıkış yaptı');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MainLoginPage' }],
+        });
+      } catch (error) {
+        console.error('Çıkış yaparken hata oluştu:', error.message);
+      }
+
   };
+
   return (
     <View style={styles.container}>
       

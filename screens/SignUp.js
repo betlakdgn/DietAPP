@@ -4,9 +4,13 @@ import IconFrame from '../components/IconFrame';
 import ButtonComponent from '../components/ButtonComponent';
 import FormComponent from '../components/Form';
 import BackButton from '../components/BackButton';
-import { signUp } from '../firebase'; // Firebase işlemleri
+import {validateForm} from '../utils/validation';
+import {auth} from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
-const SignUp = ({navigation}) => {
+const SignUp = () => {
+  const navigation =useNavigation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,27 +24,22 @@ const SignUp = ({navigation}) => {
   };
 
   const handleSignUp = async () => {
-    const { firstName, lastName, email, password, confirmPassword } = formData;
+    const error = validateForm(formData);
 
-    
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      Alert.alert("Hata", "Lütfen tüm alanları doldurun.");
+    if (error) {
+      Alert.alert("Hata", error);
       return;
     }
 
-    
-    if (password !== confirmPassword) {
-      Alert.alert("Hata", "Şifreler eşleşmiyor. Lütfen kontrol edin.");
-      return;
-    }
-
+    const { email, password } = formData;
+  
     try {
-      // Firebase ile kayıt işlemi
-      const user = await signUp(email, password);
-      Alert.alert("Başarılı", `Hoş geldiniz, ${user.email}!`);
+
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      Alert.alert("Başarılı", `Hoş geldiniz, ${user.firstName}!`);
       navigation.navigate('Profile');
     } catch (error) {
-      console.error("Kayıt hatası:", error);
       Alert.alert("Hata", error.message);
     }
   };

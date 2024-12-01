@@ -1,10 +1,10 @@
-/*import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import Camera  from 'expo-camera';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { Camera, CameraType, CameraView } from 'expo-camera';
 
 const CameraScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
-  const cameraRef = useRef(null);
+  const [type, setType] = useState('back'); // Kamera tipi, arka kamera varsayılan olarak
 
   useEffect(() => {
     (async () => {
@@ -14,21 +14,22 @@ const CameraScreen = () => {
   }, []);
 
   if (hasPermission === null) {
-    return <View />;
+    return <Text>Loading...</Text>;
   }
+
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>Fotoğraf Çek</Text>
-          </TouchableOpacity>
-        </View>
-      </Camera>
+      {/* Kamera bileşeni */}
+      <CameraView style={styles.camera} CameraType={type} />
+      
+      {/* Kamera tipi değiştirilebilir */}
+      <View style={styles.buttonContainer}>
+        <Button title="Switch Camera" onPress={() => setType(type === 'back' ? 'front' : 'back')} />
+      </View>
     </View>
   );
 };
@@ -36,25 +37,18 @@ const CameraScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   camera: {
-    flex: 1,
-    justifyContent: 'flex-end',
+    width: '100%',
+    height: '100%',
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    padding: 15,
-    borderRadius: 5,
-  },
-  text: {
-    color: 'white',
-    fontSize: 18,
+    position: 'absolute',
+    bottom: 40,
+    left: 20,
   },
 });
 
-export default CameraScreen;*/
+export default CameraScreen;
