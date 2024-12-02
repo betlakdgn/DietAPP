@@ -6,7 +6,6 @@ import CameraIcon from '../components/CameraIcon';
 import DangerButton from '../components/DangerButton';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import Navigation from '../navigation/Navigation';
 import {auth} from '../firebase';
 
 const Profile = () => {

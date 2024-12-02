@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
     position: 'absolute', // Üst sol köşeye yerleştirme
     top: 60,
     left: 20,
-    
+    zIndex: 1,
     
   },
   icon: {
     fontSize: 30, // Iconun büyüklüğünü ayarlayın
-    color: 'black', // Icon rengi
+    color: 'white', // Icon rengi
   },
 });
 

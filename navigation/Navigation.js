@@ -8,6 +8,8 @@ import MainLoginPage from '../screens/MainLoginPage';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import MainScreen from '../screens/MainScreen';
+import PhotoPreview from '../screens/PhotoPreview';
+import CameraScreen from '../screens/CameraScreen';
 import { onAuthStateChanged } from 'firebase/auth';
 import {auth} from '../firebase';
 
@@ -56,8 +58,8 @@ const Navigation = () => {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="MainScreen" component={MainScreen} />
-            
-          
+            <Stack.Screen name="PhotoPreview" component={PhotoPreview}/>
+            <Stack.Screen name="CameraScreen" component={CameraScreen} />
           </>
         )}
           

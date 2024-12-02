@@ -12,8 +12,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword} from '../utils/validation';
 
-const Login = () => {
-  const navigation = useNavigation();
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
