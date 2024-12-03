@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import EyeIcon from './EyeIcon';  // EyeIcon bileşenini içeri aktar
+import EyeIcon from './EyeIcon';  
 
 const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

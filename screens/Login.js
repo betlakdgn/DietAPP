@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import IconFrame from '../components/IconFrame'; // Doğru yolu kontrol edin
-import ButtonComponent from '../components/ButtonComponent'; // Doğru yolu kontrol edin
-import TextInputComponent from '../components/Input'; // TextInput bileşenini dahil ettik
+import IconFrame from '../components/IconFrame'; 
+import ButtonComponent from '../components/ButtonComponent'; 
+import TextInputComponent from '../components/Input'; 
 import ForgotPassword from '../components/ForgotPassword';
 import BackButton from '../components/BackButton';
 import {auth} from '../firebase';
@@ -79,10 +79,10 @@ const Login = ({navigation}) => {
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       )}
 
-      {/* Şifremi Unuttum */}
+      
       <ForgotPassword onPress={handleForgotPassword} />
 
-      {/* Giriş Butonu */}
+      
       <ButtonComponent title="Giriş Yap" onPress={handleLogin} />
     </View>
   );

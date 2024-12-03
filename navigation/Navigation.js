@@ -22,15 +22,14 @@ const Navigation = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        // Kullanıcı giriş yaptı
         setUser(currentUser);
       } else {
-        // Kullanıcı çıkış yaptı veya hiç giriş yapmadı
+        
         setUser(null);
       }
-      setLoading(false); // Kontrol tamamlandı
+      setLoading(false); 
     });
-    return unsubscribe; // Cleanup listener
+    return unsubscribe; 
   }, []);
 
   if (loading) {
@@ -48,8 +47,9 @@ const Navigation = () => {
       <Stack.Navigator initialRouteName="MainScreen">
         {user ? (
           <>
-            <Stack.Screen name="Allergies" component={Allergies} />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Allergies" component={Allergies} />
+            
           
           </>
         ) : (

@@ -8,7 +8,7 @@ const PhotoPreview = ({ route }) => {
   return (
     <View style={styles.container}>
 
-      <BackButton targetScreen="CameraScreen" />
+      <BackButton targetScreen="MainScreen" />
       
       <View style={styles.imageContainer}>
         <Image source={{ uri: photoUri }} style={styles.image} />

@@ -31,7 +31,7 @@ const CameraScreen = () => {
     if (cameraRef.current) {
       const photoData = await cameraRef.current.takePictureAsync();
       setPhoto(photoData.uri);  
-      navigation.navigate('PhotoPreview', { photoUri: photoData.uri });  // Fotoğraf URI'sini yeni ekrana geçiriyoruz
+      navigation.navigate('PhotoPreview', { photoUri: photoData.uri });  
     }
   };
  

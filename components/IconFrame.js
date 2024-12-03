@@ -11,23 +11,23 @@ const IconFrame = ({ imageSource }) => {
 
 const styles = StyleSheet.create({
   iconContainer: {
-    backgroundColor: '#fbcfe8',     // Çerçevenin arka plan rengi
-    width: 105,                  // Çerçevenin genişliği
-    height: 105,                 // Çerçevenin yüksekliği
-    borderRadius: 50,            // Tam yuvarlak yapmak için yarıçapı yarıya ayarlarız
-    justifyContent: 'center',    // Dikeyde ortalama
-    alignItems: 'center',        // Yatayda ortalama
-    shadowColor: '#ec4899',         // Gölge rengi
-    shadowOffset: { width: 0, height: 4 }, // Gölge konumu
-    shadowOpacity: 0.1,          // Gölge opaklığı
-    shadowRadius: 45,             // Gölge büyüklüğü
+    backgroundColor: '#fbcfe8',   
+    width: 105,                  
+    height: 105,                 
+    borderRadius: 50,            
+    justifyContent: 'center',    
+    alignItems: 'center',        
+    shadowColor: '#ec4899',         
+    shadowOffset: { width: 0, height: 4 }, 
+    shadowOpacity: 0.1,          
+    shadowRadius: 45,             
     elevation: 10,               // Android gölgelendirme
     marginBottom:50,
   },
   icon: {
-    width: 100,                   // İkonun genişliği
-    height: 100,                  // İkonun yüksekliği
-    borderRadius: 40,            // İkonun yuvarlak olması
+    width: 100,                  
+    height: 100,                  
+    borderRadius: 40,            
   },
 });
 

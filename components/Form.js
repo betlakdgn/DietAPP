@@ -51,7 +51,7 @@ const FormComponent = ({ formData, handleChange }) => {
           {errors[field] && <Text style={styles.errorText}>{errors[field]}</Text>}
         </View>
       ))}
-      <ButtonComponent onPress={validate}>Kayıt Ol</ButtonComponent>
+      {/*<ButtonComponent onPress={validate}>Kayıt Ol</ButtonComponent>*/}
     </View>
   );
 };

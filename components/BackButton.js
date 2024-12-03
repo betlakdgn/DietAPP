@@ -16,15 +16,15 @@ const BackButton = ({targetScreen}) => {
 const styles = StyleSheet.create({
   button: {
     padding: 1,
-    position: 'absolute', // Üst sol köşeye yerleştirme
+    position: 'absolute', 
     top: 60,
     left: 20,
     zIndex: 1,
     
   },
   icon: {
-    fontSize: 30, // Iconun büyüklüğünü ayarlayın
-    color: 'white', // Icon rengi
+    fontSize: 30, 
+    color: 'gray', 
   },
 });
 

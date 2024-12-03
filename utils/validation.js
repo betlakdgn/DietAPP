@@ -5,14 +5,14 @@
   };
   
   export const validatePassword = (password) => {
-    return password.length >= 6; // Minimum 6 karakter uzunluğunda olmalı
+    return password.length >= 6; 
   };
   
   export const validateName = (name) => {
     if (!name || typeof name !== "string") {
-      return false; // Eğer name yoksa veya string değilse false döner
+      return false; 
     }
-    return name.trim().length > 0; // String için trim uygulayıp uzunluğunu kontrol eder
+    return name.trim().length > 0; 
   };
   
   export const validateForm = (formData) => {
@@ -24,6 +24,6 @@
     if (!validatePassword(password)) return "Şifre en az 6 karakter uzunluğunda olmalıdır.";
     if (password !== confirmPassword) return "Şifreler eşleşmiyor.";
     
-    return null; // Tüm doğrulamalar geçti
+    return null; 
   };
   

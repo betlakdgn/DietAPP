@@ -13,9 +13,9 @@ const BottomButtons = () => {
       const user = auth.currentUser; // Firebase'deki mevcut kullanıcıyı kontrol et
       if (user) {
         await AsyncStorage.setItem('userToken', user.uid); // Kullanıcı token'ı kaydet
-        navigation.navigate('Profile'); // Giriş yapılmışsa Profile ekranına yönlendir
+        navigation.navigate('Profile'); 
       } else {
-        navigation.navigate('MainLoginPage'); // Giriş yapılmamışsa MainLoginPage'e yönlendir
+        navigation.navigate('MainLoginPage'); 
       }
     } catch (error) {
       console.error('Giriş durumu kontrol edilemedi:', error);
@@ -43,14 +43,14 @@ const BottomButtons = () => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute', // Alt butonları kameranın önünde sabitliyoruz
+    position: 'absolute', 
     left: 0,
     right: 0,
-    bottom: 80, // Alt kısmı 30px yapıyoruz
-    flexDirection: 'row', // Butonları yatayda hizalıyoruz
-    justifyContent: 'space-between', // Butonları ekranın sol ve sağ tarafına yerleştiriyoruz
-    paddingHorizontal: 20, // Butonlar arasındaki boşluk için padding
-    zIndex: 10, // Butonların kamera ekranının önünde görünmesini sağlıyoruz
+    bottom: 80, 
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
+    paddingHorizontal: 20, 
+    zIndex: 10, 
   },
   button: {
     backgroundColor: '#4CAF50',
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 70,
     height: 70,
-    borderRadius: 35, // Butonları yuvarlak yapıyoruz
+    borderRadius: 35, 
   },
 });
 

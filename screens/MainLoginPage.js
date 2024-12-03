@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ButtonComponent from '../components/ButtonComponent'; // Buton bileşenini import et
+import ButtonComponent from '../components/ButtonComponent'; 
 import IconFrame from '../components/IconFrame';
 
 
@@ -33,8 +33,8 @@ const MainLoginPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Dikeyde ortalama
-    alignItems: 'center',      // Yatayda ortalama
+    justifyContent: 'center',
+    alignItems: 'center',      
     
     
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 
   },
   buttonContainer: {
-    width: '80%',               // Butonların genişliği ekranın %80'i kadar
+    width: '80%',               
   },
 
 });
