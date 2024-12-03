@@ -4,13 +4,17 @@ import IconFrame from '../components/IconFrame';
 import ButtonComponent from '../components/ButtonComponent';
 import FormComponent from '../components/Form';
 import BackButton from '../components/BackButton';
+import {validateForm} from '../utils/validation';
+import {auth} from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
-const SignUp = (navigation) => {
-  
+const SignUp = () => {
+  const navigation =useNavigation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    username: '',
+    email: '',
     password: '',
     confirmPassword: ''
   });
@@ -19,17 +23,28 @@ const SignUp = (navigation) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSignUp = () => {
-    const { password, confirmPassword } = formData;
-    if (password !== confirmPassword) {
-      Alert.alert("Hata", "Şifreler eşleşmiyor. Lütfen kontrol edin.");
+  const handleSignUp = async () => {
+    const error = validateForm(formData);
+
+    if (error) {
+      Alert.alert("Hata", error);
       return;
     }
-    Alert.alert("Kayıt Ol", "Kayıt işlemi başarıyla tamamlandı.");
+
+    const { email, password } = formData;
+  
+    try {
+
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      Alert.alert("Başarılı", `Hoş geldiniz, ${user.firstName}!`);
+      navigation.navigate('Profile');
+    } catch (error) {
+      Alert.alert("Hata", error.message);
+    }
   };
 
   return (
-    
     <View style={styles.container}>
       <BackButton targetScreen="MainLoginPage" />
       <IconFrame imageSource={require('../assets/myIcon.png')} />

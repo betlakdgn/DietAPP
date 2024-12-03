@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import AddButton from '../components/addbutton';
-import Input from '../components/Input'; // Önceden oluşturduğun Input component
+import Input from '../components/Input'; 
 import Title from '../components/Title';
 import Checkbox from '../components/CheckBox';
 import BackButton from '../components/BackButton';
@@ -9,15 +9,15 @@ import DangerButton from '../components/DangerButton';
 
 
 const Allergies= ({navigation}) => {
-  const [allergies, setAllergies] = useState(['Alerji 1', 'Alerji 2']); // Başlangıç alerjileri
+  const [allergies, setAllergies] = useState(['Alerji 1', 'Alerji 2']); 
   const [newAllergy, setNewAllergy] = useState('');
   const [checkedAllergies, setCheckedAllergies] = useState(Array(allergies.length).fill(false));
 
   const handleAddAllergy = () => {
     if (newAllergy) {
       setAllergies([...allergies, newAllergy]);
-      setCheckedAllergies([...checkedAllergies, false]); // Yeni alerji için checkbox durumu ekle
-      setNewAllergy(''); // Girdiyi sıfırla
+      setCheckedAllergies([...checkedAllergies, false]); 
+      setNewAllergy(''); 
     }
   };
 
@@ -28,7 +28,7 @@ const Allergies= ({navigation}) => {
   };
 
   const handleDeleteAll = () => {
-    setCheckedAllergies(Array(allergies.length).fill(false)); // Tüm checkbox'ları sıfırla
+    setCheckedAllergies(Array(allergies.length).fill(false));
   };
 
   return (
@@ -56,7 +56,7 @@ const Allergies= ({navigation}) => {
             
             isChecked={checkedAllergies[index]}
             onToggle={() => toggleCheckbox(index)}
-            label={allergy} // Checkbox yanında gösterilecek metin
+            label={allergy} 
           />
          </View>
         ))}

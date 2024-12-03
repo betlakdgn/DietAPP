@@ -1,26 +1,46 @@
-import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import EyeIcon from './EyeIcon';  
 
 const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(prevState => !prevState); // Şifreyi göster/gizle
+  };
+
   return (
-    <TextInput
-      style={styles.input}
-      placeholder={placeholder}
-      secureTextEntry={secureTextEntry}
-      value={value}
-      onChangeText={onChangeText}
-    />
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder={placeholder}
+        secureTextEntry={secureTextEntry && !isPasswordVisible} // Eğer secureTextEntry varsa, gizler
+        value={value}
+        onChangeText={onChangeText}
+      />
+      {secureTextEntry && (
+        <EyeIcon
+          onPress={togglePasswordVisibility}
+          isSecure={isPasswordVisible}
+        />
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
     width: 200,
+    marginVertical: 10,
+  },
+  input: {
+    flex: 1, // TextInput alanını mümkün olduğunca genişlet
     height: 50,
     backgroundColor: '#fff',
     borderRadius: 8,
     paddingHorizontal: 10,
-    marginVertical: 10,
     borderColor: '#ccc',
     borderWidth: 1,
   },

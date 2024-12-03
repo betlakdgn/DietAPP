@@ -1,34 +1,57 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import Camera  from 'expo-camera';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, StyleSheet, Button, TouchableOpacity} from 'react-native';
+import { Camera, CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { FontAwesome} from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const CameraScreen = () => {
+  const navigation =useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
+  const [facing, setFacing] = useState('back');  
+  const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      const { status } = await useCameraPermissions();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
-  if (hasPermission === null) {
-    return <View />;
+  /*if (hasPermission === null) {
+    return <Text>Loading...</Text>;
   }
+
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+  */
+
+  const takePicture = async () => {
+    if (cameraRef.current) {
+      const photoData = await cameraRef.current.takePictureAsync();
+      setPhoto(photoData.uri);  
+      navigation.navigate('PhotoPreview', { photoUri: photoData.uri });  
+    }
+  };
+ 
+  const toggleCameraFacing = () => {
+    setFacing((current) => (current === 'back' ? 'front' : 'back'));
+  };
+
+
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.text}>Fotoğraf Çek</Text>
+      <CameraView style={styles.camera} type={facing} ref={cameraRef}>
+      
+        <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
+          <FontAwesome name="exchange" size={30} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
+            <FontAwesome name="camera" size={30} color="white" />
           </TouchableOpacity>
-        </View>
-      </Camera>
+      </CameraView>
     </View>
   );
 };
@@ -36,25 +59,30 @@ const CameraScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   camera: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
+    width: '100%',
+    height: '100%',
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'rgba(0,0,0,0.5)', 
+    padding: 10,
+    borderRadius: 50,
+    position: 'absolute',
+    top: 30,
+    left: 20,
+  },
+  captureButton: {
+    backgroundColor: 'rgba(0,0,0,0.5)', 
     padding: 15,
-    borderRadius: 5,
-  },
-  text: {
-    color: 'white',
-    fontSize: 18,
-  },
+    borderRadius: 50,
+    position: 'absolute',
+    bottom: 40,
+    left: '50%',
+    transform: [{ translateX: -35 }], 
+  }
 });
 
 export default CameraScreen;

@@ -1,16 +1,32 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import ProfileFrame from '../components/ProfilePhotoFrame'; // Profil fotoğraf çerçevesi bileşeni
-import ProfileButtons from '../components/ProfileButton'; // Profil butonları bileşeni
+import ProfileFrame from '../components/ProfilePhotoFrame'; 
+import ProfileButtons from '../components/ProfileButton';
 import CameraIcon from '../components/CameraIcon';
 import DangerButton from '../components/DangerButton';
+import { signOut } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import {auth} from '../firebase';
 
-const Profile = ({targetScreen}) => {
+const Profile = () => {
   const navigation = useNavigation(); 
+  const handleSignOut = async() => {
+    try{
+      await signOut(auth);  
+        console.log('Kullanıcı çıkış yaptı');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MainLoginPage' }],
+        });
+      } catch (error) {
+        console.error('Çıkış yaparken hata oluştu:', error.message);
+      }
+
+  };
+
   return (
     <View style={styles.container}>
-      {/* Sol üst köşede profil fotoğraf çerçevesi */}
+      
       <View style={styles.profileContainer}>
         <ProfileFrame /> 
         <View style={styles.cameraIconContainer}>
@@ -19,11 +35,11 @@ const Profile = ({targetScreen}) => {
 
       </View>
 
-      {/* Profil butonları yatay sırada */}
+      
       <View style={styles.buttonsContainer}>
         <ProfileButtons/>
         <View style={styles.signout} >
-         <DangerButton title={"çıkış"} onPress={()=> navigation.navigate(targetScreen="MainLoginPage")} />
+         <DangerButton title={"Çıkış"} onPress={handleSignOut} />
         </View>
       </View>
     </View>
@@ -37,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   profileContainer: {
-    position: 'absolute', // Üst sol köşeye yerleştirme
+    position: 'absolute', 
     top: 80,
     left: 20,
   },

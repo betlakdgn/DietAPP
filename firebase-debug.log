@@ -1,0 +1,21 @@
+[debug] [2024-11-21T17:29:35.723Z] ----------------------------------------------------------------------
+[debug] [2024-11-21T17:29:35.726Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\betla\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2024-11-21T17:29:35.726Z] CLI Version:   13.26.0
+[debug] [2024-11-21T17:29:35.726Z] Platform:      win32
+[debug] [2024-11-21T17:29:35.726Z] Node Version:  v20.18.0
+[debug] [2024-11-21T17:29:35.727Z] Time:          Thu Nov 21 2024 20:29:35 GMT+0300 (GMT+03:00)
+[debug] [2024-11-21T17:29:35.727Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-11-21T17:29:35.733Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-11-21T17:29:35.734Z] > authorizing via signed-in user (betl.akdgn35@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\betla\OneDrive\Masaüstü\DietAPP
+

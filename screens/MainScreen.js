@@ -1,12 +1,15 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import BottomButtons from "../components/BottomButtons";
-import CameraScreen from './CameraScreen'; 
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import CameraScreen from './CameraScreen';  
+import BottomButtons from '../components/BottomButtons'; 
 
 const MainScreen = () => {
   return (
     <View style={styles.container}>
-      <CameraScreen /> 
+      
+      <CameraScreen />
+
+      
       <BottomButtons />
     </View>
   );
@@ -15,6 +18,7 @@ const MainScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center', 
   },
 });
 

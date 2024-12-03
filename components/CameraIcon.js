@@ -13,7 +13,7 @@ const CameraIcon = () => {
 
 const styles = {
   iconContainer: {
-    backgroundColor: '#4CAF50', // Arka plan rengi
+    backgroundColor: '#4CAF50', 
     borderRadius: 15,
     padding: 4,
   },

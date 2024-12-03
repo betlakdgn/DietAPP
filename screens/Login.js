@@ -1,33 +1,73 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import IconFrame from '../components/IconFrame'; // Doğru yolu kontrol edin
-import ButtonComponent from '../components/ButtonComponent'; // Doğru yolu kontrol edin
-import TextInputComponent from '../components/Input'; // TextInput bileşenini dahil ettik
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import IconFrame from '../components/IconFrame'; 
+import ButtonComponent from '../components/ButtonComponent'; 
+import TextInputComponent from '../components/Input'; 
 import ForgotPassword from '../components/ForgotPassword';
 import BackButton from '../components/BackButton';
+import {auth} from '../firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { validateEmail, validatePassword} from '../utils/validation';
 
-const Login = (navigate) => {
-  
-  const [username, setUsername] = useState('');
+const Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handleForgotPassword = () => {
-    Alert.alert("Şifremi Unuttum", "Şifre sıfırlama linki e-posta adresinize gönderildi.");
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      Alert.alert("Hata", "Lütfen e-posta adresinizi girin.");
+      return;
+    }
+  
+    try {
+      await sendPasswordResetEmail(auth,(email));
+      Alert.alert("Başarılı", "Şifre sıfırlama e-postası gönderildi.");
+    } catch (error) {
+      Alert.alert("Hata", error.message);
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!validateEmail(email)) {
+      Alert.alert("Hata", "Geçerli bir e-posta adresi girin.");
+      return;
+    }
+  
+    if (!validatePassword(password)) {
+      Alert.alert("Hata", "Şifre en az 6 karakter uzunluğunda olmalıdır.");
+      return;
+    }
+    setErrorMessage('');
+  
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await AsyncStorage.setItem('userToken', user.uid);
+      navigation.navigate('Profile');
+    } catch (error) {
+      Alert.alert("Hata", "Giriş sırasında bir hata oluştu.");
+    }
   };
   return (
     <View style={styles.container}>
-      <BackButton targetScreen="MainLoginPage"/>
-      {/* Üstte ortalanmış ikon */}
+      
+      <BackButton targetScreen="MainLoginPage" />
+
+      
       <IconFrame imageSource={require('../assets/myIcon.png')} />
 
-      {/* Kullanıcı Adı Giriş Alanı */}
+      
       <TextInputComponent
-        placeholder="Kullanıcı Adı"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="E-posta"
+        value={email}
+        onChangeText={setEmail}
       />
 
-      {/* Şifre Giriş Alanı */}
+      
       <TextInputComponent
         placeholder="Şifre"
         secureTextEntry={true}
@@ -35,10 +75,15 @@ const Login = (navigate) => {
         onChangeText={setPassword}
       />
 
+      {errorMessage !== '' && (
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
+      )}
+
+      
       <ForgotPassword onPress={handleForgotPassword} />
 
-      {/* Giriş Butonu */}
-      <ButtonComponent title="Giriş Yap" onPress={() => alert('Giriş yapıldı!')} />
+      
+      <ButtonComponent title="Giriş Yap" onPress={handleLogin} />
     </View>
   );
 };
@@ -50,9 +95,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 24,
-    margin: 20,
+  errorMessage: {
+    color: 'red',
+    marginBottom: 10,
+    fontSize: 14,
   },
 });
 

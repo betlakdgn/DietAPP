@@ -1,11 +1,11 @@
 import React from 'react';
 import { SafeAreaView, View, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import ButtonComponent from '../components/ButtonComponent'; // Buton bileşenini import et
+import ButtonComponent from '../components/ButtonComponent'; 
 import IconFrame from '../components/IconFrame';
 
 
-const MainLoginPage = (targetScreen) => {
+const MainLoginPage = () => {
   const navigation = useNavigation(); 
   
  
@@ -18,10 +18,10 @@ const MainLoginPage = (targetScreen) => {
       
       <View style={styles.buttonContainer}>
         
-        <ButtonComponent title="Login"  onPress={()=> navigation.navigate(targetScreen="Login")} />
+        <ButtonComponent title="Login"  onPress={()=> navigation.navigate("Login")} />
 
         
-        <ButtonComponent title="Sign Up"   onPress={()=> navigation.navigate(targetScreen="SignUp")}/>
+        <ButtonComponent title="Sign Up"   onPress={()=> navigation.navigate("SignUp")}/>
 
        
         <ButtonComponent  onPress={() => alert('Null button pressed!')} />
@@ -33,8 +33,8 @@ const MainLoginPage = (targetScreen) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Dikeyde ortalama
-    alignItems: 'center',      // Yatayda ortalama
+    justifyContent: 'center',
+    alignItems: 'center',      
     
     
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 
   },
   buttonContainer: {
-    width: '80%',               // Butonların genişliği ekranın %80'i kadar
+    width: '80%',               
   },
 
 });
