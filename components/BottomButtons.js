@@ -10,9 +10,9 @@ const BottomButtons = () => {
 
   const handleLeftButtonPress = async () => {
     try {
-      const user = auth.currentUser; // Firebase'deki mevcut kullanıcıyı kontrol et
+      const user = auth.currentUser; 
       if (user) {
-        await AsyncStorage.setItem('userToken', user.uid); // Kullanıcı token'ı kaydet
+        await AsyncStorage.setItem('userToken', user.uid); 
         navigation.navigate('Profile'); 
       } else {
         navigation.navigate('MainLoginPage'); 

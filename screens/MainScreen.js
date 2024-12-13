@@ -7,9 +7,7 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       
-      <CameraScreen />
-
-      
+      <CameraScreen /> 
       <BottomButtons />
     </View>
   );

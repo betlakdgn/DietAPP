@@ -35,7 +35,7 @@ const CameraScreen = () => {
     }
   };
  
-  const toggleCameraFacing = () => {
+  const toggleCameraFacing = () => {//çalışmıyor
     setFacing((current) => (current === 'back' ? 'front' : 'back'));
   };
 

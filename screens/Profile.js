@@ -38,7 +38,7 @@ const Profile = () => {
   
 
   useEffect(() => {
-    fetchData();  // Sayfa yüklendiğinde veriyi çekiyoruz
+    fetchData(); 
   }, []);
 
   const handleSignOut = async () => {
@@ -47,7 +47,7 @@ const Profile = () => {
       console.log('Kullanıcı çıkış yaptı');
       navigation.reset({
         index: 0,
-        routes: [{ name: 'MainLoginPage' }],
+        routes: [{ name: 'MainLoginPage'}],
       });
     } catch (error) {
       console.error('Çıkış yaparken hata oluştu:', error.message);
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textContainer: {
-    marginLeft: 10, // Profil fotoğrafı ile metin arasına boşluk ekle
+    marginLeft: 10, 
   },
   cameraIconContainer: {
     position: 'absolute',

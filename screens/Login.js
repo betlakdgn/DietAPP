@@ -11,7 +11,7 @@ import {auth} from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword} from '../utils/validation';
-import { doc, getDoc } from 'firebase/firestore';
+
 
 const Login = () => {
   const navigation =useNavigation();

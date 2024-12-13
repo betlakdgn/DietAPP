@@ -18,12 +18,8 @@ const MainLoginPage = () => {
       
       <View style={styles.buttonContainer}>
         
-        <ButtonComponent title="Login"  onPress={()=> navigation.navigate("Login")} />
-
-        
+        <ButtonComponent title="Login"  onPress={()=> navigation.navigate("Login")} />   
         <ButtonComponent title="Sign Up"   onPress={()=> navigation.navigate("SignUp")}/>
-
-       
         <ButtonComponent  onPress={() => alert('Null button pressed!')} />
       </View>
     </SafeAreaView>

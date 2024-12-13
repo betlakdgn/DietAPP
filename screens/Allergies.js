@@ -1,34 +1,88 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import AddButton from '../components/addbutton';
 import Input from '../components/Input'; 
 import Title from '../components/Title';
 import Checkbox from '../components/CheckBox';
 import BackButton from '../components/BackButton';
 import DangerButton from '../components/DangerButton';
+import {db, auth} from '../firebase';
+import {doc, getDoc, updateDoc} from 'firebase/firestore';
 
 
-const Allergies= ({navigation}) => {
+const Allergies= () => {
   const [allergies, setAllergies] = useState(['Alerji 1', 'Alerji 2']); 
   const [newAllergy, setNewAllergy] = useState('');
-  const [checkedAllergies, setCheckedAllergies] = useState(Array(allergies.length).fill(false));
+  const [checkedAllergies, setCheckedAllergies] = useState([]);
 
-  const handleAddAllergy = () => {
+  useEffect(() => {
+    const fetchAllergies = async () => {
+      try {
+        const userDocRef = doc(db, "users", auth.currentUser.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data();
+          setAllergies(data.allergies || []);
+          setCheckedAllergies(data.checkedAllergies || []);
+        }
+      } catch (error) {
+        console.error("Error fetching allergies: ", error);
+      }
+    };
+    fetchAllergies();
+  }, []);
+
+  const handleAddAllergy = async () => {
     if (newAllergy) {
-      setAllergies([...allergies, newAllergy]);
-      setCheckedAllergies([...checkedAllergies, false]); 
-      setNewAllergy(''); 
+      
+      const updatedAllergies = [...allergies, newAllergy];
+      const updatedCheckedAllergies = [...checkedAllergies, false];
+
+      setAllergies(updatedAllergies);
+      setCheckedAllergies(updatedCheckedAllergies);
+      setNewAllergy('');
+
+      
+      try {
+        const userDocRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(userDocRef, {
+          allergies: updatedAllergies,
+          checkedAllergies: updatedCheckedAllergies,
+        });
+      } catch (error) {
+        console.error("Error adding allergies: ", error);
+      }
     }
   };
 
-  const toggleCheckbox = (index) => {
+  const toggleCheckbox = async (index) => {
     const updatedCheckedAllergies = [...checkedAllergies];
     updatedCheckedAllergies[index] = !updatedCheckedAllergies[index];
+    
     setCheckedAllergies(updatedCheckedAllergies);
+
+    try {
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(userDocRef, {
+        checkedAllergies: updatedCheckedAllergies,
+      });
+    } catch (error) {
+      console.error("Error updating checkbox state: ", error);
+    }
   };
 
-  const handleDeleteAll = () => {
+  const handleDeleteAll = async () => {
     setCheckedAllergies(Array(allergies.length).fill(false));
+    try {
+      const userDocRef = doc(db, "users", auth.currentUser.uid); 
+      await updateDoc(userDocRef, {
+        allergies: [], 
+      });
+    } catch (error) {
+      console.error("Error deleting allergies: ", error);
+      Alert.alert("Hata", "Alerjiler silinemedi.");
+    }
   };
 
   return (
