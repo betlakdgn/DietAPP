@@ -47,7 +47,8 @@ const Navigation = () => {
       <Stack.Navigator initialRouteName="MainScreen">
         {user ? (
           <>
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="MainScreen" component={MainScreen} />
+            <Stack.Screen name="Profile" component={Profile}/>
             <Stack.Screen name="Allergies" component={Allergies} />
             
           

@@ -5,9 +5,10 @@ import ButtonComponent from '../components/ButtonComponent';
 import FormComponent from '../components/Form';
 import BackButton from '../components/BackButton';
 import {validateForm} from '../utils/validation';
-import {auth} from '../firebase';
+import {auth, db} from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import {createUser} from '../firestoreService';
 
 const SignUp = () => {
   const navigation =useNavigation();
@@ -31,13 +32,20 @@ const SignUp = () => {
       return;
     }
 
-    const { email, password } = formData;
+    const { email, password, firstName, lastName } = formData;
   
     try {
 
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      Alert.alert("Başarılı", `Hoş geldiniz, ${user.firstName}!`);
+
+      await createUser(user.uid, {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      });
+
+      Alert.alert("Başarılı", `Hoş geldiniz, ${firstName} ${lastName}!`);
       navigation.navigate('Profile');
     } catch (error) {
       Alert.alert("Hata", error.message);

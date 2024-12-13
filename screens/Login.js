@@ -11,8 +11,10 @@ import {auth} from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword} from '../utils/validation';
+import { doc, getDoc } from 'firebase/firestore';
 
-const Login = ({navigation}) => {
+const Login = () => {
+  const navigation =useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,7 +26,7 @@ const Login = ({navigation}) => {
     }
   
     try {
-      await sendPasswordResetEmail(auth,(email));
+      await sendPasswordResetEmail(auth, email);
       Alert.alert("Başarılı", "Şifre sıfırlama e-postası gönderildi.");
     } catch (error) {
       Alert.alert("Hata", error.message);
@@ -49,7 +51,20 @@ const Login = ({navigation}) => {
       await AsyncStorage.setItem('userToken', user.uid);
       navigation.navigate('Profile');
     } catch (error) {
-      Alert.alert("Hata", "Giriş sırasında bir hata oluştu.");
+      if (error.code === 'auth/wrong-password') {//bu kısım çalışmıyor
+        Alert.alert(
+          "Hata",
+          "Şifre hatalı. Şifrenizi mi unuttunuz?",
+          [
+            { text: "İptal", style: "cancel" },
+            { text: "Şifre Sıfırla", onPress: handleForgotPassword }
+          ]
+        );
+      } else if (error.code === 'auth/user-not-found') {
+        Alert.alert("Hata", "Kullanıcı bulunamadı. Lütfen kayıt olun.");
+      } else {
+        Alert.alert("Hata", "Giriş sırasında bir hata oluştu.");
+      }
     }
   };
   return (
