@@ -5,14 +5,14 @@ import { getDatabase } from "firebase/database";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCV6ivZG65zWVCcCYzGY-mMIh7uWsCR-rA",
+  apiKey: "AIzaSyBcD1jakoVKbOLSxOlVeyEc1535nFB8cjc",
   authDomain: "dietapph.firebaseapp.com",
   databaseURL: "https://dietapph-default-rtdb.firebaseio.com",
   projectId: "dietapph",
-  storageBucket: "dietapph.appspot.com",
+  storageBucket: "dietapph.firebasestorage.app",
   messagingSenderId: "262936847240",
   appId: "1:262936847240:web:179bad01ec6088d4e4103d",
-  measurementId: "G-M88LLPF4HP",
+  measurementId: "G-M88LLPF4HP"
 };
 
 const app = initializeApp(firebaseConfig);

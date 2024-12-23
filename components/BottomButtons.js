@@ -33,7 +33,7 @@ const BottomButtons = () => {
 
       <TouchableOpacity 
         style={[styles.button, styles.rightButton]}
-        onPress={() => navigation.navigate("CameraScreen")}
+        onPress={() => navigation.navigate("MainScreen")}
       >
         <FontAwesome name="image" size={30} color="white" />
       </TouchableOpacity>

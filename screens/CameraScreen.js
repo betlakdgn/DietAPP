@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Button, TouchableOpacity} from 'react-native';
-import { Camera, CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { View, StyleSheet, TouchableOpacity} from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { FontAwesome} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const CameraScreen = () => {
-  const navigation =useNavigation();
+  const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [facing, setFacing] = useState('back');  
   const [photo, setPhoto] = useState(null);

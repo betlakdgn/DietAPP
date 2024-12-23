@@ -14,17 +14,16 @@
         }
       ]
     ],
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "ios": {
       "bundleIdentifier": "com.myapp",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to take photos."
-      }
-    },
-    "android": {
-      "permissions": [
-        "CAMERA"
-      ]
+      },
+      "supportsTablet": true
     },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -34,15 +33,25 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "newArchEnabled": true,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.myapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

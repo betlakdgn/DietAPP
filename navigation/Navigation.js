@@ -50,7 +50,8 @@ const Navigation = () => {
             <Stack.Screen name="MainScreen" component={MainScreen} />
             <Stack.Screen name="Profile" component={Profile}/>
             <Stack.Screen name="Allergies" component={Allergies} />
-            
+            <Stack.Screen name="PhotoPreview" component={PhotoPreview}/> 
+            <Stack.Screen name="CameraScreen" component={CameraScreen} />
           
           </>
         ) : (
