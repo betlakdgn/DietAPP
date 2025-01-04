@@ -1,0 +1,716 @@
+[
+    {
+        "Food": "Almond",
+        "Allergy": "Nut Allergy"
+    },
+    {
+        "Food": "Apple",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Apricot",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Artichoke",
+        "Allergy": "Insulin Allergy"
+    },
+    {
+        "Food": "Asparagus",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Avocado",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Bamboo shoot",
+        "Allergy": "Histamine Allergy"
+    },
+    {
+        "Food": "Banana",
+        "Allergy": "Banana Allergy"
+    },
+    {
+        "Food": "Barley",
+        "Allergy": "Gluten Allergy"
+    },
+    {
+        "Food": "Bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Blackberry",
+        "Allergy": "Salicylate Allergy"
+    },
+    {
+        "Food": "Black-eyed bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Blueberry",
+        "Allergy": "Salicylate Allergy"
+    },
+    {
+        "Food": "Bonito",
+        "Allergy": "Histamine Allergy"
+    },
+    {
+        "Food": "Broad bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Broccoli",
+        "Allergy": "Broccoli allergy"
+    },
+    {
+        "Food": "Brussels sprouts",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Buckwheat",
+        "Allergy": "Gluten Allergy"
+    },
+    {
+        "Food": "Burdock",
+        "Allergy": "Ragweed Allergy"
+    },
+    {
+        "Food": "Butter",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Butter bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Buttermilk",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Button mushroom",
+        "Allergy": "Mushroom Allergy"
+    },
+    {
+        "Food": "Cabbage",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Cacao bean"
+    },
+    {
+        "Food": "Canola oil"
+    },
+    {
+        "Food": "Carrot",
+        "Allergy": "Hypersensitivity"
+    },
+    {
+        "Food": "Casein",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Cattle",
+        "Allergy": "Alpha-gal Syndrome"
+    },
+    {
+        "Food": "Cauliflower",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Celery",
+        "Allergy": "Hypersensitivity"
+    },
+    {
+        "Food": "Cheese",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Cherry",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Chestnut",
+        "Allergy": "Nut Allergy"
+    },
+    {
+        "Food": "Chicken",
+        "Allergy": "Poultry Allergy"
+    },
+    {
+        "Food": "Chicory",
+        "Allergy": "Insulin Allergy"
+    },
+    {
+        "Food": "Chinese cabbage",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Coconut oil"
+    },
+    {
+        "Food": "Coffee bean",
+        "Allergy": "Ochratoxin Allergy"
+    },
+    {
+        "Food": "Corn",
+        "Allergy": "Corn Allergy"
+    },
+    {
+        "Food": "Corn oil"
+    },
+    {
+        "Food": "Cotton seed",
+        "Allergy": "Seed Allergy"
+    },
+    {
+        "Food": "Cranberry",
+        "Allergy": "Salicylate Allergy"
+    },
+    {
+        "Food": "Cream",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Crustaceans",
+        "Allergy": "Shellfish Allergy"
+    },
+    {
+        "Food": "Cucumber"
+    },
+    {
+        "Food": "Custard",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Date",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Deer",
+        "Allergy": "Alpha-gal Syndrome"
+    },
+    {
+        "Food": "Duck",
+        "Allergy": "Poultry Allergy"
+    },
+    {
+        "Food": "Eel",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Egg plant",
+        "Allergy": "Nightshade Allergy"
+    },
+    {
+        "Food": "Eggs",
+        "Allergy": "Poultry Allergy"
+    },
+    {
+        "Food": "Endive",
+        "Allergy": "Insulin Allergy"
+    },
+    {
+        "Food": "Fructose",
+        "Allergy": "Sugar Allergy / Intolerance"
+    },
+    {
+        "Food": "Garlic",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Ghrkin"
+    },
+    {
+        "Food": "Ginger",
+        "Allergy": "Histamine Allergy"
+    },
+    {
+        "Food": "Ginkgo nut",
+        "Allergy": "Nut Allergy"
+    },
+    {
+        "Food": "Globfish",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Glucose",
+        "Allergy": "Sugar Allergy / Intolerance"
+    },
+    {
+        "Food": "Goat",
+        "Allergy": "Alpha-gal Syndrome"
+    },
+    {
+        "Food": "Grape",
+        "Allergy": "LTP Allergy"
+    },
+    {
+        "Food": "Grapefruit",
+        "Allergy": "Citrus Allergy"
+    },
+    {
+        "Food": "Grapeseed oil"
+    },
+    {
+        "Food": "Green soybean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Groundnut oil"
+    },
+    {
+        "Food": "Guava",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Honey",
+        "Allergy": "Honey Allergy"
+    },
+    {
+        "Food": "Hop",
+        "Allergy": "Beer Allergy"
+    },
+    {
+        "Food": "Horse",
+        "Allergy": "Alpha-gal Syndrome"
+    },
+    {
+        "Food": "Horse Mackerel",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Horseradish",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Huckleberry",
+        "Allergy": "Salicylate Allergy"
+    },
+    {
+        "Food": "Ice cream",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Japanese pear",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Japanese persimmon"
+    },
+    {
+        "Food": "Japanese plum",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Kale",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Kidney bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Kiwi",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Konjac",
+        "Allergy": "Potato Allergy"
+    },
+    {
+        "Food": "Kyona",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Lactose",
+        "Allergy": "Lactose Intolerance"
+    },
+    {
+        "Food": "Leek",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Lemon",
+        "Allergy": "Citrus Allergy"
+    },
+    {
+        "Food": "Lentil",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Lettuce",
+        "Allergy": "LTP Allergy"
+    },
+    {
+        "Food": "Lima bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Lime",
+        "Allergy": "Citrus Allergy"
+    },
+    {
+        "Food": "Loquat",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Mackerel",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Makuwauri  melon"
+    },
+    {
+        "Food": "Mango",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Melons"
+    },
+    {
+        "Food": "Milk",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Mineral water",
+        "Allergy": "Aquagenic Urticaria"
+    },
+    {
+        "Food": "Mitsuba",
+        "Allergy": "Hypersensitivity"
+    },
+    {
+        "Food": "Mume plum",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Mustard oil"
+    },
+    {
+        "Food": "Mustard Spinach",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Nectarine",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Nira",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Okra",
+        "Allergy": "Histamine Allergy"
+    },
+    {
+        "Food": "Olive oil"
+    },
+    {
+        "Food": "Onion",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Orange",
+        "Allergy": "Citrus Allergy"
+    },
+    {
+        "Food": "Orange pulp",
+        "Allergy": "Citrus Allergy"
+    },
+    {
+        "Food": "Papaya",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Parsley",
+        "Allergy": "Hypersensitivity"
+    },
+    {
+        "Food": "Parsnip",
+        "Allergy": "Hypersensitivity"
+    },
+    {
+        "Food": "Passion fruit",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Peach",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Peanut",
+        "Allergy": "Peanut Allergy"
+    },
+    {
+        "Food": "Pear",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Peas",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Peas",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Pecan",
+        "Allergy": "Nut Allergy"
+    },
+    {
+        "Food": "Pegia",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Peppermint",
+        "Allergy": "Mint Allergy"
+    },
+    {
+        "Food": "Percifomes",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Pig",
+        "Allergy": "Alpha-gal Syndrome"
+    },
+    {
+        "Food": "Pineapple",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Popcorn",
+        "Allergy": "Corn Allergy"
+    },
+    {
+        "Food": "Potato",
+        "Allergy": "Potato Allergy"
+    },
+    {
+        "Food": "Prune",
+        "Allergy": "Stone Fruit Allergy"
+    },
+    {
+        "Food": "Pumpkin"
+    },
+    {
+        "Food": "Qing-geng-cai",
+        "Allergy": "Cruciferous Allergy"
+    },
+    {
+        "Food": "Quince",
+        "Allergy": "Oral Allergy Syndrome"
+    },
+    {
+        "Food": "Radish leaf"
+    },
+    {
+        "Food": "Radish root",
+        "Allergy": "Hypersensitivity"
+    },
+    {
+        "Food": "Rapeseed",
+        "Allergy": "Seed Allergy"
+    },
+    {
+        "Food": "Raspberry",
+        "Allergy": "Salicylate Allergy"
+    },
+    {
+        "Food": "Rice",
+        "Allergy": "Rice Allergy"
+    },
+    {
+        "Food": "Ricebran oil"
+    },
+    {
+        "Food": "Royal Jelly",
+        "Allergy": "Honey Allergy"
+    },
+    {
+        "Food": "Rye",
+        "Allergy": "Gluten Allergy"
+    },
+    {
+        "Food": "Safflower seed",
+        "Allergy": "Seed Allergy"
+    },
+    {
+        "Food": "Salmon",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Salsify",
+        "Allergy": "Insulin Allergy"
+    },
+    {
+        "Food": "Sansho",
+        "Allergy": "Pepper Allergy"
+    },
+    {
+        "Food": "Sea Bass",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Sea Bream",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Sesame seed",
+        "Allergy": "Seed Allergy"
+    },
+    {
+        "Food": "Shallot",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Sheep",
+        "Allergy": "Alpha-gal Syndrome"
+    },
+    {
+        "Food": "Shelled mollusc",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Shiitake  mushroom",
+        "Allergy": "Mushroom Allergy"
+    },
+    {
+        "Food": "Shungiku",
+        "Allergy": "Insulin Allergy"
+    },
+    {
+        "Food": "Sour cream",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "Soybean",
+        "Allergy": "Soy Allergy"
+    },
+    {
+        "Food": "Spearmint",
+        "Allergy": "Mint Allergy"
+    },
+    {
+        "Food": "Spinach",
+        "Allergy": "Histamine Allergy"
+    },
+    {
+        "Food": "Squash"
+    },
+    {
+        "Food": "Strawberry",
+        "Allergy": "Salicylate Allergy"
+    },
+    {
+        "Food": "Sugar",
+        "Allergy": "Sugar Allergy / Intolerance"
+    },
+    {
+        "Food": "Sugar beet",
+        "Allergy": "Sugar Allergy / Intolerance"
+    },
+    {
+        "Food": "Sugarcane",
+        "Allergy": "Sugar Allergy / Intolerance"
+    },
+    {
+        "Food": "Sultani",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Sultapya",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Sunflower oil"
+    },
+    {
+        "Food": "Sunflower seed",
+        "Allergy": "Seed Allergy"
+    },
+    {
+        "Food": "Sweet corn",
+        "Allergy": "Corn Allergy"
+    },
+    {
+        "Food": "Sweet Pepper",
+        "Allergy": "Nightshade Allergy"
+    },
+    {
+        "Food": "Sweet potato",
+        "Allergy": "Potato Allergy"
+    },
+    {
+        "Food": "Taro",
+        "Allergy": "Potato Allergy"
+    },
+    {
+        "Food": "Tea",
+        "Allergy": "Tannin Allergy"
+    },
+    {
+        "Food": "Tetraodontiformes",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Tomato",
+        "Allergy": "Nightshade Allergy"
+    },
+    {
+        "Food": "Trout",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Tuna",
+        "Allergy": "Fish Allergy"
+    },
+    {
+        "Food": "Turkey",
+        "Allergy": "Poultry Allergy"
+    },
+    {
+        "Food": "Turnip leaf"
+    },
+    {
+        "Food": "Turnip root",
+        "Allergy": "Thyroid"
+    },
+    {
+        "Food": "Vegetable oil"
+    },
+    {
+        "Food": "Walnut",
+        "Allergy": "Nut Allergy"
+    },
+    {
+        "Food": "Water melon"
+    },
+    {
+        "Food": "Watercress"
+    },
+    {
+        "Food": "Welsh",
+        "Allergy": "Allium Allergy"
+    },
+    {
+        "Food": "Wheat",
+        "Allergy": "Gluten Allergy"
+    },
+    {
+        "Food": "Whey",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    },
+    {
+        "Food": "White bean",
+        "Allergy": "Legume Allergy"
+    },
+    {
+        "Food": "Yam",
+        "Allergy": "Potato Allergy"
+    },
+    {
+        "Food": "Yogurt",
+        "Allergy": "Milk allergy / Lactose intolerance"
+    }
+]

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, StyleSheet, Alert, ScrollView } from 'react-native';
 import AddButton from '../components/addbutton';
 import Input from '../components/Input'; 
 import Title from '../components/Title';
@@ -8,31 +8,76 @@ import BackButton from '../components/BackButton';
 import DangerButton from '../components/DangerButton';
 import {db, auth} from '../firebase';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
-
+import foodAllergens from '../data/food_allergens.json';
 
 const Allergies= () => {
-  const [allergies, setAllergies] = useState(['Alerji 1', 'Alerji 2']); 
+  const [allergies, setAllergies] = useState([]); 
   const [newAllergy, setNewAllergy] = useState('');
-  const [checkedAllergies, setCheckedAllergies] = useState([]);
+  const [selectedAllergies, setSelectedAllergies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const scrollViewRef = useRef(null);
 
   useEffect(() => {
     const fetchAllergies = async () => {
       try {
         const userDocRef = doc(db, "users", auth.currentUser.uid);
         const userDocSnap = await getDoc(userDocRef);
-        
+  
+        let userAllergies = [];
+        let selectedAllergies = [];
+  
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
-          setAllergies(data.allergies || []);
-          setCheckedAllergies(data.checkedAllergies || []);
+          userAllergies = data.allergies || [];
+          selectedAllergies = data.selectedAllergies || [];
+        }
+  
+        const defaultAllergies = [
+          ...new Set(
+            foodAllergens
+              .map((item) => item.Allergy)
+              .filter(Boolean) 
+          ),
+        ];
+  
+        // Varsayılan alerjilerle kullanıcının mevcut alerjilerini birleştir
+        const combinedAllergies = [...new Set([...userAllergies, ...defaultAllergies])];
+  
+        setAllergies(combinedAllergies);
+        setSelectedAllergies(combinedAllergies.filter(allergy => selectedAllergies.includes(allergy)));
+  
+        // Varsayılan alerjileri Firebase'e ekleyerek kalıcı hale getir
+        if (userDocSnap.exists()) {
+          await updateDoc(userDocRef, {
+            allergies: combinedAllergies,
+            selectedAllergies: selectedAllergies,
+          });
+        } else {
+          await updateDoc(userDocRef, {
+            allergies: combinedAllergies,
+            selectedAllergies: selectedAllergies,
+          });
         }
       } catch (error) {
         console.error("Error fetching allergies: ", error);
       }
     };
+  
     fetchAllergies();
   }, []);
+  
 
+  const handleSearch = () => {
+    const index = allergies.findIndex((allergy) =>
+      allergy.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (index >= 0 && scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: index * 50, animated: true });
+    } else {
+      Alert.alert("Sonuç Yok", "Aramanızla eşleşen bir alerji bulunamadı.");
+    }
+  };
+  
   const handleAddAllergy = async () => {
     if (newAllergy) {
       
@@ -48,7 +93,7 @@ const Allergies= () => {
         const userDocRef = doc(db, "users", auth.currentUser.uid);
         await updateDoc(userDocRef, {
           allergies: updatedAllergies,
-          checkedAllergies: updatedCheckedAllergies,
+          selectedAllergies: selectedAllergies
         });
       } catch (error) {
         console.error("Error adding allergies: ", error);
@@ -57,27 +102,36 @@ const Allergies= () => {
   };
 
   const toggleCheckbox = async (index) => {
-    const updatedCheckedAllergies = [...checkedAllergies];
-    updatedCheckedAllergies[index] = !updatedCheckedAllergies[index];
-    
-    setCheckedAllergies(updatedCheckedAllergies);
-
+    const updatedSelectedAllergies = [...selectedAllergies];
+    const allergy = allergies[index];
+  
+    if (updatedSelectedAllergies.includes(allergy)) {
+      updatedSelectedAllergies.splice(updatedSelectedAllergies.indexOf(allergy), 1);
+    } else {
+      updatedSelectedAllergies.push(allergy);
+    }
+  
+    setSelectedAllergies(updatedSelectedAllergies);
+  
     try {
       const userDocRef = doc(db, "users", auth.currentUser.uid);
+      // Use the updatedSelectedAllergies array here
       await updateDoc(userDocRef, {
-        checkedAllergies: updatedCheckedAllergies,
+        selectedAllergies: updatedSelectedAllergies,
       });
     } catch (error) {
       console.error("Error updating checkbox state: ", error);
     }
   };
+  
 
   const handleDeleteAll = async () => {
-    setCheckedAllergies(Array(allergies.length).fill(false));
+    setSelectedAllergies([]);
     try {
       const userDocRef = doc(db, "users", auth.currentUser.uid); 
       await updateDoc(userDocRef, {
         allergies: [], 
+        selectedAllergies: [],
       });
     } catch (error) {
       console.error("Error deleting allergies: ", error);
@@ -94,27 +148,29 @@ const Allergies= () => {
 
       <View style={styles.inputContainer}>
         <Input 
-          title="Yeni Alerji Ekle" 
-          value={newAllergy} 
-          onChangeText={setNewAllergy} 
+          value={searchTerm} 
+          onChangeText={setSearchTerm} 
+          onIconPress={handleSearch}
         />
         <AddButton title="Alerji Ekle" onPress={handleAddAllergy} />
         <DangerButton title="Hepsini Sil" onPress={handleDeleteAll} />
         
       </View>
       
-      <View style={styles.allergyContainer}  >
-        {allergies.map((allergy, index) => (
-         <View key={index} style={styles.checkboxWrapper}>
-          <Checkbox 
-            
-            isChecked={checkedAllergies[index]}
-            onToggle={() => toggleCheckbox(index)}
-            label={allergy} 
-          />
-         </View>
-        ))}
-      </View>
+      <ScrollView style={styles.scrollView} ref={scrollViewRef}>
+        <View style={styles.allergyContainer}  >
+          {allergies.map((allergy, index) => (
+          <View key={index} style={styles.checkboxWrapper}>
+            <Checkbox 
+              
+              isChecked={selectedAllergies.includes(allergy)}
+              onToggle={() => toggleCheckbox(index)}
+              label={allergy} 
+            />
+          </View>
+          ))}
+        </View>
+      </ScrollView>
       
     </View>
   );
@@ -150,6 +206,11 @@ const styles = StyleSheet.create({
     width:'100%',
     
   },
+  scrollView:{
+    flex:1,
+    width:'100%',
+    marginTop: 10,
+  }
   
 
 });

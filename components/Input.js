@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import EyeIcon from './EyeIcon';  
+import {Ionicons} from "@expo/vector-icons";
 
-const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText }) => {
+const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText, onIconPress }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prevState => !prevState); // Şifreyi göster/gizle
+    setIsPasswordVisible(prevState => !prevState); 
   };
 
   return (
@@ -14,10 +15,15 @@ const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText 
       <TextInput
         style={styles.input}
         placeholder={placeholder}
-        secureTextEntry={secureTextEntry && !isPasswordVisible} // Eğer secureTextEntry varsa, gizler
+        secureTextEntry={secureTextEntry && !isPasswordVisible} 
         value={value}
         onChangeText={onChangeText}
       />
+      {onIconPress && (
+        <TouchableOpacity onPress={onIconPress} style={styles.iconContainer}>
+          <Ionicons name="search" size={20} color= "black" />
+        </TouchableOpacity>
+      )}
       {secureTextEntry && (
         <EyeIcon
           onPress={togglePasswordVisibility}
@@ -43,6 +49,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: '#ccc',
     borderWidth: 1,
+  },
+  iconContainer: {
+    
   },
 });
 
