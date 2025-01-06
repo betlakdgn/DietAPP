@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, StyleSheet, Text, ActivityIndicator,Alert } from 'react-native';
+import { View, Image, StyleSheet, Text, ActivityIndicator,Alert, ScrollView } from 'react-native';
 import BackButton from '../components/BackButton';
 import * as FileSystem from 'expo-file-system';  // Expo'nun FileSystem modülünü import ettik
 import * as ImageManipulator from 'expo-image-manipulator'; // Resim manipülasyonu için import ettik
@@ -15,6 +15,10 @@ const PhotoPreview = ({ route }) => {
    // Kullanıcı alerjilerini ve veri setini al
   const [userAllergies, setUserAllergies] = useState([]);
   const [dataset, setDataset] = useState([]);
+
+  const [isAllergyMatch, setIsAllergyMatch] = useState(false);
+  const [isAllergySafe, setIsAllergySafe] = useState(false);
+  const [matchedAllergies, setMatchedAllergies] = useState([]);
 
   useEffect(() => {
     const fetchAllergies = async () => {
@@ -77,13 +81,13 @@ const PhotoPreview = ({ route }) => {
       // API yanıtında metni al
       if (result?.ParsedResults?.length > 0) {
         const parsedText = result.ParsedResults[0]?.ParsedText || 'Metin bulunamadı';
-        setOcrResult(parsedText); // OCR sonucunu kaydet
-        compareAllergies(parsedText); // Karşılaştırmayı başlat
+        setOcrResult(parsedText); 
+        compareAllergies(parsedText); 
       } else {
         setOcrResult('OCR işlemi sonucu bulunamadı.');
       }
       
-      setLoading(false); // Yüklemeyi durdur
+      setLoading(false); 
     } catch (error) {
       console.error('OCR Hatası:', error);
       setOcrResult('OCR işleminde bir hata oluştu.');
@@ -91,36 +95,32 @@ const PhotoPreview = ({ route }) => {
     }
   };
   const cleanOcrText = (text) => {
-    // Küçük harfe çevirme, boşlukları temizleme ve özel karakterleri kaldırma
     return text
-      .toLowerCase() // Küçük harfe çevir
-      .replace(/[^a-z0-9\sçğıüöş]/g, '') // Özel karakterleri temizle
-      .trim(); // Başındaki ve sonundaki boşlukları temizle
+      .toLowerCase() 
+      .replace(/[^a-z0-9\sçğıüöş]/g, '') 
+      .trim(); 
   };
   const compareAllergies = async (text) => {
     const cleanedText = cleanOcrText(text); 
 
-    // Veritabanındaki yiyecek ve alerjen eşleşmelerini kontrol et
     const foodAllergenMap = foodAllergens.reduce((acc, item) => {
       acc[item.Food.toLowerCase()] = item.Allergy;
       return acc;
     }, {});
   
-    // Temizlenmiş OCR metninde eşleşen yiyecekleri bul
+    
     const matchedFoods = Object.keys(foodAllergenMap).filter((food) =>
-      cleanedText.includes(food) // Temizlenmiş metinde yiyecek isminin geçip geçmediğini kontrol et
+      cleanedText.includes(food) 
     );
   
     console.log("Matched Foods:", matchedFoods);
   
-    // Eşleşen alerjenleri bul
     const matchedAllergies = matchedFoods
       .map((food) => foodAllergenMap[food])
       .filter(Boolean);
   
     console.log("Matched Allergies:", matchedAllergies);
   
-    // Kullanıcının seçtiği (check edilmiş) alerjenleri alıyoruz
     const userDocRef = doc(db, "users", auth.currentUser.uid);
     const userDocSnap = await getDoc(userDocRef);
   
@@ -133,34 +133,26 @@ const PhotoPreview = ({ route }) => {
     const userCheckedAllergies = data.selectedAllergies || [];
   
     
-    // Seçilen (işaretli) alerjenleri ve eşleşmeleri kontrol et
     const selectedUserAllergies = matchedAllergies.filter((allergy) => 
-      userCheckedAllergies.includes(allergy) // Yalnızca işaretlenen alerjenleri kontrol et
+      userCheckedAllergies.includes(allergy) 
     );
   
-    console.log("Selected User's Matched Allergies:", selectedUserAllergies);
-  
-    // Uyarı göster
     if (selectedUserAllergies.length > 0) {
-      Alert.alert(
-        "Uyarı",
-        `Bu ürün sizin alerjinize uygun değil: ${selectedUserAllergies.join(", ")}`
-      );
+      setIsAllergyMatch(true);
+      setIsAllergySafe(false);  
     } else if (matchedAllergies.length > 0) {
-      Alert.alert(
-        "Uyarı",
-        `Bu ürün şu alerjenleri içeriyor: ${matchedAllergies.join(", ")}`
-      );
+      setIsAllergyMatch(true);
+      setIsAllergySafe(true);  
     } else {
-      Alert.alert("Bilgi", "Ürün alerjen içermiyor.");
+      setIsAllergyMatch(false);
+      setIsAllergySafe(true);  
     }
+    setMatchedAllergies(matchedAllergies);
   };
-  
 
-  // Sayfa yüklendiğinde OCR işlemini başlat
   useEffect(() => {
     handleOcrProcess();
-  }, []); // Boş bir bağımlılık dizisiyle yalnızca bir kez çalışır
+  }, []); 
 
   return (
     <View style={styles.container}>
@@ -168,14 +160,28 @@ const PhotoPreview = ({ route }) => {
       
       <View style={styles.imageContainer}>
         <Image source={{ uri: photoUri }} style={styles.image} />
+        {isAllergyMatch && (
+          <View style={[styles.stamp, isAllergySafe ? styles.safe : styles.notSafe]}>
+            <Text style={styles.stampText}>
+              {isAllergySafe ? 'Uygun' : 'Uygun Değil'}
+            </Text>
+          </View>
+        )}
       </View>
 
       <View style={styles.bottomContainer}>
         {loading && <ActivityIndicator size="large" color="#0000ff" />}
-
-        {ocrResult ? <Text style={styles.ocrText}>{ocrResult}</Text> : null}
       </View>
-
+        {isAllergyMatch && (
+          <View style={styles.alertListContainer}>
+            <Text style={styles.alertListTitle}>UYARILAR:</Text>
+            <ScrollView>
+              {matchedAllergies.map((allergy, index) => (
+                <Text key={index} style={styles.alertItem}>-{allergy}</Text>
+              ))}
+            </ScrollView>
+            </View>
+        )}
     </View>
   );
 };
@@ -188,21 +194,48 @@ const styles = StyleSheet.create({
     flex: 1, 
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
   image: {
     width: '100%', 
     height: '100%', 
     resizeMode: 'cover',
   },
+  stamp: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  notSafe: {
+    backgroundColor: 'rgba(255, 0, 0, 0.7)', // Kırmızı
+  },
+  safe: {
+    backgroundColor: 'rgba(0, 255, 0, 0.7)', // Yeşil
+  },
+  stampText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   bottomContainer: {
     flex: 2, 
     backgroundColor: 'transparent',
     padding: 10,
   },
-  ocrText: {
-    marginTop: 20,
+  alertListContainer: {
+    padding:18,
+    bottom:20,
+  },
+  alertListTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  alertItem: {
     fontSize: 16,
-    color: '#000',
+    color: 'black',
   },
 });
 
