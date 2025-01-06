@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView, Animated } from 'react-native';
 import AddButton from '../components/addbutton';
 import Input from '../components/Input'; 
 import Title from '../components/Title';
@@ -9,6 +9,8 @@ import DangerButton from '../components/DangerButton';
 import {db, auth} from '../firebase';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import foodAllergens from '../data/food_allergens.json';
+import { Keyboard } from 'react-native';
+
 
 const Allergies= () => {
   const [allergies, setAllergies] = useState([]); 
@@ -16,6 +18,8 @@ const Allergies= () => {
   const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const scrollViewRef = useRef(null);
+  const [highlightIndex, setHighlightIndex] = useState(null);
+  const fadeAnim = useRef(new Animated.Value(1)).current; 
 
   useEffect(() => {
     const fetchAllergies = async () => {
@@ -67,16 +71,35 @@ const Allergies= () => {
   }, []);
   
 
+  const startBlinkingOnce = () => {
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start(() => setHighlightIndex(null)); 
+  };
+
   const handleSearch = () => {
+    Keyboard.dismiss();
+
     const index = allergies.findIndex((allergy) =>
       allergy.toLowerCase().includes(searchTerm.toLowerCase())
     );
     if (index >= 0 && scrollViewRef.current) {
+      setHighlightIndex(index);
       scrollViewRef.current.scrollTo({ y: index * 50, animated: true });
+      startBlinkingOnce();
     } else {
       Alert.alert("Sonuç Yok", "Aramanızla eşleşen bir alerji bulunamadı.");
     }
-  };
+  };  
   
   const handleAddAllergy = async () => {
     if (newAllergy) {
@@ -115,7 +138,7 @@ const Allergies= () => {
   
     try {
       const userDocRef = doc(db, "users", auth.currentUser.uid);
-      // Use the updatedSelectedAllergies array here
+      
       await updateDoc(userDocRef, {
         selectedAllergies: updatedSelectedAllergies,
       });
@@ -159,15 +182,20 @@ const Allergies= () => {
       
       <ScrollView style={styles.scrollView} ref={scrollViewRef}>
         <View style={styles.allergyContainer}  >
-          {allergies.map((allergy, index) => (
-          <View key={index} style={styles.checkboxWrapper}>
-            <Checkbox 
-              
-              isChecked={selectedAllergies.includes(allergy)}
-              onToggle={() => toggleCheckbox(index)}
-              label={allergy} 
-            />
-          </View>
+         {allergies.map((allergy, index) => (
+            <Animated.View
+              key={index}
+              style={[
+                styles.checkboxWrapper,
+                index === highlightIndex && { opacity: fadeAnim }, 
+              ]}
+            >
+              <Checkbox
+                isChecked={selectedAllergies.includes(allergy)} 
+                onToggle={() => toggleCheckbox(index)} 
+                label={allergy} 
+              />
+            </Animated.View>
           ))}
         </View>
       </ScrollView>
@@ -210,8 +238,7 @@ const styles = StyleSheet.create({
     flex:1,
     width:'100%',
     marginTop: 10,
-  }
-  
+  },
 
 });
 

@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   cameraIconContainer: {
     position: 'absolute',
     bottom: 20,
-    right: 180,
+    right: 150,
   },
   buttonsContainer: {
     flexDirection: 'column', 
