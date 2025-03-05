@@ -8,11 +8,13 @@ const Title = ({ text }) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 28, 
+    fontWeight: '800', 
+    marginBottom: 10,
+    marginTop:80,
     textAlign: 'center',
-    marginVertical: 50,
+    color: '#333', 
+    fontFamily: 'Roboto',
   },
 });
 

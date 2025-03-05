@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, Alert, ActivityIndicator, ImageBackground} from 'react-native';
 import ProfileFrame from '../components/ProfilePhotoFrame';
 import ProfileButtons from '../components/ProfileButton';
 import CameraIcon from '../components/CameraIcon';
@@ -8,11 +8,13 @@ import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import backg from '../assets/backg.jpg';
 
 
 const Profile = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState(null);
+  const [photo, setPhoto] = useState(null);
   // Firebase'den veri çekme fonksiyonu
   const fetchData = async () => {
     try {
@@ -45,58 +47,76 @@ const Profile = () => {
     try {
       await signOut(auth);  
       console.log('Kullanıcı çıkış yaptı');
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'MainLoginPage'}],
-      });
+      
+      // navigation objesinin tanımlandığından emin olalım
+      if (navigation) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MainScreen' }]
+        });
+      } else {
+        console.error("Navigation objesi bulunamadı.");
+      }
     } catch (error) {
       console.error('Çıkış yaparken hata oluştu:', error.message);
     }
   };
-
+  
+  
   return (
-    <View style={styles.container}>
-    {userData ? (
-      <>
-        
-        <View style={styles.profileContainer}>
-          <ProfileFrame />
-          <View style={styles.textContainer}>
-              <Text style={styles.text}>{`${userData?.firstName || ''} ${userData?.lastName || ''}`}</Text>
-          </View>
-          <View style={styles.cameraIconContainer}>
-            <CameraIcon />
-          </View>
+    <ImageBackground source={backg} style ={styles.backgroundcontainer}>
+          <View style={styles.overlay}></View>
+   
+        {userData ? (
+          <>
+            
+            <View style={styles.profileContainer}>
+              {photo ? (
+                <ProfileFrame photo={photo} />
+              ) : (
+                <ProfileFrame/>
+              )}
+              <View style={styles.textContainer}>
+                  <Text style={styles.text}>{`${userData?.firstName || ''} ${userData?.lastName || ''}`}</Text>
+              </View>
+              <View style={styles.cameraIconContainer} >
+                <CameraIcon setPhoto={setPhoto} />
+              </View>
+            </View>
+          </>
+        ) : (
+          <ActivityIndicator size="large" color="#0000ff" />
+        )}
+        <View style={styles.buttonsContainer}>
+            <ProfileButtons />
+            <View style={styles.signout}>
+              <DangerButton title={"Çıkış"} onPress={handleSignOut} />
+            </View>
         </View>
-      </>
-    ) : (
-      <ActivityIndicator size="large" color="#0000ff" />
-    )}
-    <View style={styles.buttonsContainer}>
-        <ProfileButtons />
-        <View style={styles.signout}>
-          <DangerButton title={"Çıkış"} onPress={handleSignOut} />
-        </View>
-    </View>
-</View>
+    </ImageBackground>
 
   );
 };
 
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundcontainer: {
     flex: 1,
-    backgroundColor: '#ffffff', 
     alignItems: 'center',
-    justifyContent: 'flex-start', 
-    padding: 20, 
+    justifyContent: 'flex-start',
+    paddingTop: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // Bu stil ile tam ekran kapsar
+    backgroundColor: 'rgba(255, 255, 255, 0.4)', 
   },
   text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333', 
+    fontSize: 28,
+    fontWeight: 800,
+    color: '#333', 
     textAlign: 'left',
+    fontFamily: 'Roboto',
   },
   profileContainer: {
     position: 'absolute', 
@@ -111,7 +131,7 @@ const styles = StyleSheet.create({
   cameraIconContainer: {
     position: 'absolute',
     bottom: 20,
-    right: 150,
+    right: 180,
   },
   buttonsContainer: {
     flexDirection: 'column', 

@@ -33,9 +33,9 @@ const FormComponent = ({ formData, handleChange }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {['firstName', 'lastName', 'email', 'password', 'confirmPassword'].map((field, index) => (
-        <View key={index}>
+        <View key={index} style={styles.inputContainer}>
           <TextInputComponent
             placeholder={field === 'firstName' ? "Ad" : 
                         field === 'lastName' ? "Soyad" : 
@@ -51,17 +51,24 @@ const FormComponent = ({ formData, handleChange }) => {
           {errors[field] && <Text style={styles.errorText}>{errors[field]}</Text>}
         </View>
       ))}
-      {/*<ButtonComponent onPress={validate}>Kayıt Ol</ButtonComponent>*/}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    justifyContent: 'center',
+  },
+  inputContainer: {
+    marginBottom: 10,
+    alignContent: 'stretch',
+  },
   errorText: {
-    color: 'red',
+    color: '#D9534F', 
     fontSize: 12,
-    marginLeft: 10,
-  }
+    marginTop: 5,
+  },
 });
 
 export default FormComponent;

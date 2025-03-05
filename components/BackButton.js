@@ -15,16 +15,16 @@ const BackButton = ({targetScreen}) => {
 
 const styles = StyleSheet.create({
   button: {
-    padding: 1,
-    position: 'absolute', 
-    top: 60,
-    left: 20,
+    padding: 10,
+    position: 'absolute',
+    top: 40, // Adjusted for better placement
+    left: 15,
     zIndex: 1,
     
   },
   icon: {
-    fontSize: 30, 
-    color: 'gray', 
+    fontSize: 30,
+    color: '#FFB6C1',
   },
 });
 

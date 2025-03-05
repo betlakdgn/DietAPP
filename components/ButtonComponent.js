@@ -1,44 +1,28 @@
-
-
-import React, {useState} from 'react';
+import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const ButtonComponent = ({ title, onPress }) => {
-    const [isPressed, setIsPressed] = useState(false); 
-    
-    return (
-      <TouchableOpacity
-        style={styles.button}
-        onPressIn={() => setIsPressed(true)}
-        onPressOut={() => setIsPressed(false)} 
-        onPress={onPress}
-      >
-        <Text style={[styles.buttonText, isPressed && styles.pressedText]}>
-          {title}
-        </Text>
-      </TouchableOpacity>
-    );
+const ButtonComponent = ({ title, onPress, style }) => {
+  return (
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4CAF50',  
-    paddingVertical: 15,       
-    paddingHorizontal: 30,       
-    borderRadius: 10,            
-    marginVertical: 10,          
-    alignItems: 'center',        
+    backgroundColor: '#FFB6C1', // Soft pastel pink
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25, // Rounded corners for a modern feel
+    alignItems: 'center',
+    marginVertical: 8,
+    elevation: 3, // Soft shadow effect for depth
   },
   buttonText: {
-    color: 'white',              
-    fontSize: 18,                
-    paddingBottom:3
-  },
-  pressedText:{
-    fontWeight:'bold',
-    color:'grey',
-    
-    
+    color: '#FFFFFF', // White text for contrast
+    fontSize: 16,
+    fontWeight: '500', // Lighter font weight for a modern feel
   },
 });
 

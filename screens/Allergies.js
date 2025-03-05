@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Alert, ScrollView, Animated } from 'react-native';
+import { View, StyleSheet, Alert, ScrollView, Animated, Keyboard } from 'react-native';
 import AddButton from '../components/addbutton';
 import Input from '../components/Input'; 
 import Title from '../components/Title';
@@ -9,7 +9,9 @@ import DangerButton from '../components/DangerButton';
 import {db, auth} from '../firebase';
 import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import foodAllergens from '../data/food_allergens.json';
-import { Keyboard } from 'react-native';
+import { ImageBackground } from 'react-native';
+import backg from '../assets/backg.jpg';
+
 
 
 const Allergies= () => {
@@ -114,7 +116,7 @@ const Allergies= () => {
     );
     if (index >= 0 && scrollViewRef.current) {
       setHighlightIndex(index);
-      scrollViewRef.current.scrollTo({ y: index * 50, animated: true });
+      scrollViewRef.current.scrollTo({ y: index * 20, animated: true });
       startBlinkingOnce();
     } else {
       Alert.alert("Sonuç Yok", "Aramanızla eşleşen bir alerji bulunamadı.");
@@ -139,7 +141,7 @@ const Allergies= () => {
           selectedAllergies: selectedAllergies
         });
       } catch (error) {
-        console.error("Error adding allergies: ", error);
+        console.error("Alerji eklerken hata oluştu: ", error);
       }
     }
   };
@@ -183,54 +185,63 @@ const Allergies= () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={backg} style ={styles.backgroundcontainer}>
+      <View style={styles.overlay}></View>
      
-      <BackButton targetScreen="Profile" />
-      <Title text={"Alerjilerim"}/>
-     
+        <BackButton targetScreen="Profile" />
+        <Title text={"Alerjilerim"}/>
+        
 
-      <View style={styles.inputContainer}>
-        <Input 
-          value={searchTerm} 
-          onChangeText={setSearchTerm} 
-          onIconPress={handleSearch}
-        />
+        <View style={styles.inputContainer}>
+          <Input 
+            value={searchTerm} 
+            onChangeText={setSearchTerm} 
+            onIconPress={handleSearch}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
         <AddButton title="Alerji Ekle" onPress={handleAddAllergy} />
         <DangerButton title="Hepsini Sil" onPress={handleDeleteAll} />
-        
-      </View>
-      
-      <ScrollView style={styles.scrollView} ref={scrollViewRef}>
-        <View style={styles.allergyContainer}  >
-         {allergies.map((allergy, index) => (
-            <Animated.View
-              key={index}
-              style={[
-                styles.checkboxWrapper,
-                index === highlightIndex && { opacity: fadeAnim }, 
-              ]}
-            >
-              <Checkbox
-                isChecked={selectedAllergies.includes(allergy)} 
-                onToggle={() => toggleCheckbox(index)} 
-                label={allergy} 
-              />
-            </Animated.View>
-          ))}
         </View>
-      </ScrollView>
+        
+        <ScrollView style={styles.scrollView} ref={scrollViewRef}>
+          <View style={styles.allergyContainer}  >
+            {allergies.map((allergy, index) => (
+              <Animated.View
+                key={index}
+                style={[
+                  styles.checkboxWrapper,
+                  index === highlightIndex && { opacity: fadeAnim }, 
+                ]}
+              >
+                <Checkbox
+                  isChecked={selectedAllergies.includes(allergy)} 
+                  onToggle={() => toggleCheckbox(index)} 
+                  label={allergy} 
+                />
+              </Animated.View>
+            ))}
+          </View>
+        </ScrollView>
       
-    </View>
+      
+
+    </ImageBackground>
+    
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundcontainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 20,
     backgroundColor: '#f5f5f5',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // Bu stil ile tam ekran kapsar
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Saydamlık için rgba kullanıyoruz (0.3 saydamlık)
   },
   allergyContainer: {
     flexDirection: 'row',
@@ -242,8 +253,12 @@ const styles = StyleSheet.create({
   checkboxWrapper: {
     width:'48%',
     marginBottom:15,
-    
-  
+  },
+  buttonContainer:{
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    width :'60%',
+    marginTop: 15,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -257,7 +272,6 @@ const styles = StyleSheet.create({
   scrollView:{
     flex:1,
     width:'100%',
-    marginTop: 10,
   },
 
 });

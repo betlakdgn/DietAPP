@@ -18,10 +18,11 @@ const TextInputComponent = ({ placeholder, secureTextEntry, value, onChangeText,
         secureTextEntry={secureTextEntry && !isPasswordVisible} 
         value={value}
         onChangeText={onChangeText}
+        placeholderTextColor="#A9A9A9"
       />
       {onIconPress && (
         <TouchableOpacity onPress={onIconPress} style={styles.iconContainer}>
-          <Ionicons name="search" size={20} color= "black" />
+          <Ionicons name="search" size={25} color= "#A9A9A9" />
         </TouchableOpacity>
       )}
       {secureTextEntry && (
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 200,
+    width: '90%',
     marginVertical: 10,
   },
   input: {
@@ -46,12 +47,14 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#fff',
     borderRadius: 8,
-    paddingHorizontal: 10,
-    borderColor: '#ccc',
+    paddingHorizontal: 15,
+    borderColor: '#E0E0E0',
     borderWidth: 1,
+    fontSize: 16,
+    color: '#333',
   },
   iconContainer: {
-    
+    marginLeft:10,
   },
 });
 

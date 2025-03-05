@@ -11,7 +11,8 @@ import {auth} from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword} from '../utils/validation';
-
+import { ImageBackground } from 'react-native';
+import background from '../assets/backgroun.jpg';
 
 const Login = () => {
   const navigation =useNavigation();
@@ -68,47 +69,53 @@ const Login = () => {
     }
   };
   return (
-    <View style={styles.container}>
-      
-      <BackButton targetScreen="MainLoginPage" />
+    <ImageBackground source={background} style ={styles.backgroundcontainer}>
+      <View style={styles.overlay}></View>
+        <BackButton targetScreen="MainLoginPage" />
 
-      
-      <IconFrame imageSource={require('../assets/myIcon.png')} />
+        
+        <IconFrame imageSource={require('../assets/myIcon.png')} />
 
-      
-      <TextInputComponent
-        placeholder="E-posta"
-        value={email}
-        onChangeText={setEmail}
-      />
+        
+        <TextInputComponent
+          placeholder="E-posta"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-      
-      <TextInputComponent
-        placeholder="Şifre"
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-      />
+        
+        <TextInputComponent
+          placeholder="Şifre"
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+        />
 
-      {errorMessage !== '' && (
-        <Text style={styles.errorMessage}>{errorMessage}</Text>
-      )}
+        {errorMessage !== '' && (
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+        )}
 
-      
-      <ForgotPassword onPress={handleForgotPassword} />
+        
+        <ForgotPassword onPress={handleForgotPassword} />
 
+        
+        <ButtonComponent title="Giriş Yap" onPress={handleLogin} />
       
-      <ButtonComponent title="Giriş Yap" onPress={handleLogin} />
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundcontainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 20,
     backgroundColor: '#f5f5f5',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject, // Bu stil ile tam ekran kapsar
+    backgroundColor: 'rgba(255, 255, 255, 0.4)', // Saydamlık için rgba kullanıyoruz (0.3 saydamlık)
   },
   errorMessage: {
     color: 'red',

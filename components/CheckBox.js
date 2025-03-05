@@ -1,12 +1,12 @@
-
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {MaterialIcons} from '@expo/vector-icons';
 
 const Checkbox = ({ isChecked, onToggle, label }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onToggle}  >
       <View style={[styles.checkbox, isChecked && styles.checked]}>
-       {isChecked && <Text style={styles.checkmark}>✓</Text>} 
+       {isChecked && <MaterialIcons name="check" size={15} color="white" />}
       </View>
       <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
@@ -17,32 +17,25 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5,
-    flexWrap:'wrap',
-    
-    
+    marginVertical: 10,
   },
   checkbox: {
-    width: 30,
-    height: 30,
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 3,
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: '#FFB6C1', // Soft pastel pink border
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 10,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor: 'white',
     
   },
   checked: {
-    backgroundColor: '#4CAF50',
-  },
-  checkmark:{
-    color:'white',
-    fontSize:16,
+    backgroundColor: '#FFB6C1',
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
+    color: '#333',
   },
 });
 

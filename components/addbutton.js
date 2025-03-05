@@ -11,17 +11,18 @@ const AddButton = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FFB6C1',  // Soft pastel pink
     paddingVertical: 12,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-    marginHorizontal: 5,
+    paddingHorizontal: 16,
+    borderRadius: 25,  // More rounded edges for a soft look
     alignItems: 'center',
+    marginVertical: 8,
+    elevation: 3,
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',  // White text for contrast
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
 });
 

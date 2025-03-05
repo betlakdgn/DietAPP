@@ -28,7 +28,7 @@ const BottomButtons = () => {
         style={[styles.button, styles.leftButton]}
         onPress={handleLeftButtonPress}
       >
-        <FontAwesome name="user" size={35} color="white" />
+        <FontAwesome name="user" size={30} color="white" />
       </TouchableOpacity>
 
       <TouchableOpacity 
@@ -46,20 +46,21 @@ const styles = StyleSheet.create({
     position: 'absolute', 
     left: 0,
     right: 0,
-    bottom: 80, 
+    bottom: 50, 
     flexDirection: 'row',
     justifyContent: 'space-between', 
     paddingHorizontal: 20, 
     zIndex: 10, 
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FFB6C1', // Soft pastel pink
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
     width: 70,
     height: 70,
-    borderRadius: 35, 
+    borderRadius: 35, // Circular buttons
+    elevation: 5,
   },
 });
 

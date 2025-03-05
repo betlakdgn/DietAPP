@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-const ProfileFrame = ({ imageSource }) => {
+const ProfileFrame = ({ photo }) => {
   return (
     <View style={styles.frame}>
-      <Image source={imageSource} style={styles.image} />
+      <Image source={{ uri: photo }} style={styles.image} />
     </View>
   );
 };
@@ -17,13 +17,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#ccc',
     overflow: 'hidden',
-    alignSelf:'flex-start',
-    justifyContent: 'space-between',
     marginBottom: 20,
-    flexDirection:'column',
-    
-    
-
+    alignSelf: 'flex-start',
+    overflow: 'hidden',
     
   },
   image: {
