@@ -7,7 +7,7 @@ import DangerButton from '../components/DangerButton';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import backg from '../assets/backg.jpg';
 
 const Profile = () => {
@@ -16,31 +16,28 @@ const Profile = () => {
   const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!auth.currentUser) {
-          Alert.alert("Hata", "Kullanıcı giriş yapmamış.");
-          return;
-        }
+    const userId = auth.currentUser?.uid;
+
+    if (!userId) {
+      Alert.alert("Hata", "Kullanıcı giriş yapmamış.");
+      return;
+    }
+
     
-        const userId = auth.currentUser.uid;
-        const docRef = doc(db, "users", userId);
-        const docSnap = await getDoc(docRef);
-    
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setUserData(data);
-          setPhoto(data.profilePhoto || null);
-        } else {
-          Alert.alert("Hata", "Kullanıcı bilgileri bulunamadı.");
-        }
-      } catch (error) {
-        console.error("Firestore bağlantı hatası:", error);
-        Alert.alert("Hata", "Kullanıcı bilgileri alınırken bir hata oluştu.");
+    const userRef = doc(db, "users", userId);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setUserData(data);
+        setPhoto(data.profilePhoto || null);
+      } else {
+        Alert.alert("Hata", "Kullanıcı bilgileri bulunamadı.");
       }
-    };
+    });
+
     
-    fetchData(); 
+    return () => unsubscribe();
+
   }, []);
 
   const handleSignOut = async () => {
@@ -147,6 +144,8 @@ const styles = StyleSheet.create({
       left: 20,
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'flex-start',
+      width:'100%',
     },
     textContainer: {
       marginLeft: 10, 
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     cameraIconContainer: {
       position: 'absolute',
       bottom: 20,
-      right: 180,
+      right: 300,
     },
     buttonsContainer: {
       flexDirection: 'column',

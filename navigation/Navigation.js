@@ -10,6 +10,7 @@ import SignUp from '../screens/SignUp';
 import MainScreen from '../screens/MainScreen';
 import PhotoPreview from '../screens/PhotoPreview';
 import CameraScreen from '../screens/CameraScreen';
+import ProfileSettings from '../screens/ProfileSettings';
 import { onAuthStateChanged } from 'firebase/auth';
 import {auth} from '../firebase';
 
@@ -51,7 +52,7 @@ const Navigation = () => {
             <Stack.Screen name="Allergies" component={Allergies} />
             <Stack.Screen name="PhotoPreview" component={PhotoPreview}/> 
             <Stack.Screen name="CameraScreen" component={CameraScreen} />
-          
+            <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
           </>
         ) : (
           <>

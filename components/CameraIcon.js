@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const CameraIcon = ({setPhoto}) => {
-  const [photo, setphoto] = useState(null);
+const CameraIcon = ({ setPhoto }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handlePhotoSelection = () => {
-    Alert.alert(
-      "Fotoğraf Seç",
-      "Kamera ya da Galeri Seçin",
-      [
-        { text: "Kamera", onPress: handleCamera },
-        { text: "Galeriden Seç", onPress: handleGallery },
-        { text: "İptal", style: "cancel" }
-      ],
-      { cancelable: true }
-    );
+    setIsModalVisible(true); 
   };
-
 
   const handleCamera = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('İzin Gerekli', 'Kamerayı kullanabilmek için izin vermelisiniz.');
+      alert('İzin Gerekli', 'Kamerayı kullanabilmek için izin vermelisiniz.');
       return;
     }
 
@@ -35,15 +24,16 @@ const CameraIcon = ({setPhoto}) => {
     });
 
     if (!result.canceled) {
-      setPhoto(result.assets[0].uri); // Seçilen fotoğrafın URI'sini kaydet
-      uploadPhoto(result.assets[0].uri); // Fotoğrafı sunucuya yükle
+      setPhoto(result.assets[0].uri); 
+      uploadPhoto(result.assets[0].uri); 
     }
+    setIsModalVisible(false); 
   };
 
   const handleGallery = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('İzin Gerekli', 'Galeriyi kullanabilmek için izin vermelisiniz.');
+      alert('İzin Gerekli', 'Galeriyi kullanabilmek için izin vermelisiniz.');
       return;
     }
 
@@ -54,9 +44,10 @@ const CameraIcon = ({setPhoto}) => {
     });
 
     if (!result.canceled) {
-      setPhoto(result.assets[0].uri); // Seçilen fotoğrafın URI'sini kaydet
-      uploadPhoto(result.assets[0].uri); // Fotoğrafı sunucuya yükle
+      setPhoto(result.assets[0].uri); 
+      uploadPhoto(result.assets[0].uri); 
     }
+    setIsModalVisible(false); 
   };
 
   const uploadPhoto = async (uri) => {
@@ -75,28 +66,58 @@ const CameraIcon = ({setPhoto}) => {
 
       const data = await response.json();
       if (data.url) {
-        Alert.alert('Başarılı', 'Fotoğraf başarıyla yüklendi!');
-        setphoto(data.url)
-        console.log('Fotoğraf URL:', data.url); 
-        
+        alert('Başarılı', 'Fotoğraf başarıyla yüklendi!');
+        console.log('Fotoğraf URL:', data.url);
       }
     } catch (error) {
       //console.error('Fotoğraf yükleme hatası:', error);
-      //Alert.alert('Hata', 'Fotoğraf yüklenirken bir hata oluştu.');
+      //alert('Hata', 'Fotoğraf yüklenirken bir hata oluştu.');
     }
   };
-  
-
-  
 
   return (
     <View style={styles.iconContainer}>
       <Icon name="camera-alt" size={22} color="white" onPress={handlePhotoSelection} />
+      
+     
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Fotoğraf Seç</Text>
+            <TouchableOpacity style={styles.modalButton} onPress={handleCamera}>
+              <View style={styles.buttonContent}>
+                <Icon name="camera" size={20} color="white" />
+                <Text style={styles.buttonText}>Kamera</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalButton} onPress={handleGallery}>
+              <View style={styles.buttonContent}>
+                <Icon name="image" size={20} color="white" />
+                <Text style={styles.buttonText}>Galeriden Seç</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => setIsModalVisible(false)}
+            >
+              <View style={styles.buttonContent}>
+                <Icon name="close" size={20} color="white" />
+                <Text style={styles.buttonText}>İptal</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   iconContainer: {
     backgroundColor: '#FFB6C1',
     width: 35,
@@ -106,6 +127,43 @@ const styles = {
     alignItems: 'center',
     elevation: 5,
   },
-};
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: '70%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalButton: {
+    width: '100%',
+    paddingVertical: 15,
+    marginBottom: 10,
+    backgroundColor: '#FFB6C1',
+    borderRadius: 5,
+    alignItems: 'center',
+    flexDirection: 'row', 
+    justifyContent: 'center',
+  },
+  buttonContent: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'white',
+    marginLeft: 10, 
+  },
+});
 
 export default CameraIcon;
