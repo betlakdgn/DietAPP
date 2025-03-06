@@ -47,6 +47,10 @@ const PhotoPreview = ({ route }) => {
     fetchDataset();
   }, []);
 
+  useEffect(() => {
+    handleOcrProcess(); // OCR işlemini başlatıyoruz
+  }, []); 
+
   const handleOcrProcess = async () => {
     const API_KEY = 'K83471230088957'; // OCR.Space API anahtarınızı ekleyin
     const url = 'https://api.ocr.space/parse/image';

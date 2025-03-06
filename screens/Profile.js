@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from '../firebase';
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import backg from '../assets/backg.jpg';
+import Animated, { Easing, FadeIn, FadeOut, withTiming } from 'react-native-reanimated';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -23,7 +24,6 @@ const Profile = () => {
       return;
     }
 
-    
     const userRef = doc(db, "users", userId);
     const unsubscribe = onSnapshot(userRef, (docSnap) => {
       if (docSnap.exists()) {
@@ -35,20 +35,16 @@ const Profile = () => {
       }
     });
 
-    
     return () => unsubscribe();
-
   }, []);
 
   const handleSignOut = async () => {
     try {
-
       if (photo && auth.currentUser) {
         const userId = auth.currentUser.uid;
         const userRef = doc(db, "users", userId);
-        await updateDoc(userRef, { profilePhoto: photo });  // Fotoğrafı Firestore'a kaydet
+        await updateDoc(userRef, { profilePhoto: photo });
       }
-
       await signOut(auth);  
       
       if (navigation) {
@@ -83,23 +79,24 @@ const Profile = () => {
     }
   };
 
-
-  
-
   return (
     <ImageBackground source={backg} style={styles.backgroundcontainer}>
       <View style={styles.overlay}></View>
-   
+
       {userData ? (
         <>
           <View style={styles.profileContainer}>
             {photo ? (
-              <ProfileFrame photo={photo} />
+              <Animated.View entering={FadeIn.duration(1000)} exiting={FadeOut.duration(1000)}>
+                <ProfileFrame photo={photo} />
+              </Animated.View>
             ) : (
               <ProfileFrame />
             )}
             <View style={styles.textContainer}>
-              <Text style={styles.text}>{`${userData?.firstName || ''} ${userData?.lastName || ''}`}</Text>
+              <Animated.Text entering={FadeIn.duration(1200)} style={styles.text}>
+                {`${userData?.firstName || ''} ${userData?.lastName || ''}`}
+              </Animated.Text>
             </View>
             <View style={styles.cameraIconContainer}>
               <CameraIcon setPhoto={handlePhotoUpdate} />
@@ -119,57 +116,57 @@ const Profile = () => {
     </ImageBackground>
   );
 };
-const styles = StyleSheet.create({
-    backgroundcontainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      paddingTop: 20,
-      backgroundColor: '#f5f5f5',
-    },
-    overlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(255, 255, 255, 0.4)', 
-    },
-    text: {
-      fontSize: 28,
-      fontWeight: '800',
-      color: '#333', 
-      textAlign: 'left',
-      fontFamily: 'Roboto',
-    },
-    profileContainer: {
-      position: 'absolute', 
-      top: 80,
-      left: 20,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      width:'100%',
-    },
-    textContainer: {
-      marginLeft: 10, 
-    },
-    cameraIconContainer: {
-      position: 'absolute',
-      bottom: 20,
-      right: 300,
-    },
-    buttonsContainer: {
-      flexDirection: 'column',
-      justifyContent: 'space-around',
-      alignItems: 'stretch',
-      marginTop: 300,
-      width: '100%',
-    },
-    signout: {
-      position: 'absolute',
-      width: 150,
-      height: 150,
-      left: 110,
-      top: 200,
-    },
-});
 
+const styles = StyleSheet.create({
+  backgroundcontainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)', 
+  },
+  text: {
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#333', 
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
+  profileContainer: {
+    position: 'absolute', 
+    top: 150,
+    left: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width:'100%',
+  },
+  textContainer: {
+    marginLeft: 10, 
+  },
+  cameraIconContainer: {
+    position: 'absolute',
+    bottom: 20,
+    right: 300,
+  },
+  buttonsContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'stretch',
+    marginTop: 400,
+    width: '100%',
+  },
+  signout: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    left: 110,
+    top: 200,
+  },
+});
 
 export default Profile;

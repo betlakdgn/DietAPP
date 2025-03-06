@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from '@expo/vector-icons';
 import { auth } from '../firebase';
@@ -22,6 +23,29 @@ const BottomButtons = () => {
     }
   };
 
+  
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert("İzin Gerekli", "Lütfen galeriden fotoğraf seçmek için izin verin.");
+      return;
+    }
+  
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      console.log("Seçilen resim:", result.assets[0].uri);
+      // Seçilen resmi PhotoPreview ekranına göndermek için navigasyon yap
+      navigation.navigate('PhotoPreview', { photoUri: result.assets[0].uri });
+    }
+  };
+  
+
   return (
     <View style={styles.container}>
       <TouchableOpacity 
@@ -33,7 +57,7 @@ const BottomButtons = () => {
 
       <TouchableOpacity 
         style={[styles.button, styles.rightButton]}
-        onPress={() => navigation.navigate("MainScreen")}
+        onPress={pickImage}  // Galeriye erişim sağla
       >
         <FontAwesome name="image" size={30} color="white" />
       </TouchableOpacity>
@@ -53,13 +77,13 @@ const styles = StyleSheet.create({
     zIndex: 10, 
   },
   button: {
-    backgroundColor: '#FFB6C1', // Soft pastel pink
+    backgroundColor: '#FFB6C1', 
     padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
     width: 70,
     height: 70,
-    borderRadius: 35, // Circular buttons
+    borderRadius: 35, 
     elevation: 5,
   },
 });
