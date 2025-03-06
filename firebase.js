@@ -22,10 +22,7 @@ const auth = initializeAuth(app, {
 });
 
 const db = getFirestore(app);
+const realtimeDb = getDatabase(app);
 
-// Offline persistence devre dışı bırakılıyor, cache ayarı yapılmıyor
-// const db = getFirestore(app);  // Firestore'u sadece çevrimiçi kullanıyoruz.
+export { auth , db, realtimeDb};
 
-export { auth };
-export { db };
-export const storage = getDatabase(app);

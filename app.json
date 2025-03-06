@@ -12,6 +12,15 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "permissions": {
+            "camera": "Kamerayı kullanmak için izin gerekiyor.",
+            "photos": "Fotoğraflarına erişmek için izin gerekiyor."
+          }
+        }
       ]
     ],
     "platforms": [
@@ -36,11 +45,6 @@
     "android": {
       "newArchEnabled": true,
       "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE",
