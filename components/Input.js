@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   input: {
-    flex: 1, // TextInput alanını mümkün olduğunca genişlet
+    flex: 1,
     height: 50,
     backgroundColor: '#fff',
     borderRadius: 8,

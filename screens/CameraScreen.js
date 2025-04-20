@@ -1,57 +1,73 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity} from 'react-native';
-import { CameraView, useCameraPermissions } from 'expo-camera';
-import { FontAwesome} from '@expo/vector-icons';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Camera, CameraType} from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
+import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import CameraButton from '../components/CameraButton';
 
 const CameraScreen = () => {
   const navigation = useNavigation();
-  const [hasPermission, setHasPermission] = useState(null);
-  const [facing, setFacing] = useState('back');  
-  const [photo, setPhoto] = useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [image, setImage] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const { status } = await useCameraPermissions();
-      setHasPermission(status === 'granted');
+      MediaLibrary.requestPermissionsAsync();
+      const cameraStatus = await Camera.requestCameraPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+
     })();
-  }, []);
+  }, [])
 
-  /*if (hasPermission === null) {
-    return <Text>Loading...</Text>;
+
+  if (hasCameraPermission === false) {
+    return <Text>Kamera erişimi yok!</Text>;
   }
 
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
-  */
+  /*if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }*/
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const photoData = await cameraRef.current.takePictureAsync();
-      setPhoto(photoData.uri);  
-      navigation.navigate('PhotoPreview', { photoUri: photoData.uri });  
+      const photo = await cameraRef.current.takePictureAsync();
+      navigation.navigate('PhotoPreview', { photoUri: photo.uri });
     }
   };
- 
-  const toggleCameraFacing = () => {//çalışmıyor
-    setFacing((current) => (current === 'back' ? 'front' : 'back'));
-  };
+
 
 
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} type={facing} ref={cameraRef}>
-      
-        <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
-          <FontAwesome name="exchange" size={30} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
-            <FontAwesome name="camera" size={30} color="white" />
-          </TouchableOpacity>
-      </CameraView>
+      <Camera style={styles.camera} type={type} FlashMode={flash} ref={cameraRef}>
+        <View style={styles.cameraButtonContainer} >
+          <CameraButton icon={'retweet'} onPress={() => {
+            setType(type === CameraType.back ? CameraType.front : CameraType.back)
+          }} />
+          <CameraButton icon={'flash'}
+            color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
+            onPress={() => {
+              setFlash(flash === Camera.Constants.FlashMode.off 
+                ? Camera.Constants.FlashMode.on
+                : Camera.Constants.FlashMode.off
+              )
+            }} />
+        </View>
+      </Camera>
+      <View>
+
+        <CameraButton title={'Take a picture'} icon="camera" onPress={takePicture} />
+      </View>
     </View>
   );
 };
@@ -59,30 +75,15 @@ const CameraScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000',
     justifyContent: 'center',
-    alignItems: 'center',
+    paddingBottom: 20,
+
   },
   camera: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
+    borderRadius: 20,
   },
-  button: {
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    padding: 10,
-    borderRadius: 50,
-    position: 'absolute',
-    top: 30,
-    left: 20,
-  },
-  captureButton: {
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    padding: 15,
-    borderRadius: 50,
-    position: 'absolute',
-    bottom: 40,
-    left: '50%',
-    transform: [{ translateX: -35 }], 
-  }
 });
 
 export default CameraScreen;

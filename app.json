@@ -28,7 +28,7 @@
       "android"
     ],
     "ios": {
-      "bundleIdentifier": "com.myapp",
+      "bundleIdentifier": "com.betush.dietapp",
       "infoPlist": {
         "NSCameraUsageDescription": "We need access to your camera to take photos."
       },
@@ -45,9 +45,9 @@
     "android": {
       "newArchEnabled": true,
       "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
@@ -55,10 +55,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.myapp"
+      "package": "com.betush.dietapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c62bf0a9-c294-4ac4-a67d-f952b6d4642e"
+      }
     }
   }
 }

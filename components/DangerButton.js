@@ -11,16 +11,16 @@ const DangerButton = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#FF6F61',  // Soft red
+    backgroundColor: '#FF6F61',  
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 25,  // Rounded corners for a smoother look
+    borderRadius: 25,
     alignItems: 'center',
     marginVertical: 8,
     elevation: 3, 
   },
   buttonText: {
-    color: '#FFFFFF',  // White text for contrast
+    color: '#FFFFFF',  
     fontSize: 16,
     fontWeight: '500', 
   },

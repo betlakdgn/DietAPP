@@ -240,8 +240,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject, // Bu stil ile tam ekran kapsar
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Saydamlık için rgba kullanıyoruz (0.3 saydamlık)
+    ...StyleSheet.absoluteFillObject, 
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', 
   },
   allergyContainer: {
     flexDirection: 'row',

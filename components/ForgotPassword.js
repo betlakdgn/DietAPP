@@ -11,10 +11,10 @@ const ForgotPassword = ({ onPress }) => {
 
 const styles = StyleSheet.create({
   forgotPassword: {
-    color: '#FFB6C1', // Soft pastel pink, minimalist bir renk
+    color: '#FFB6C1',
     fontSize: 16,
-    fontWeight: '500', // Modern ve hafif font ağırlığı
-    textAlign: 'center', // Metni ortala
+    fontWeight: '500',
+    textAlign: 'center', 
     marginTop: 10,
     marginBottom: 20,
     left: 140,

@@ -40,7 +40,6 @@ const BottomButtons = () => {
   
     if (!result.canceled) {
       console.log("Seçilen resim:", result.assets[0].uri);
-      // Seçilen resmi PhotoPreview ekranına göndermek için navigasyon yap
       navigation.navigate('PhotoPreview', { photoUri: result.assets[0].uri });
     }
   };
@@ -57,7 +56,7 @@ const BottomButtons = () => {
 
       <TouchableOpacity 
         style={[styles.button, styles.rightButton]}
-        onPress={pickImage}  // Galeriye erişim sağla
+        onPress={pickImage} 
       >
         <FontAwesome name="image" size={30} color="white" />
       </TouchableOpacity>

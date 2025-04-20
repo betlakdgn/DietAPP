@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     position: 'absolute',
-    top: 40, // Adjusted for better placement
+    top: 40, 
     left: 15,
     zIndex: 1,
     

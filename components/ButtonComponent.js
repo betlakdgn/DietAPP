@@ -11,18 +11,18 @@ const ButtonComponent = ({ title, onPress, style }) => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#FFB6C1', // Soft pastel pink
+    backgroundColor: '#FFB6C1',
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 25, // Rounded corners for a modern feel
+    borderRadius: 25, 
     alignItems: 'center',
     marginVertical: 8,
-    elevation: 3, // Soft shadow effect for depth
+    elevation: 3,
   },
   buttonText: {
-    color: '#FFFFFF', // White text for contrast
+    color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: '500', // Lighter font weight for a modern feel
+    fontWeight: '500', 
   },
 });
 

@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: '#FFB6C1', // Soft pastel pink border
+    borderColor: '#FFB6C1', 
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,

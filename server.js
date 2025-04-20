@@ -55,7 +55,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ 
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Maksimum dosya boyutu 5MB
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter
 });
 
@@ -65,7 +65,7 @@ app.post('/upload', upload.single('photo'), (req, res) => {
     return res.status(400).send('No file uploaded');
   }
 
-  const fileUrl = `http://localhost:3000/uploads/${req.file.filename}`; // Sunucuda depolanan dosyanın URL'si
+  const fileUrl = `http://localhost:3000/uploads/${req.file.filename}`; 
   
 
   const newUserRef = db.ref('users').push(); 

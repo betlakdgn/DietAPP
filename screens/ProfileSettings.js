@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { db, auth } from '../firebase';  // Firebase configuration
+import { db, auth } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import IconFrame from '../components/IconFrame';
 import ButtonComponent from '../components/ButtonComponent';
@@ -18,8 +18,8 @@ const ProfileSettings = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Get the authenticated user's UID dynamically
-  const userUid = auth.currentUser?.uid;  // Use the current authenticated user's UID
+ 
+  const userUid = auth.currentUser?.uid; 
   
   useEffect(() => {
     if (!userUid) {
@@ -27,7 +27,7 @@ const ProfileSettings = () => {
       return;
     }
 
-    // Fetch user data from Firestore on initial render
+    
     const fetchUserData = async () => {
       try {
         const userRef = doc(db, 'users', userUid);
@@ -71,11 +71,11 @@ const ProfileSettings = () => {
           email,
         };
   
-        // Save the updated data to Firestore
+       
         await setDoc(userRef, updatedUserData);
   
         Alert.alert('Başarılı', 'Profiliniz başarıyla güncellendi');
-        navigation.goBack();  // Navigate back to Profile screen to see the changes
+        navigation.goBack();  
       } else {
         console.log('User not found in Firestore');
         Alert.alert('Hata', 'Kullanıcı verisi bulunamadı.');

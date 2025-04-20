@@ -13,25 +13,25 @@ const styles = StyleSheet.create({
   frame: {
     width: 120,
     height: 120,
-    borderRadius: 60, // Fully circular
-    borderWidth: 4, // Thicker border
-    borderColor: '#FFB6C1', // Soft pink border for a modern touch
-    backgroundColor: '#fff', // White background inside the frame
+    borderRadius: 60, 
+    borderWidth: 4,
+    borderColor: '#FFB6C1', 
+    backgroundColor: '#fff', 
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
-    elevation: 5, // Adds shadow for Android devices
+    elevation: 5,
     marginBottom: 20,
-    alignSelf: 'center', // Center the frame horizontally
+    alignSelf: 'center',
   },
   image: {
     width: '100%',
     height: '100%',
-    borderRadius: 60, // Ensure the image fits within the circular frame
-    resizeMode: 'cover', // Makes sure the image covers the frame area without stretching
+    borderRadius: 60, 
+    resizeMode: 'cover', 
   },
 });
 

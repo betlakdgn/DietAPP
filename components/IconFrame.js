@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 }, 
     shadowOpacity: 0.1,          
     shadowRadius: 45,             
-    elevation: 10,               // Android shadow
+    elevation: 10,               
     marginBottom: 50,
   },
   icon: {
-    borderRadius: 50,  // Ensures the image inside the container is also rounded
+    borderRadius: 50, 
   },
 });
 

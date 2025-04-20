@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, StyleSheet, Text, ActivityIndicator,Alert, ScrollView } from 'react-native';
 import BackButton from '../components/BackButton';
-import * as FileSystem from 'expo-file-system';  // Expo'nun FileSystem modülünü import ettik
-import * as ImageManipulator from 'expo-image-manipulator'; // Resim manipülasyonu için import ettik
+import * as FileSystem from 'expo-file-system'; 
+import * as ImageManipulator from 'expo-image-manipulator'; 
 import { db, auth } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import foodAllergens from '../data/food_allergens.json';
 
 const PhotoPreview = ({ route }) => {
   const { photoUri } = route.params;  
-  const [ocrResult, setOcrResult] = useState(''); // OCR sonucu için state
-  const [loading, setLoading] = useState(true); // Yükleme durumu başlangıçta aktif
+  const [ocrResult, setOcrResult] = useState(''); 
+  const [loading, setLoading] = useState(true); 
 
-   // Kullanıcı alerjilerini ve veri setini al
+   
   const [userAllergies, setUserAllergies] = useState([]);
   const [dataset, setDataset] = useState([]);
 
@@ -48,11 +48,11 @@ const PhotoPreview = ({ route }) => {
   }, []);
 
   useEffect(() => {
-    handleOcrProcess(); // OCR işlemini başlatıyoruz
+    handleOcrProcess(); 
   }, []); 
 
   const handleOcrProcess = async () => {
-    const API_KEY = 'K83471230088957'; // OCR.Space API anahtarınızı ekleyin
+    const API_KEY = 'K83471230088957'; // OCR.Space API anahtarı
     const url = 'https://api.ocr.space/parse/image';
 
     try {
@@ -67,11 +67,11 @@ const PhotoPreview = ({ route }) => {
         encoding: FileSystem.EncodingType.Base64,  
       });
 
-      // Görüntü formatını "image/jpeg" olarak belirleyin
+      
       const mimeType = 'image/jpeg'; 
       const base64ImageWithType = `data:${mimeType};base64,${base64Image}`;
 
-      // OCR API'ye istek gönder
+      
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -82,7 +82,7 @@ const PhotoPreview = ({ route }) => {
 
       const result = await response.json();
 
-      // API yanıtında metni al
+      
       if (result?.ParsedResults?.length > 0) {
         const parsedText = result.ParsedResults[0]?.ParsedText || 'Metin bulunamadı';
         setOcrResult(parsedText); 
@@ -214,10 +214,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   notSafe: {
-    backgroundColor: 'rgba(255, 0, 0, 0.7)', // Kırmızı
+    backgroundColor: 'rgba(255, 0, 0, 0.7)', 
   },
   safe: {
-    backgroundColor: 'rgba(0, 255, 0, 0.7)', // Yeşil
+    backgroundColor: 'rgba(0, 255, 0, 0.7)', 
   },
   stampText: {
     color: 'white',
