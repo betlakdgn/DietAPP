@@ -30,7 +30,7 @@ const CameraScreen = () => {
   const takePicture = async () => {
     if (cameraRef.current) {
       const photoData = await cameraRef.current.takePictureAsync();
-      setPhoto(photoData.uri);  
+      setPhoto(photoData.uri);
       navigation.navigate('PhotoPreview', { photoUri: photoData.uri });  
     }
   };

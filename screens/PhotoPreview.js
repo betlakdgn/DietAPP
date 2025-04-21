@@ -102,17 +102,22 @@ const PhotoPreview = ({ route }) => {
         },
         body: JSON.stringify({
           q: text,
-          target: 'en',  // İngilizceye çeviriyoruz
+          target: 'en',  
         }),
       });
 
       const responseData = await response.json();
+
+      if (responseData.data && responseData.data.translations) {
       const translatedText = responseData.data.translations[0].translatedText;
       console.log('Translated Text:', translatedText);
-      compareAllergies(translatedText); 
-    } catch (error) {
-      console.error('Çeviri Hatası:', error);
+      compareAllergies(translatedText);
+    } else {
+      console.error('Çeviri başarısız:', responseData);
     }
+  } catch (error) {
+    console.error('Çeviri Hatası:', error);
+  }
   };
 
   const cleanOcrText = (text) => {
