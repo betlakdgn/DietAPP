@@ -54,8 +54,8 @@ const Navigation = () => {
           },
           cardStyleInterpolator: ({ current, next }) => {
             const translateX = current.progress.interpolate({
-              inputRange: [0, 1],
-              outputRange: [300, 0], // Ekranın sağ tarafından sola kayma
+              inputRange: [1, 0],
+              outputRange: [0, 300], // Ekranın sağ tarafından sola kayma
             });
             return {
               cardStyle: {
