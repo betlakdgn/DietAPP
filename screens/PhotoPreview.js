@@ -12,10 +12,8 @@ const PhotoPreview = ({ route }) => {
   const { photoUri } = route.params;
   const [ocrResult, setOcrResult] = useState(''); 
   const [loading, setLoading] = useState(true); 
-  const [userAllergies, setUserAllergies] = useState([]);
-  const [matchedAllergies, setMatchedAllergies] = useState([]);
-  const [isAllergyMatch, setIsAllergyMatch] = useState(false);
-  const [isAllergySafe, setIsAllergySafe] = useState(false);
+  const [matchedAllergies, setMatchedAllergies] = useState([]); 
+  const [isAllergySafe, setIsAllergySafe] = useState(true); 
 
   const slideAnim = useRef(new Animated.Value(300)).current;
 
@@ -28,39 +26,22 @@ const PhotoPreview = ({ route }) => {
   }, []);
 
   useEffect(() => {
-    const fetchAllergies = async () => {
-      try {
-        const userDocRef = doc(db, "users", auth.currentUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        if (userDocSnap.exists()) {
-          setUserAllergies(userDocSnap.data().selectedAllergies || []);
-        }
-      } catch (error) {
-        console.error("Error fetching allergies:", error);
-      }
-    };
-
-
-    fetchAllergies();
-  }, []);
-
-  useEffect(() => {
     handleOcrProcess(); 
   }, []);
 
   const handleOcrProcess = async () => {
-    const API_KEY = 'K83471230088957'; // OCR.Space API anahtarı
+    const API_KEY = 'K83471230088957';
     const url = 'https://api.ocr.space/parse/image';
 
     try {
       const manipResult = await ImageManipulator.manipulateAsync(
         photoUri, 
-        [{ resize: { width: 800 } }], 
-        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG } 
+        [{ resize: { width: 800 } }],
+        { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
       );
 
       const base64Image = await FileSystem.readAsStringAsync(manipResult.uri, {
-        encoding: FileSystem.EncodingType.Base64,  
+        encoding: FileSystem.EncodingType.Base64, 
       });
 
       const mimeType = 'image/jpeg'; 
@@ -78,11 +59,11 @@ const PhotoPreview = ({ route }) => {
       if (result?.ParsedResults?.length > 0) {
         const parsedText = result.ParsedResults[0]?.ParsedText || 'Metin bulunamadı';
         setOcrResult(parsedText); 
-        translateText(parsedText); // Çeviriyi başlatıyoruz
+        translateText(parsedText);
       } else {
         setOcrResult('OCR işlemi sonucu bulunamadı.');
       }
-      setLoading(false); 
+      setLoading(false);
     } catch (error) {
       console.error('OCR Hatası:', error);
       setOcrResult('OCR işleminde bir hata oluştu.');
@@ -91,7 +72,7 @@ const PhotoPreview = ({ route }) => {
   };
 
   const translateText = async (text) => {
-    const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDU-lEpWpc2hiy9A-g50AZ81aJWYmeakg8'; // API anahtarınızı buraya ekleyin
+    const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDU-lEpWpc2hiy9A-g50AZ81aJWYmeakg8';
     const url = `https://translation.googleapis.com/language/translate/v2?key=${GOOGLE_TRANSLATE_API_KEY}`;
 
     try {
@@ -109,15 +90,23 @@ const PhotoPreview = ({ route }) => {
       const responseData = await response.json();
 
       if (responseData.data && responseData.data.translations) {
-      const translatedText = responseData.data.translations[0].translatedText;
-      console.log('Translated Text:', translatedText);
-      compareAllergies(translatedText);
-    } else {
-      console.error('Çeviri başarısız:', responseData);
+        const translatedText = responseData.data.translations[0].translatedText;
+        console.log('Translated Text:', translatedText);
+        
+        // Eğer kullanıcı giriş yapmamışsa, sadece OCR sonucu bulunan alerjenleri göster
+        if (auth.currentUser) {
+          compareAllergies(translatedText);
+        } else {
+          setMatchedAllergies([]); // Giriş yapmayan kullanıcılar için eşleşen alerjiler yok
+          setIsAllergySafe(true); // Güvenli (Çünkü karşılaştırma yapılmayacak)
+          showOcrAllergens(translatedText); // OCR sonucundan alerjenleri al ve göster
+        }
+      } else {
+        console.error('Çeviri başarısız:', responseData);
+      }
+    } catch (error) {
+      console.error('Çeviri Hatası:', error);
     }
-  } catch (error) {
-    console.error('Çeviri Hatası:', error);
-  }
   };
 
   const cleanOcrText = (text) => {
@@ -125,6 +114,24 @@ const PhotoPreview = ({ route }) => {
       .toLowerCase() 
       .replace(/[^a-z0-9\sçğıüöş]/g, '') 
       .trim(); 
+  };
+
+  const showOcrAllergens = (text) => {
+    const cleanedText = cleanOcrText(text); 
+    const foodAllergenMap = foodAllergens.reduce((acc, item) => {
+      acc[item.Food.toLowerCase()] = item.Allergy;
+      return acc;
+    }, {});
+
+    const matchedFoods = Object.keys(foodAllergenMap).filter((food) =>
+      cleanedText.includes(food)
+    );
+
+    const matchedAllergies = matchedFoods
+      .map((food) => foodAllergenMap[food])
+      .filter(Boolean);
+
+    setMatchedAllergies(matchedAllergies); 
   };
 
   const compareAllergies = async (text) => {
@@ -142,45 +149,37 @@ const PhotoPreview = ({ route }) => {
       .map((food) => foodAllergenMap[food])
       .filter(Boolean);
 
-    const userDocRef = doc(db, "users", auth.currentUser.uid);
-    const userDocSnap = await getDoc(userDocRef);
-    if (!userDocSnap.exists()) {
-      console.log("User document not found.");
-      return;
+    if (auth.currentUser) {
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (!userDocSnap.exists()) {
+        console.log("User document not found.");
+        return;
+      }
+
+      const data = userDocSnap.data();
+      const userCheckedAllergies = data.selectedAllergies || [];
+
+      const selectedUserAllergies = matchedAllergies.filter((allergy) => 
+        userCheckedAllergies.includes(allergy)
+      );
+
+      if (selectedUserAllergies.length > 0) {
+        setIsAllergySafe(false);  
+      } else if (matchedAllergies.length > 0) {
+        setIsAllergySafe(true);  
+      } else {
+        setIsAllergySafe(true);  
+      }
     }
 
-    const data = userDocSnap.data();
-    const userCheckedAllergies = data.selectedAllergies || [];
-
-    const selectedUserAllergies = matchedAllergies.filter((allergy) => 
-      userCheckedAllergies.includes(allergy)
-    );
-
-    if (selectedUserAllergies.length > 0) {
-      setIsAllergyMatch(true);
-      setIsAllergySafe(false);  
-    } else if (matchedAllergies.length > 0) {
-      setIsAllergyMatch(true);
-      setIsAllergySafe(true);  
-    } else {
-      setIsAllergyMatch(false);
-      setIsAllergySafe(true);  
-    }
     setMatchedAllergies(matchedAllergies);
   };
 
   return (
     <View style={styles.container}>
-
       <View style={styles.imageContainer}>
-       <BackButton targetScreen="MainScreen" />
         <Image source={{ uri: photoUri }} style={styles.image} />
-
-        <View style={[styles.stampOverlay, { borderColor: isAllergySafe ? 'green' : 'red' }]}>
-          <Text style={[styles.stampText, { color: isAllergySafe ? 'green' : 'red' }]}>
-            {isAllergySafe ? 'UYGUN' : 'UYGUN DEĞİL!'}
-          </Text>
-        </View>
       </View>
 
       <Animated.View style={[styles.bottomContainer, { transform: [{ translateY: slideAnim }] }]}>
@@ -188,11 +187,11 @@ const PhotoPreview = ({ route }) => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View style={styles.alertListContainer}>
-            <Text style={styles.alertListTitle}>UYARILAR:</Text>
+            <Text style={styles.alertListTitle}>⚠️ UYARILAR:</Text>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
               {matchedAllergies.length > 0 ? (
                 matchedAllergies.map((allergy, index) => (
-                  <Text key={index} style={styles.alertItem}>- {allergy}</Text>
+                  <Text key={index} style={styles.alertItem}>❗ {allergy}</Text>
                 ))
               ) : (
                 <Text style={styles.safeMessage}>Herhangi bir alerjen bulunamadı ✅</Text>
@@ -205,6 +204,7 @@ const PhotoPreview = ({ route }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -212,16 +212,18 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: 400,
-    alignItems: 'center',
+    height: '50%',
+    alignItems: 'stretch',
     justifyContent: 'center',
-    position: 'relative',
+    position: 'absolute',
+    top: 0,
+    left: 0,
     zIndex: 1,
   },
   image: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   stampOverlay: {
     position: 'absolute',
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     position: 'absolute',
-    top: 200,
+    top: '35%',
     left: 0,
     right: 0,
     height: '100%',

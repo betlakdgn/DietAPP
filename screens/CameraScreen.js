@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity} from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { FontAwesome} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import BottomButtons from '../components/BottomButtons';
 
 const CameraScreen = () => {
   const navigation = useNavigation();
@@ -43,14 +44,18 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} type={facing} ref={cameraRef}>
-      
-        <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
-          <FontAwesome name="exchange" size={30} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
+      <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+        <View style={styles.overlay}>
+          <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
+            <FontAwesome name="exchange" size={30} color="white" />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
             <FontAwesome name="camera" size={30} color="white" />
           </TouchableOpacity>
+
+          <BottomButtons />
+        </View>
       </CameraView>
     </View>
   );
@@ -59,30 +64,35 @@ const CameraScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   camera: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
   button: {
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    padding: 10,
-    borderRadius: 50,
     position: 'absolute',
     top: 30,
     left: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 10,
+    borderRadius: 50,
+    zIndex: 10,
   },
   captureButton: {
-    backgroundColor: 'rgba(0,0,0,0.5)', 
-    padding: 15,
-    borderRadius: 50,
     position: 'absolute',
     bottom: 40,
     left: '50%',
-    transform: [{ translateX: -35 }], 
-  }
+    transform: [{ translateX: -35 }],
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 15,
+    borderRadius: 50,
+    zIndex: 10,
+  },
 });
 
 export default CameraScreen;

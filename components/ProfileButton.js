@@ -11,6 +11,7 @@ const ProfileButtons = ({ onProfilePress, onAllergiesPress, targetScreen }) => {
     <View>
       <ButtonComponent title="Profilim" onPress={()=>navigation.navigate(ProfileSettings)} />
       <ButtonComponent title="Alerjilerim"  onPress={()=> navigation.navigate(Allergies)}/>
+      <ButtonComponent title="Kaydettiklerim" onPress={() => navigation.navigate(targetScreen)} />
     </View>
   );
 };

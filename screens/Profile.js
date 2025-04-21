@@ -50,7 +50,7 @@ const Profile = () => {
       if (navigation) {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'MainScreen' }]
+          routes: [{ name: 'CameraScreen' }]
         });
       } else {
         console.error("Navigation objesi bulunamadı.");
