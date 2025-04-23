@@ -6,7 +6,7 @@ import ButtonComponent from './ButtonComponent';
 const FormComponent = ({ formData, handleChange }) => {
   const [errors, setErrors] = useState({});
 
-  // Form doğrulama işlevi
+  
   const validate = () => {
     let newErrors = {};
 
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginBottom: 10,
-    alignContent: 'stretch',
+    width:'100%',
+    
   },
   errorText: {
     color: '#D9534F', 
