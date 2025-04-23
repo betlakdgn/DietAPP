@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import ButtonComponent from './ButtonComponent'; 
 import ProfileSettings from '../screens/ProfileSettings';
 import Allergies from '../screens/Allergies';
+import Saved from '../screens/Saved';
 
 const ProfileButtons = ({ onProfilePress, onAllergiesPress, targetScreen }) => {
   const navigation = useNavigation();
@@ -11,7 +12,7 @@ const ProfileButtons = ({ onProfilePress, onAllergiesPress, targetScreen }) => {
     <View>
       <ButtonComponent title="Profilim" onPress={()=>navigation.navigate(ProfileSettings)} />
       <ButtonComponent title="Alerjilerim"  onPress={()=> navigation.navigate(Allergies)}/>
-      <ButtonComponent title="Kaydettiklerim" onPress={() => navigation.navigate(targetScreen)} />
+      <ButtonComponent title="Kaydettiklerim" onPress={() => navigation.navigate(Saved)} />
     </View>
   );
 };

@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, StyleSheet, Text, ActivityIndicator, ScrollView } from 'react-native';
-import BackButton from '../components/BackButton';
+import {Alert, View, Image, StyleSheet, Text,TouchableOpacity,Modal,TextInput, ActivityIndicator, ScrollView } from 'react-native';
 import * as FileSystem from 'expo-file-system'; 
 import * as ImageManipulator from 'expo-image-manipulator'; 
 import { db, auth } from '../firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import foodAllergens from '../data/food_allergens.json';
 import { Animated } from 'react-native';
+import SaveButton from '../components/SaveButton';
+import SavePhotoModal from '../components/SavePhotoModal';
+import { useNavigation } from '@react-navigation/native';
+
 
 const PhotoPreview = ({ route }) => {
   const { photoUri } = route.params;
@@ -14,6 +17,10 @@ const PhotoPreview = ({ route }) => {
   const [loading, setLoading] = useState(true); 
   const [matchedAllergies, setMatchedAllergies] = useState([]); 
   const [isAllergySafe, setIsAllergySafe] = useState(true); 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [photoName, setPhotoName] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigation = useNavigation();
 
   const slideAnim = useRef(new Animated.Value(300)).current;
 
@@ -24,6 +31,63 @@ const PhotoPreview = ({ route }) => {
       useNativeDriver: true,
     }).start();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  
+    return () => unsubscribe(); 
+  }, []);
+
+  const handleSave = async () => {
+    if (!auth.currentUser) {
+      Alert.alert(
+        'Uyarı',
+        'Giriş yapmadınız. Giriş yapmak ister misiniz?',
+        [
+          { text: 'İptal', style: 'cancel' },
+          { text: 'Giriş Yap', onPress: () => navigation.navigate('MainLoginPage') },
+        ],
+        { cancelable: true }
+      );
+      return;
+    }
+
+    setModalVisible(true);
+  };
+  const handleSavePhoto = async (photoName) => {
+    if (!photoName || photoName.trim() === '') {
+      Alert.alert('Hata', 'Fotoğraf için bir isim girmeniz gerekiyor!');
+      return;
+    }
+  
+    try {
+      const userId = auth.currentUser.uid;
+      const docRef = doc(db, 'savedPhotos', `${userId}_${Date.now()}`);
+  
+      
+      await setDoc(docRef, {
+        userId,
+        photoName: photoName || `Fotoğraf - ${new Date().toLocaleString()}`,
+        photoUri,
+        matchedAllergies,
+        isAllergySafe,
+        createdAt: new Date().toISOString()
+      });
+  
+      setModalVisible(false); 
+      Alert.alert('Başarılı', 'Fotoğraf başarıyla kaydedildi!');
+      navigation.navigate('Saved');
+    } catch (error) {
+      console.error('Fotoğraf kaydedilirken hata oluştu:', error);
+      Alert.alert('Hata', 'Fotoğraf kaydedilirken bir sorun oluştu.');
+    }
+  };
 
   useEffect(() => {
     handleOcrProcess(); 
@@ -91,15 +155,15 @@ const PhotoPreview = ({ route }) => {
 
       if (responseData.data && responseData.data.translations) {
         const translatedText = responseData.data.translations[0].translatedText;
-        console.log('Translated Text:', translatedText);
+        //console.log('Translated Text:', translatedText);
         
-        // Eğer kullanıcı giriş yapmamışsa, sadece OCR sonucu bulunan alerjenleri göster
+        
         if (auth.currentUser) {
           compareAllergies(translatedText);
         } else {
-          setMatchedAllergies([]); // Giriş yapmayan kullanıcılar için eşleşen alerjiler yok
-          setIsAllergySafe(true); // Güvenli (Çünkü karşılaştırma yapılmayacak)
-          showOcrAllergens(translatedText); // OCR sonucundan alerjenleri al ve göster
+          setMatchedAllergies([]); 
+          setIsAllergySafe(true); 
+          showOcrAllergens(translatedText);
         }
       } else {
         console.error('Çeviri başarısız:', responseData);
@@ -176,12 +240,14 @@ const PhotoPreview = ({ route }) => {
     setMatchedAllergies(matchedAllergies);
   };
 
+  
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: photoUri }} style={styles.image} />
       </View>
-
+  
       <Animated.View style={[styles.bottomContainer, { transform: [{ translateY: slideAnim }] }]}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
@@ -199,9 +265,22 @@ const PhotoPreview = ({ route }) => {
             </ScrollView>
           </View>
         )}
+        
+        <SaveButton onPress={handleSave}/>
       </Animated.View>
+  
+      <SavePhotoModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSave={(photoName) => {
+          setPhotoName(photoName);
+          handleSavePhoto(photoName);
+        }}
+      />
+
     </View>
   );
+  
 };
 
 
@@ -225,39 +304,23 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
-  stampOverlay: {
-    position: 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: [{ translateX: -50 }, { translateY: -50 }],
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    borderRadius: 20,
-    borderWidth: 2,
-    zIndex: 3,
-  },
-  stampText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   bottomContainer: {
     position: 'absolute',
     top: '35%',
     left: 0,
     right: 0,
-    height: '100%',
+    bottom: 0, 
     backgroundColor: '#FFB6C1',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
-    zIndex: 2,
+    zIndex: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 8,
+    paddingBottom: 60, 
   },
   alertListTitle: {
     fontSize: 18,
@@ -278,5 +341,7 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
 });
+
+
 
 export default PhotoPreview;

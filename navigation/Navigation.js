@@ -10,6 +10,8 @@ import SignUp from '../screens/SignUp';
 import PhotoPreview from '../screens/PhotoPreview';
 import CameraScreen from '../screens/CameraScreen';
 import ProfileSettings from '../screens/ProfileSettings';
+import Saved from '../screens/Saved';
+import SavedDetails from '../screens/SavedDetails';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -64,6 +66,8 @@ const Navigation = () => {
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Allergies" component={Allergies} />
             <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
+            <Stack.Screen name="Saved" component={Saved} />
+            <Stack.Screen name="SavedDetails" component={SavedDetails} />
           </>
         ) : (
           <>
