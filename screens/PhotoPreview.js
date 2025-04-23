@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {Alert, View, Image, StyleSheet, Text,TouchableOpacity,Modal,TextInput, ActivityIndicator, ScrollView } from 'react-native';
+import {Alert, View, Image, StyleSheet, Text, ActivityIndicator, ScrollView } from 'react-native';
 import * as FileSystem from 'expo-file-system'; 
 import * as ImageManipulator from 'expo-image-manipulator'; 
 import { db, auth } from '../firebase';
@@ -9,6 +9,8 @@ import { Animated } from 'react-native';
 import SaveButton from '../components/SaveButton';
 import SavePhotoModal from '../components/SavePhotoModal';
 import { useNavigation } from '@react-navigation/native';
+import PhotoWithBadge from '../components/PhotoWithBadge';
+
 
 
 const PhotoPreview = ({ route }) => {
@@ -16,7 +18,7 @@ const PhotoPreview = ({ route }) => {
   const [ocrResult, setOcrResult] = useState(''); 
   const [loading, setLoading] = useState(true); 
   const [matchedAllergies, setMatchedAllergies] = useState([]); 
-  const [isAllergySafe, setIsAllergySafe] = useState(true); 
+  const [isAllergySafe, setIsAllergySafe] = useState(null); 
   const [modalVisible, setModalVisible] = useState(false);
   const [photoName, setPhotoName] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -246,6 +248,9 @@ const PhotoPreview = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: photoUri }} style={styles.image} />
+        {matchedAllergies.length > 0 && (
+          <PhotoWithBadge isAllergySafe={isAllergySafe} />
+        )}
       </View>
   
       <Animated.View style={[styles.bottomContainer, { transform: [{ translateY: slideAnim }] }]}>
@@ -294,7 +299,8 @@ const styles = StyleSheet.create({
     height: '50%',
     alignItems: 'stretch',
     justifyContent: 'center',
-    position: 'absolute',
+    position: 'relative',
+    overflow: 'hidden',
     top: 0,
     left: 0,
     zIndex: 1,
