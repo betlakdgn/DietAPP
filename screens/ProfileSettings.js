@@ -94,8 +94,6 @@ const ProfileSettings = () => {
     <ImageBackground source={background} style={styles.backgroundContainer}>
       <View style={styles.overlay}></View>
 
-      <BackButton targetScreen="MainProfilePage" />
-
       <IconFrame imageSource={require('../assets/myIcon.png')} />
 
       <TextInputComponent

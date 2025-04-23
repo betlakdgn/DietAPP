@@ -108,7 +108,13 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderWidth: 1, 
     borderRadius: 10, 
-    
+    backgroundColor: '#ffb6cc',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25, 
+    shadowRadius: 10, 
+    elevation: 10, 
+    opacity: 0.8,
   },
   photo: {
     width: 80,  
