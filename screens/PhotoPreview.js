@@ -14,7 +14,6 @@ import PhotoWithBadge from '../components/PhotoWithBadge';
 
 
 const PhotoPreview = ({ route }) => {
-  const { photoUri, barcode } = route.params;
   const [ocrResult, setOcrResult] = useState(''); 
   const [loading, setLoading] = useState(true); 
   const [matchedAllergies, setMatchedAllergies] = useState([]); 
@@ -46,14 +45,7 @@ const PhotoPreview = ({ route }) => {
     return () => unsubscribe(); 
   }, []);
 
-  useEffect(() => {
-  if (photoUri) {
-    handleOcrProcess();
-  } else if (barcode) {
-    fetchProductFromBarcode(barcode);
-  }
-  }, []);
-
+  
 
   
   const handleSave = async () => {
@@ -143,25 +135,6 @@ const PhotoPreview = ({ route }) => {
     } catch (error) {
       console.error('OCR Hatası:', error);
       setOcrResult('OCR işleminde bir hata oluştu.');
-      setLoading(false);
-    }
-  };
-
-  const fetchProductFromBarcode = async (barcode) => {
-    try {
-      const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
-      const data = await response.json();
-
-      if (data.status === 1) {
-        const ingredients = data.product.ingredients_text || '';
-        translateText(ingredients); // İngilizce değilse çevirip işleyebiliriz
-      } else {
-        setOcrResult('Ürün bulunamadı');
-      }
-    } catch (error) {
-      console.error('Barkoddan ürün çekme hatası:', error);
-      setOcrResult('Ürün bilgisi alınamadı.');
-    } finally {
       setLoading(false);
     }
   };

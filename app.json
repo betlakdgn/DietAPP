@@ -20,8 +20,7 @@
             "photos": "Fotoğraflarına erişmek için izin gerekiyor."
           }
         }
-      ],
-      "expo-barcode-scanner"
+      ]
     ],
     "platforms": [
       "ios",

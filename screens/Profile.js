@@ -50,7 +50,7 @@ const Profile = () => {
       if (navigation) {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Profile' }]
+          routes: [{ name: 'MainLoginPage' }]
         });
       } else {
         console.error("Navigation objesi bulunamadı.");

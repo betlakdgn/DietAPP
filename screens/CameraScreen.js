@@ -4,7 +4,6 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { FontAwesome} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import BottomButtons from '../components/BottomButtons';
-import {BarCodeScanner} from 'expo-barcode-scanner' ;
 
 const CameraScreen = () => {
   const navigation = useNavigation();
@@ -15,9 +14,7 @@ const CameraScreen = () => {
   const [scanned, setScanned] = useState(false);
 
   
-  const handleBarCodeScanned = async ({ data }) => {
-  setScanned(true); // tekrar taramayı engellemek için
-
+  
   try {
     const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`);
     const json = await response.json();
@@ -78,10 +75,6 @@ const CameraScreen = () => {
       style={styles.camera} 
       facing={facing} 
       ref={cameraRef}
-      barcodeScannerSettings={{
-        barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'code128', 'qr'],
-      }}
-      onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
       >
         <View style={styles.overlay}>
           <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
