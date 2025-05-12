@@ -14,7 +14,7 @@ import PhotoWithBadge from '../components/PhotoWithBadge';
 
 
 const PhotoPreview = ({ route }) => {
-  const { photoUri } = route.params;
+  const { photoUri, barcode } = route.params;
   const [ocrResult, setOcrResult] = useState(''); 
   const [loading, setLoading] = useState(true); 
   const [matchedAllergies, setMatchedAllergies] = useState([]); 
@@ -46,6 +46,16 @@ const PhotoPreview = ({ route }) => {
     return () => unsubscribe(); 
   }, []);
 
+  useEffect(() => {
+  if (photoUri) {
+    handleOcrProcess();
+  } else if (barcode) {
+    fetchProductFromBarcode(barcode);
+  }
+  }, []);
+
+
+  
   const handleSave = async () => {
     if (!auth.currentUser) {
       Alert.alert(
@@ -136,6 +146,26 @@ const PhotoPreview = ({ route }) => {
       setLoading(false);
     }
   };
+
+  const fetchProductFromBarcode = async (barcode) => {
+    try {
+      const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+      const data = await response.json();
+
+      if (data.status === 1) {
+        const ingredients = data.product.ingredients_text || '';
+        translateText(ingredients); // İngilizce değilse çevirip işleyebiliriz
+      } else {
+        setOcrResult('Ürün bulunamadı');
+      }
+    } catch (error) {
+      console.error('Barkoddan ürün çekme hatası:', error);
+      setOcrResult('Ürün bilgisi alınamadı.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const translateText = async (text) => {
     const GOOGLE_TRANSLATE_API_KEY = 'AIzaSyDU-lEpWpc2hiy9A-g50AZ81aJWYmeakg8';
@@ -246,13 +276,7 @@ const PhotoPreview = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: photoUri }} style={styles.image} />
-        {matchedAllergies.length > 0 && (
-          <PhotoWithBadge isAllergySafe={isAllergySafe} />
-        )}
-      </View>
-  
+      {photoUri && <Image source={{ uri: photoUri }} style={styles.image} />}
       <Animated.View style={[styles.bottomContainer, { transform: [{ translateY: slideAnim }] }]}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
@@ -270,10 +294,9 @@ const PhotoPreview = ({ route }) => {
             </ScrollView>
           </View>
         )}
-        
-        <SaveButton onPress={handleSave}/>
+        <SaveButton onPress={handleSave} />
       </Animated.View>
-  
+
       <SavePhotoModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
@@ -282,10 +305,8 @@ const PhotoPreview = ({ route }) => {
           handleSavePhoto(photoName);
         }}
       />
-
     </View>
   );
-  
 };
 
 

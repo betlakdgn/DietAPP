@@ -4,6 +4,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { FontAwesome} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import BottomButtons from '../components/BottomButtons';
+import {BarCodeScanner} from 'expo-barcode-scanner' ;
 
 const CameraScreen = () => {
   const navigation = useNavigation();
@@ -11,6 +12,35 @@ const CameraScreen = () => {
   const [facing, setFacing] = useState('back');  
   const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
+  const [scanned, setScanned] = useState(false);
+
+  
+  const handleBarCodeScanned = async ({ data }) => {
+  setScanned(true); // tekrar taramayı engellemek için
+
+  try {
+    const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`);
+    const json = await response.json();
+
+    if (json.status === 1 && json.product?.ingredients_text) {
+      const ingredients = json.product.ingredients_text;
+
+      navigation.navigate('PhotoPreview', {
+        scannedIngredients: ingredients,
+        photoUri: null, // OCR yok
+      });
+    } else {
+      Alert.alert('Ürün bulunamadı', 'Bu barkod için içerik bilgisi mevcut değil.');
+      setScanned(false);
+    }
+  } catch (error) {
+    console.error('API hatası:', error);
+    Alert.alert('Hata', 'Ürün bilgisi alınamadı.');
+    setScanned(false);
+  }
+  };
+
+  
 
   useEffect(() => {
     (async () => {
@@ -44,7 +74,15 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+      <CameraView 
+      style={styles.camera} 
+      facing={facing} 
+      ref={cameraRef}
+      barcodeScannerSettings={{
+        barcodeTypes: ['ean13', 'ean8', 'upc_a', 'upc_e', 'code128', 'qr'],
+      }}
+      onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+      >
         <View style={styles.overlay}>
           <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
             <FontAwesome name="exchange" size={30} color="white" />

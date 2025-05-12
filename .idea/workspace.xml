@@ -5,14 +5,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b3af08f-da1c-4130-9f79-de6dd4310591" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/BackButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/BackButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Form.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Form.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/DietAPP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DietAPP.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/myapp/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/myapp/MainApplication.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-hdpi/splashscreen_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-hdpi/splashscreen_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable-hdpi/splashscreen_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-mdpi/splashscreen_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-mdpi/splashscreen_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable-mdpi/splashscreen_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-xhdpi/splashscreen_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-xhdpi/splashscreen_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable-xhdpi/splashscreen_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-xxhdpi/splashscreen_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-xxhdpi/splashscreen_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable-xxhdpi/splashscreen_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-xxxhdpi/splashscreen_image.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable-xxxhdpi/splashscreen_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable-xxxhdpi/splashscreen_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable/splashscreen.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/CameraScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/CameraScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/PhotoPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/PhotoPreview.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/SignUp.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +87,9 @@
     &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;yedek&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/betla/OneDrive/Masaüstü/DietAPP&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Projects/DietAPP&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
   }
 }</component>

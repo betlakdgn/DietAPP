@@ -3,7 +3,6 @@
     "name": "DietAPP",
     "slug": "DietAPP",
     "version": "1.0.0",
-    "privacy": "public",
     "plugins": [
       [
         "expo-camera",
@@ -21,7 +20,8 @@
             "photos": "Fotoğraflarına erişmek için izin gerekiyor."
           }
         }
-      ]
+      ],
+      "expo-barcode-scanner"
     ],
     "platforms": [
       "ios",
