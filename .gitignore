@@ -80,3 +80,5 @@ yarn-error.*
 
 /android
 /ios
+
+.env

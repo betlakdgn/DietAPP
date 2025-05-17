@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { FontAwesome} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import BottomButtons from '../components/BottomButtons';
+import Toast from 'react-native-root-toast';
 
 const CameraScreen = () => {
   const navigation = useNavigation();
@@ -13,29 +14,52 @@ const CameraScreen = () => {
   const cameraRef = useRef(null);
   const [scanned, setScanned] = useState(false);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setScanned(false); 
+    });
+    return unsubscribe;
+  }, [navigation]);
   
-  
-  try {
-    const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${data}.json`);
-    const json = await response.json();
+  const fetchProductData = async (barcode) => {
+    try {
+      const response = await fetch(`https://world.openfoodfacts.org/api/v0/product/${barcode}.json`);
+      const json = await response.json();
 
-    if (json.status === 1 && json.product?.ingredients_text) {
-      const ingredients = json.product.ingredients_text;
+      if (json.status === 1 && json.product?.ingredients_text) {
+        const ingredients = json.product.ingredients_text;
 
-      navigation.navigate('PhotoPreview', {
-        scannedIngredients: ingredients,
-        photoUri: null, // OCR yok
-      });
-    } else {
-      Alert.alert('Ürün bulunamadı', 'Bu barkod için içerik bilgisi mevcut değil.');
+        navigation.navigate('PhotoPreview', {
+          scannedIngredients: ingredients,
+          photoUri: null, 
+        });
+      } else {
+        Toast.show('Ürün bulunamadı 🚫', {
+          duration: Toast.durations.SHORT,
+          position: Toast.positions.BOTTOM,
+        });
+        setScanned(false);
+      }
+    } catch (error) {
+      console.error('API hatası:', error);
+      Alert.alert('Hata', 'Ürün bilgisi alınamadı.');
       setScanned(false);
     }
-  } catch (error) {
-    console.error('API hatası:', error);
-    Alert.alert('Hata', 'Ürün bilgisi alınamadı.');
-    setScanned(false);
-  }
   };
+
+  const handleBarcodeScanned = ({ data }) => {
+    if (!scanned) {
+      setScanned(true); 
+      Toast.show(`Barkod: ${data}`, {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+      });
+      fetchProductData(data);
+    }
+  };
+
+
+
 
   
 
@@ -75,6 +99,7 @@ const CameraScreen = () => {
       style={styles.camera} 
       facing={facing} 
       ref={cameraRef}
+      onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
       >
         <View style={styles.overlay}>
           <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
