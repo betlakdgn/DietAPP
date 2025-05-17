@@ -43,7 +43,7 @@ const Navigation = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       <Stack.Navigator
         initialRouteName="CameraScreen"
         screenOptions={{

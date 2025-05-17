@@ -10,7 +10,7 @@ const HealthScoreBar = ({ score }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Sağlık Skoru: {score}/100</Text>
+      <Text style={styles.label}> {score}/100</Text>
       <View style={styles.barBackground}>
         <View style={[styles.barFill, { width: `${score}%`, backgroundColor: getColor() }]} />
       </View>
@@ -19,8 +19,17 @@ const HealthScoreBar = ({ score }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { marginVertical: 10 },
-  label: { fontSize: 16, fontWeight: 'bold', marginBottom: 4 },
+  container: { 
+    marginVertical: 10 
+  },
+  label: { 
+    fontSize: 15, 
+    fontWeight: 'bold', 
+    marginBottom: 10 ,
+    left: 320,
+   
+
+  },
   barBackground: {
     height: 20,
     width: '100%',

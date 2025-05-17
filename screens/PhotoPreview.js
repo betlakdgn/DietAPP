@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Image, StyleSheet, ActivityIndicator, Animated, Alert } from 'react-native';
+import { useState, useRef, useEffect } from 'react';
+import { View, Image, StyleSheet, ActivityIndicator, Animated, Alert, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../hooks/useAuth';
 import { usePhotoProcessing } from '../hooks/usePhotoProcessing';
@@ -7,11 +7,12 @@ import HealthScoreBar from '../components/HealthScoreBar';
 import AllergyWarnings from '../components/AllergyWarnings';
 import SaveButton from '../components/SaveButton';
 import SavePhotoModal from '../components/SavePhotoModal';
-import { savePhotoWithData } from '../utils/firebaseHelpers';
+import {savePhotoWithData}  from '../utils/firebaseHelpers';
 import PhotoWithBadge from '../components/PhotoWithBadge';
+import {calculateHealthScore} from '../utils/healthScore';
 
 const PhotoPreview = ({ route }) => {
-  const { photoUri, scannedIngredients, nuritionData } = route.params;
+  const { photoUri, scannedIngredients, nutritionData } = route.params;
   const { loading, matchedAllergies, isAllergySafe, ocrText } = usePhotoProcessing(photoUri, scannedIngredients);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,7 +28,7 @@ const PhotoPreview = ({ route }) => {
     Animated.timing(slideAnim, { toValue: 0, duration: 500, useNativeDriver: true }).start();
   }, []);
 
-  const score = nuritionData ? calculateHealthScore(nuritionData) : 0;
+  const score = nutritionData ? calculateHealthScore(nutritionData) : 0;
 
   const handleSave = () => {
     if (!user) {
@@ -41,6 +42,11 @@ const PhotoPreview = ({ route }) => {
   };
 
   const handleSavePhoto = async (name) => {
+    if (!photoUri) {
+      Alert.alert("Uyarı", "Bu veriyi kaydetmek için bir fotoğraf gerekli.");
+      return;
+    }
+    
     if (!name?.trim()) {
       Alert.alert('Hata', 'Fotoğraf için bir isim girmeniz gerekiyor!');
       return;
@@ -73,6 +79,24 @@ const PhotoPreview = ({ route }) => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
+            {nutritionData ? (
+              <>
+                <View style={styles.nutritionContainer}>
+                  <View style={styles.nutritionRow}>
+                    <Text style={styles.nutritionLabel}>Karbonhidrat</Text>
+                    <Text style={styles.nutritionLabel}>Yağ</Text>
+                    <Text style={styles.nutritionLabel}>Protein</Text>
+                  </View>
+                  <View style={styles.nutritionRow}>
+                    <Text style={styles.nutritionValue}>{nutritionData.carbohydrates?.toFixed(1)} g</Text>
+                    <Text style={styles.nutritionValue}>{nutritionData.fat?.toFixed(1)} g</Text>
+                    <Text style={styles.nutritionValue}>{nutritionData.proteins?.toFixed(1)} g</Text>
+                  </View>
+                </View>
+              </>
+            ) : (
+              <Text>Besin bilgisi yok</Text>
+            )}
             <HealthScoreBar score={score} />
             <AllergyWarnings matchedAllergies={matchedAllergies} />
             <SaveButton onPress={handleSave} />
@@ -111,13 +135,37 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 20,
-    paddingBottom: 60,
+    paddingBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 8,
   },
+  nutritionContainer: {
+  marginBottom: 20,
+  alignItems: 'center',
+  marginTop:20,
+},
+
+nutritionRow: {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  width: '100%',
+  marginBottom: 20,
+},
+nutritionLabel: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  width: '33%',
+  textAlign: 'center',
+},
+nutritionValue: {
+  fontSize: 18,
+  width: '33%',
+  textAlign: 'center',
+},
+
 });
 
 export default PhotoPreview;

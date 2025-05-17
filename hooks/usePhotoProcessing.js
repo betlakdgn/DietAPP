@@ -12,7 +12,37 @@ export const usePhotoProcessing = (photoUri, scannedIngredients) => {
 
   useEffect(() => {
     const process = async () => {
-      setLoading(true);
+      console.log('Processing started:', { photoUri, scannedIngredients });
+
+      if (!photoUri && !scannedIngredients) {
+        console.log('No data to process');
+        setLoading(false);
+        return;
+      }
+
+      if (scannedIngredients?.toLowerCase().includes("içindekiler bilgisi yok")) {
+        setMatchedAllergies([]);
+        setIsAllergySafe(true);
+        setLoading(false);
+        return;
+      }
+
+      if (!photoUri && scannedIngredients) {
+        setOcrText(scannedIngredients);
+        const userAllergies = await getUserSelectedAllergies();
+        const allergies = findMatchedAllergies(scannedIngredients);
+        const matchedUserAllergies = allergies.filter(a => userAllergies.includes(a));
+
+        setMatchedAllergies(allergies);
+        setIsAllergySafe(matchedUserAllergies.length === 0);
+        setLoading(false);
+        return;
+      }
+
+      if (!photoUri) {
+        setLoading(false);
+        return;
+      }
 
       let text = scannedIngredients || '';
 
@@ -31,18 +61,20 @@ export const usePhotoProcessing = (photoUri, scannedIngredients) => {
       }
 
       const allergies = findMatchedAllergies(translated);
-
       const userAllergies = await getUserSelectedAllergies();
-
       const matchedUserAllergies = allergies.filter(a => userAllergies.includes(a));
-
+      
       setMatchedAllergies(allergies);
       setIsAllergySafe(matchedUserAllergies.length === 0);
       setLoading(false);
     };
 
-    process();
+    process().catch(err => {
+      console.error('Error in process:', err);
+      setLoading(false);
+    });
   }, [photoUri, scannedIngredients]);
+
 
   return { loading, matchedAllergies, isAllergySafe, ocrText };
 };

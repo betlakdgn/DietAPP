@@ -21,11 +21,12 @@ const AllergyWarnings = ({ matchedAllergies }) => {
 const styles = StyleSheet.create({
   alertListContainer: {
     flex: 1,
+    marginTop: 50,
   },
   alertListTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 16,
   },
   alertItem: {
     fontSize: 16,
