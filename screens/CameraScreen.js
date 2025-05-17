@@ -76,8 +76,8 @@ const CameraScreen = () => {
 
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
-  }
-  */
+  }*/
+  
 
   const takePicture = async () => {
     if (cameraRef.current) {

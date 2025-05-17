@@ -39,7 +39,7 @@ const BottomButtons = () => {
     });
   
     if (!result.canceled) {
-      console.log("Seçilen resim:", result.assets[0].uri);
+      //console.log("Seçilen resim:", result.assets[0].uri);
       navigation.navigate('PhotoPreview', { photoUri: result.assets[0].uri });
     }
   };
