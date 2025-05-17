@@ -5,6 +5,7 @@ import { FontAwesome} from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import BottomButtons from '../components/BottomButtons';
 import Toast from 'react-native-root-toast';
+import { useIsFocused } from '@react-navigation/native';
 
 const CameraScreen = () => {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ const CameraScreen = () => {
   const [photo, setPhoto] = useState(null);
   const cameraRef = useRef(null);
   const [scanned, setScanned] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -95,24 +97,25 @@ const CameraScreen = () => {
 
   return (
     <View style={styles.container}>
-      <CameraView 
-      style={styles.camera} 
-      facing={facing} 
-      ref={cameraRef}
-      onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
-      >
-        <View style={styles.overlay}>
-          <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
-            <FontAwesome name="exchange" size={30} color="white" />
-          </TouchableOpacity>
+      {isFocused && (
+        <CameraView 
+        style={styles.camera} 
+        facing={facing} 
+        ref={cameraRef}
+        onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
+        >
+          <View style={styles.overlay}>
+            <TouchableOpacity onPress={toggleCameraFacing} style={styles.button}>
+              <FontAwesome name="exchange" size={30} color="white" />
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
-            <FontAwesome name="camera" size={30} color="white" />
-          </TouchableOpacity>
-
-          <BottomButtons />
-        </View>
-      </CameraView>
+            <TouchableOpacity onPress={takePicture} style={styles.captureButton}>
+              <FontAwesome name="camera" size={30} color="white" />
+            </TouchableOpacity>
+            <BottomButtons />
+          </View>
+        </CameraView>
+      )}
     </View>
   );
 };
