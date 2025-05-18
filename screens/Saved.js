@@ -9,10 +9,14 @@ const Saved = () => {
   const navigation = useNavigation();
   const [savedPhotos, setSavedPhotos] = useState([]);
 
-  useEffect(() => {
-    const fetchPhotos = async () => {
+  const fetchPhotos = async () => {
       try {
-        const userId = auth.currentUser.uid;
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          setSavedPhotos([]); 
+          return;
+        }
+        const userId = currentUser.uid;
         const q = query(
           collection(db, 'savedPhotos'),
           where('userId', '==', userId)
@@ -22,6 +26,7 @@ const Saved = () => {
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           photos.push({
+            id: doc.id,
             photoUri: data.photoUri,
             photoName: data.photoName || 'İsimsiz',
           });
@@ -29,11 +34,20 @@ const Saved = () => {
         setSavedPhotos(photos);
       } catch (error) {
         console.error('Fotoğraflar alınırken hata oluştu:', error);
+        setSavedPhotos([]);
       }
     };
-  
-    fetchPhotos();
-  }, []);
+
+    useEffect(() => {
+      fetchPhotos();
+    }, []);
+
+    useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        fetchPhotos();
+      });
+      return unsubscribe;
+    }, [navigation]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity

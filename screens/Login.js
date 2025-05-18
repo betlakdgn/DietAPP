@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Alert } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IconFrame from '../components/IconFrame'; 
@@ -47,7 +47,11 @@ const Login = () => {
   const handleChange = (name, value) => {
     setFormData({ ...formData, [name]: value });
     setErrorMessage({});
+
+    if (name === 'email') setEmail(value);
+    if (name === 'password') setPassword(value);
   };
+
 
 
   const handleLogin = async () => {
@@ -63,7 +67,7 @@ const Login = () => {
     setErrorMessage({});
   
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
       await AsyncStorage.setItem('userToken', user.uid);
       navigation.reset({
@@ -72,6 +76,7 @@ const Login = () => {
       });
 
     } catch (error) {
+      console.log('Login error:', error); 
       if (error.code === 'auth/wrong-password') {//bu kısım çalışmıyor
         Alert.alert(
           "Hata",

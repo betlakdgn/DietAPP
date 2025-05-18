@@ -42,10 +42,7 @@ const PhotoPreview = ({ route }) => {
   };
 
   const handleSavePhoto = async (name) => {
-    if (!photoUri) {
-      Alert.alert("Uyarı", "Bu veriyi kaydetmek için bir fotoğraf gerekli.");
-      return;
-    }
+    const photoToSave = photoUri || 'placeholder';
     
     if (!name?.trim()) {
       Alert.alert('Hata', 'Fotoğraf için bir isim girmeniz gerekiyor!');
@@ -54,15 +51,18 @@ const PhotoPreview = ({ route }) => {
 
     try {
       await savePhotoWithData({
-        photoUri,
+        photoUri: photoToSave,
         photoName: name,
         matchedAllergies,
         isAllergySafe,
+        nutritionData,
+        healthScore: score,
       });
       setModalVisible(false);
       Alert.alert('Başarılı', 'Fotoğraf başarıyla kaydedildi!');
       navigation.navigate('Saved');
     } catch (err) {
+      console.error('savePhotoWithData error:', err);
       Alert.alert('Hata', 'Kaydedilirken hata oluştu.');
     }
   };

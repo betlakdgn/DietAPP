@@ -38,7 +38,7 @@ export const useBarcodeScanner = (navigation) => {
 
 
   const onBarcodeScanned = ({ data, type }) => {
-    console.log('Tarandı:', data, 'Tip:', type);
+    //console.log('Tarandı:', data, 'Tip:', type);
     if (!scanned) {
       setScanned(true);
       Toast.show(`Barkod: ${data}`, {

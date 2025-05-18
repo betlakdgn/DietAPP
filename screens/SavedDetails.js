@@ -5,6 +5,7 @@ import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Animated } from 'react-native';
+import HealthScoreBar from '../components/HealthScoreBar';
 
 const SavedDetails = () => {
   const route = useRoute();
@@ -60,7 +61,9 @@ const SavedDetails = () => {
     ...photoDetails,
     photoName: photoDetails?.photoName || photo?.photoName || '',
     matchedAllergies: Array.isArray(photoDetails?.matchedAllergies) ? photoDetails.matchedAllergies : [],
-    createdAt: photoDetails?.createdAt?.toDate?.() || new Date(), // Firestore Timestamp ise
+    createdAt: photoDetails?.createdAt?.toDate?.() || new Date(), 
+    nutritionData: photoDetails?.nutritionData || null,
+    healthScore: photoDetails?.healthScore || 0,
   };
   
 
@@ -70,12 +73,18 @@ const SavedDetails = () => {
       await updateDoc(photoRef, {
         photoName: newPhotoName,
       });
+      // Güncel veriyi tekrar çek
+      const updatedDoc = await getDoc(photoRef);
+      if (updatedDoc.exists()) {
+        setPhotoDetails(updatedDoc.data());
+      }
       setEditMode(false);
       Alert.alert('Başarılı', 'Fotoğraf ismi güncellendi.');
     } catch (error) {
       Alert.alert('Hata', `Fotoğraf güncellenemedi. Hata: ${error.message}`);
     }
   };
+
 
   const handleDelete = async () => {
     Alert.alert(
@@ -91,7 +100,7 @@ const SavedDetails = () => {
               const photoRef = doc(db, 'savedPhotos', safePhoto.id);
               await deleteDoc(photoRef);
               Alert.alert('Silindi', 'Fotoğraf silindi.');
-              navigation.goBack();
+              navigation.navigate('Saved', { refresh: true });
             } catch (error) {
               Alert.alert('Hata', `Fotoğraf silinemedi. Hata: ${error.message}`);
             }
@@ -104,7 +113,13 @@ const SavedDetails = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapper}>
-        <Image source={{ uri: photo?.photoUri }} style={styles.image} />
+       {photo?.photoUri && photo.photoUri !== 'placeholder' ? (
+          <Image source={{ uri: photo.photoUri }} style={styles.image} />
+        ) : (
+          <View style={[styles.image, { backgroundColor: 'white', justifyContent:'center', alignItems:'center' }]}>
+          </View>
+        )}
+
         
         <View style={styles.iconContainer}>
           <TouchableOpacity onPress={() => setEditMode(!editMode)} style={styles.icon}>
@@ -132,6 +147,22 @@ const SavedDetails = () => {
           <>
             <Text style={styles.photoName}>{safePhoto.photoName}</Text>
 
+            <View style={styles.nutritionContainer}>
+              <Text style={styles.infoText}>Besin Değerleri:</Text>
+              {safePhoto.nutritionData ? (
+                <>
+                  <Text style={styles.nutritionText}>Karbonhidrat: {safePhoto.nutritionData.carbohydrates?.toFixed(1)} g</Text>
+                  <Text style={styles.nutritionText}>Yağ: {safePhoto.nutritionData.fat?.toFixed(1)} g</Text>
+                  <Text style={styles.nutritionText}>Protein: {safePhoto.nutritionData.proteins?.toFixed(1)} g</Text>
+                  <Text style={styles.infoText}>Sağlık Skoru: {safePhoto.healthScore}</Text>
+                  <HealthScoreBar score={safePhoto.healthScore} />
+
+                </>
+              ) : (
+                <Text style={styles.nutritionText}>Besin bilgisi yok</Text>
+              )}
+            </View>
+
             <Text style={styles.infoText}>Eşleşen Alerjiler: </Text>
             {safePhoto.matchedAllergies.length > 0 ? (
               safePhoto.matchedAllergies.map((item, index) => (
@@ -141,7 +172,7 @@ const SavedDetails = () => {
               <Text style={styles.alergies}>Yok</Text>
             )}
 
-            <Text style={styles.infoText}>Tarih: {new Date(safePhoto.createdAt).toLocaleString()}</Text>
+            <Text style={styles.dateText}>Tarih: {new Date(safePhoto.createdAt).toLocaleString()}</Text>
 
           </>
         )}
@@ -219,19 +250,32 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   saveButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
   },
   saveButtonText: {
-    color: '#fff',
+    color: '#FFB6C1',
     fontWeight: 'bold',
   },
   alergies: {
     fontSize: 16,
     color: 'black',
+  },
+  nutritionContainer: {
+  marginTop: 20,
+  },
+  nutritionText: {
+    fontSize: 16,
+    color: 'black',
+    marginBottom: 5,
+  },
+  dateText: {
+    fontSize:16,
+    marginTop:155,
   }
+
 });
 
 export default SavedDetails;
