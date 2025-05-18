@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Alert, ActivityIndicator, ImageBackground } from 'react-native';
+import { View, StyleSheet, Alert, ActivityIndicator, ImageBackground } from 'react-native';
 import ProfileFrame from '../components/ProfilePhotoFrame';
 import ProfileButtons from '../components/ProfileButton';
 import CameraIcon from '../components/CameraIcon';
@@ -33,7 +33,10 @@ const Profile = () => {
       } else {
         Alert.alert("Hata", "Kullanıcı bilgileri bulunamadı.");
       }
-    });
+    },  (error) => {
+    console.error("Firestore snapshot error:", error);
+    Alert.alert("Hata", "Veri alınırken hata oluştu.");
+  });
 
     return () => unsubscribe();
   }, []);
@@ -46,15 +49,6 @@ const Profile = () => {
         await updateDoc(userRef, { profilePhoto: photo });
       }
       await signOut(auth);  
-      
-      if (navigation) {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'MainLoginPage' }]
-        });
-      } else {
-        console.error("Navigation objesi bulunamadı.");
-      }
     } catch (error) {
       console.error('Çıkış yaparken hata oluştu:', error.message);
     }

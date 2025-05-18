@@ -16,14 +16,29 @@
   };
   
   export const validateForm = (formData) => {
-    const { firstName, lastName, email, password, confirmPassword } = formData;
-  
-    if (!validateName(firstName)) return "Lütfen adınızı girin.";
-    if (!validateName(lastName)) return "Lütfen soyadınızı girin.";
-    if (!validateEmail(email)) return "Geçerli bir e-posta adresi girin.";
-    if (!validatePassword(password)) return "Şifre en az 6 karakter uzunluğunda olmalıdır.";
-    if (password !== confirmPassword) return "Şifreler eşleşmiyor.";
-    
-    return null; 
-  };
+  const errors = {};
+
+  if (!formData.firstName) {
+    errors.firstName = "İsim gerekli";
+  }
+  if (!formData.lastName) {
+    errors.lastName = "Soyisim gerekli";
+  }
+  if (!formData.email) {
+    errors.email = "Email gerekli";
+  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    errors.email = "Geçerli email giriniz";
+  }
+  if (!formData.password) {
+    errors.password = "Şifre gerekli";
+  } else if (formData.password.length < 6) {
+    errors.password = "Şifre en az 6 karakter olmalı";
+  }
+  if (formData.password !== formData.confirmPassword) {
+    errors.confirmPassword = "Şifreler eşleşmiyor";
+  }
+
+  return errors;
+};
+
   

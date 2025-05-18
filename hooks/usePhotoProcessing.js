@@ -12,7 +12,7 @@ export const usePhotoProcessing = (photoUri, scannedIngredients) => {
 
   useEffect(() => {
     const process = async () => {
-      console.log('Processing started:', { photoUri, scannedIngredients });
+      //console.log('Processing started:', { photoUri, scannedIngredients });
 
       if (!photoUri && !scannedIngredients) {
         console.log('No data to process');

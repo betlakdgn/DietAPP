@@ -6,19 +6,30 @@ import IconFrame from '../components/IconFrame';
 import ButtonComponent from '../components/ButtonComponent'; 
 import TextInputComponent from '../components/Input'; 
 import ForgotPassword from '../components/ForgotPassword';
-import BackButton from '../components/BackButton';
 import {auth} from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword} from '../utils/validation';
 import { ImageBackground } from 'react-native';
 import background from '../assets/backgroun.jpg';
+import FormComponent from '../components/Form';
 
 const Login = () => {
   const navigation =useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [errorMessage, setErrorMessage] = useState({});
+
+  const loginFields = [
+    { name: 'email', placeholder: 'E-posta', secureTextEntry: false, keyboardType: 'email-address' },
+    { name: 'password', placeholder: 'Şifre', secureTextEntry: true }
+  ];
+
+
 
   const handleForgotPassword = async () => {
     if (!email) {
@@ -33,24 +44,33 @@ const Login = () => {
       Alert.alert("Hata", error.message);
     }
   };
+  const handleChange = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+    setErrorMessage({});
+  };
+
 
   const handleLogin = async () => {
-    if (!validateEmail(email)) {
-      Alert.alert("Hata", "Geçerli bir e-posta adresi girin.");
+    if (!validateEmail(formData.email)) {
+      setErrorMessage({ email: "Geçerli bir e-posta adresi girin." });
       return;
     }
-  
-    if (!validatePassword(password)) {
-      Alert.alert("Hata", "Şifre en az 6 karakter uzunluğunda olmalıdır.");
+
+    if (!validatePassword(formData.password)) {
+      setErrorMessage({ password: "Şifre en az 6 karakter uzunluğunda olmalıdır." });
       return;
     }
-    setErrorMessage('');
+    setErrorMessage({});
   
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       await AsyncStorage.setItem('userToken', user.uid);
-      navigation.navigate('Profile');
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Profile' }],
+      });
+
     } catch (error) {
       if (error.code === 'auth/wrong-password') {//bu kısım çalışmıyor
         Alert.alert(
@@ -71,34 +91,19 @@ const Login = () => {
   return (
     <ImageBackground source={background} style ={styles.backgroundcontainer}>
       <View style={styles.overlay}></View>
-        <BackButton targetScreen="MainLoginPage" />
-
-        
+                
         <IconFrame imageSource={require('../assets/myIcon.png')} />
 
-        
-        <TextInputComponent
-          placeholder="E-posta"
-          value={email}
-          onChangeText={setEmail}
+        <FormComponent
+          formData={formData}
+          handleChange={handleChange}
+          errors={errorMessage}
+          fields={loginFields}
         />
-
-        
-        <TextInputComponent
-          placeholder="Şifre"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-
-        {errorMessage !== '' && (
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        )}
 
         
         <ForgotPassword onPress={handleForgotPassword} />
 
-        
         <ButtonComponent title="Giriş Yap" onPress={handleLogin} />
       
     </ImageBackground>
