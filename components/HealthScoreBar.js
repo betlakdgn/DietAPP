@@ -27,8 +27,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', 
     marginBottom: 10 ,
     left: 320,
-   
-
   },
   barBackground: {
     height: 20,

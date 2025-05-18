@@ -61,7 +61,7 @@ const Navigation = () => {
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
         <Stack.Screen name="PhotoPreview" component={PhotoPreview} />
         {user ? (
-          <>
+          <>            
             
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="Allergies" component={Allergies} />
