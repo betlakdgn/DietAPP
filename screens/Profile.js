@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ActivityIndicator, ImageBackground } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, ImageBackground, TouchableOpacity } from 'react-native';
 import ProfileFrame from '../components/ProfilePhotoFrame';
 import ProfileButtons from '../components/ProfileButton';
 import CameraIcon from '../components/CameraIcon';
@@ -11,11 +11,16 @@ import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import backg from '../assets/backg.jpg';
 import Animated, { Easing, FadeIn, FadeOut, withTiming } from 'react-native-reanimated';
 import { alert } from '../components/alertService';
+import { Ionicons } from '@expo/vector-icons'; 
 
 const Profile = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState(null);
   const [photo, setPhoto] = useState(null);
+
+  const goToCamera = () => {
+    navigation.navigate('CameraScreen');
+  };
 
   useEffect(() => {
     const userId = auth.currentUser?.uid;
@@ -78,6 +83,10 @@ const Profile = () => {
     <ImageBackground source={backg} style={styles.backgroundcontainer}>
       <View style={styles.overlay}></View>
 
+      <TouchableOpacity onPress={goToCamera} style={styles.iconButton}>
+        <Ionicons name="camera-outline" size={33} color="black" />
+      </TouchableOpacity>
+
       {userData ? (
         <>
           <View style={styles.profileContainer}>
@@ -123,6 +132,12 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(255, 255, 255, 0.4)', 
+  },
+  iconButton: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    zIndex: 2,
   },
   text: {
     fontSize: 28,
