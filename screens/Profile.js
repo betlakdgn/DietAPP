@@ -10,6 +10,7 @@ import { auth, db } from '../firebase';
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import backg from '../assets/backg.jpg';
 import Animated, { Easing, FadeIn, FadeOut, withTiming } from 'react-native-reanimated';
+import { alert } from '../components/alertService';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -20,7 +21,7 @@ const Profile = () => {
     const userId = auth.currentUser?.uid;
 
     if (!userId) {
-      Alert.alert("Hata", "Kullanıcı giriş yapmamış.");
+      alert("Hata", "Kullanıcı giriş yapmamış.");
       return;
     }
 
@@ -31,11 +32,11 @@ const Profile = () => {
         setUserData(data);
         setPhoto(data.profilePhoto || null);
       } else {
-        Alert.alert("Hata", "Kullanıcı bilgileri bulunamadı.");
+        alert("Hata", "Kullanıcı bilgileri bulunamadı.");
       }
     },  (error) => {
     console.error("Firestore snapshot error:", error);
-    Alert.alert("Hata", "Veri alınırken hata oluştu.");
+    alert("Hata", "Veri alınırken hata oluştu.");
   });
 
     return () => unsubscribe();

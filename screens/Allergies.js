@@ -11,7 +11,7 @@ import {doc, getDoc, updateDoc} from 'firebase/firestore';
 import foodAllergens from '../data/food_allergens.json';
 import { ImageBackground } from 'react-native';
 import backg from '../assets/backg.jpg';
-
+import {alert} from '../components/alertService';
 
 
 const Allergies= () => {
@@ -119,7 +119,7 @@ const Allergies= () => {
       scrollViewRef.current.scrollTo({ y: index * 20, animated: true });
       startBlinkingOnce();
     } else {
-      Alert.alert("Sonuç Yok", "Aramanızla eşleşen bir alerji bulunamadı.");
+      alert("Sonuç Yok", "Aramanızla eşleşen bir alerji bulunamadı.");
     }
   };  
   
@@ -180,7 +180,7 @@ const Allergies= () => {
       });
     } catch (error) {
       console.error("Error deleting allergies: ", error);
-      Alert.alert("Hata", "Alerjiler silinemedi.");
+      alert("Hata", "Alerjiler silinemedi.");
     }
   };
 

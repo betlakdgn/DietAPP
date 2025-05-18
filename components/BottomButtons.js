@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from '@expo/vector-icons';
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/native';
+import { alert } from './alertService'
 
 const BottomButtons = () => {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ const BottomButtons = () => {
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert("İzin Gerekli", "Lütfen galeriden fotoğraf seçmek için izin verin.");
+      alert("İzin Gerekli", "Lütfen galeriden fotoğraf seçmek için izin verin.");
       return;
     }
   

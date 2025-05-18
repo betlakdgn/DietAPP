@@ -10,6 +10,7 @@ import SavePhotoModal from '../components/SavePhotoModal';
 import {savePhotoWithData}  from '../utils/firebaseHelpers';
 import PhotoWithBadge from '../components/PhotoWithBadge';
 import {calculateHealthScore} from '../utils/healthScore';
+import { alert } from '../components/alertService';
 
 const PhotoPreview = ({ route }) => {
   const { photoUri, scannedIngredients, nutritionData } = route.params;
@@ -32,7 +33,7 @@ const PhotoPreview = ({ route }) => {
 
   const handleSave = () => {
     if (!user) {
-      Alert.alert('Uyarı', 'Giriş yapmadınız. Giriş yapmak ister misiniz?', [
+      alert('Uyarı', 'Giriş yapmadınız. Giriş yapmak ister misiniz?', [
         { text: 'İptal', style: 'cancel' },
         { text: 'Giriş Yap', onPress: () => navigation.navigate('MainLoginPage') },
       ]);
@@ -45,7 +46,7 @@ const PhotoPreview = ({ route }) => {
     const photoToSave = photoUri || 'placeholder';
     
     if (!name?.trim()) {
-      Alert.alert('Hata', 'Fotoğraf için bir isim girmeniz gerekiyor!');
+      alert('Hata', 'Fotoğraf için bir isim girmeniz gerekiyor!');
       return;
     }
 
@@ -59,11 +60,11 @@ const PhotoPreview = ({ route }) => {
         healthScore: score,
       });
       setModalVisible(false);
-      Alert.alert('Başarılı', 'Fotoğraf başarıyla kaydedildi!');
+      alert('Başarılı', 'Fotoğraf başarıyla kaydedildi!');
       navigation.navigate('Saved');
     } catch (err) {
       console.error('savePhotoWithData error:', err);
-      Alert.alert('Hata', 'Kaydedilirken hata oluştu.');
+      alert('Hata', 'Kaydedilirken hata oluştu.');
     }
   };
 

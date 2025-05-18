@@ -8,6 +8,7 @@ import ButtonComponent from '../components/ButtonComponent';
 import TextInputComponent from '../components/Input';
 import BackButton from '../components/BackButton';
 import background from '../assets/backg.jpg';
+import { alert } from '../components/alertService';
 
 const ProfileSettings = () => {
   const navigation = useNavigation();
@@ -23,7 +24,7 @@ const ProfileSettings = () => {
   
   useEffect(() => {
     if (!userUid) {
-      Alert.alert("Hata", "Kullanıcı kimliği alınamadı. Lütfen giriş yapın.");
+      alert("Hata", "Kullanıcı kimliği alınamadı. Lütfen giriş yapın.");
       return;
     }
 
@@ -52,7 +53,7 @@ const ProfileSettings = () => {
 
   const handleSaveProfile = async () => {
     if (!firstName || !lastName || !email) {
-      Alert.alert("Hata", "Lütfen tüm bilgileri doldurun.");
+      alert("Hata", "Lütfen tüm bilgileri doldurun.");
       return;
     }
   
@@ -74,15 +75,15 @@ const ProfileSettings = () => {
        
         await setDoc(userRef, updatedUserData);
   
-        Alert.alert('Başarılı', 'Profiliniz başarıyla güncellendi');
+        alert('Başarılı', 'Profiliniz başarıyla güncellendi');
         navigation.goBack();  
       } else {
         console.log('User not found in Firestore');
-        Alert.alert('Hata', 'Kullanıcı verisi bulunamadı.');
+        alert('Hata', 'Kullanıcı verisi bulunamadı.');
       }
     } catch (error) {
       console.error('Error updating profile: ', error);
-      Alert.alert('Hata', `Profil güncellenirken bir hata oluştu: ${error.message}`);
+      alert('Hata', `Profil güncellenirken bir hata oluştu: ${error.message}`);
     } finally {
       setLoading(false);
     }

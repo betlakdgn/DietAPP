@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Toast from 'react-native-root-toast';
-import { Alert } from 'react-native';
+import {alert} from './alertService';
 
 export const useBarcodeScanner = (navigation) => {
   const [scanned, setScanned] = useState(false);
@@ -31,7 +31,7 @@ export const useBarcodeScanner = (navigation) => {
         }
     } catch (error) {
         console.error('API hatası:', error);
-        Alert.alert('Hata', 'Ürün bilgisi alınamadı.');
+        alert('Hata', 'Ürün bilgisi alınamadı.');
         setScanned(false);
     }
   };

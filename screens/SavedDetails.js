@@ -6,6 +6,7 @@ import { db } from '../firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Animated } from 'react-native';
 import HealthScoreBar from '../components/HealthScoreBar';
+import { alert } from '../components/alertService';
 
 const SavedDetails = () => {
   const route = useRoute();
@@ -79,15 +80,15 @@ const SavedDetails = () => {
         setPhotoDetails(updatedDoc.data());
       }
       setEditMode(false);
-      Alert.alert('Başarılı', 'Fotoğraf ismi güncellendi.');
+      alert('Başarılı', 'Fotoğraf ismi güncellendi.');
     } catch (error) {
-      Alert.alert('Hata', `Fotoğraf güncellenemedi. Hata: ${error.message}`);
+      alert('Hata', `Fotoğraf güncellenemedi. Hata: ${error.message}`);
     }
   };
 
 
   const handleDelete = async () => {
-    Alert.alert(
+    alert(
       'Fotoğrafı Sil',
       'Bu fotoğrafı silmek istediğinize emin misiniz?',
       [
@@ -99,10 +100,10 @@ const SavedDetails = () => {
             try {
               const photoRef = doc(db, 'savedPhotos', safePhoto.id);
               await deleteDoc(photoRef);
-              Alert.alert('Silindi', 'Fotoğraf silindi.');
+              alert('Silindi', 'Fotoğraf silindi.');
               navigation.navigate('Saved', { refresh: true });
             } catch (error) {
-              Alert.alert('Hata', `Fotoğraf silinemedi. Hata: ${error.message}`);
+              alert('Hata', `Fotoğraf silinemedi. Hata: ${error.message}`);
             }
           },
         },

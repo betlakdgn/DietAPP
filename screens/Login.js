@@ -13,6 +13,7 @@ import { validateEmail, validatePassword} from '../utils/validation';
 import { ImageBackground } from 'react-native';
 import background from '../assets/backgroun.jpg';
 import FormComponent from '../components/Form';
+import { alert } from '../components/alertService';
 
 const Login = () => {
   const navigation =useNavigation();
@@ -33,15 +34,15 @@ const Login = () => {
 
   const handleForgotPassword = async () => {
     if (!email) {
-      Alert.alert("Hata", "Lütfen e-posta adresinizi girin.");
+      alert("Hata", "Lütfen e-posta adresinizi girin.");
       return;
     }
   
     try {
       await sendPasswordResetEmail(auth, email);
-      Alert.alert("Başarılı", "Şifre sıfırlama e-postası gönderildi.");
+      alert("Başarılı", "Şifre sıfırlama e-postası gönderildi.");
     } catch (error) {
-      Alert.alert("Hata", error.message);
+      alert("Hata", error.message);
     }
   };
   const handleChange = (name, value) => {
@@ -78,7 +79,7 @@ const Login = () => {
     } catch (error) {
       console.log('Login error:', error); 
       if (error.code === 'auth/wrong-password') {//bu kısım çalışmıyor
-        Alert.alert(
+        alert(
           "Hata",
           "Şifre hatalı. Şifrenizi mi unuttunuz?",
           [
@@ -87,9 +88,9 @@ const Login = () => {
           ]
         );
       } else if (error.code === 'auth/user-not-found') {
-        Alert.alert("Hata", "Kullanıcı bulunamadı. Lütfen kayıt olun.");
+        alert("Hata", "Kullanıcı bulunamadı. Lütfen kayıt olun.");
       } else {
-        Alert.alert("Hata", "Giriş sırasında bir hata oluştu.");
+        alert("Hata", "Giriş sırasında bir hata oluştu.");
       }
     }
   };

@@ -3,15 +3,16 @@ import Navigation from './navigation/Navigation';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 import {RootSiblingParent} from 'react-native-root-siblings';
+import { AlertProvider } from './components/CustomAlertContext';
 
 
 const App = () => {
   return (
-    <RootSiblingParent>
-      <Navigation />
-    </RootSiblingParent>
-      
-    
+    <AlertProvider>
+      <RootSiblingParent>
+        <Navigation />
+      </RootSiblingParent>
+    </AlertProvider>
   );
 };
 
